@@ -6,7 +6,8 @@
 - Dominio macstech.mx agregado en Vercel (Production, sin redirect a www).
 - DNS en GoDaddy: registro A @ cambiado de WebsiteBuilder a 216.150.1.1 (IP nueva de Vercel). Propagación inmediata.
 - SSL emitido. **Sitio en producción: https://macstech.mx** ✅
-- Nota: GoDaddy ya tenía CNAME www → macstech.mx. Pendiente agregar www.macstech.mx en Vercel (redirect al apex) para que www no dé 404.
+- www.macstech.mx agregado en Vercel con redirect 308 permanente → macstech.mx. Verificado: www responde 308 y el apex 200.
+- Infraestructura completa: dominio + SSL + www + deploy automático en cada push a main.
 
 ## 2026-08-07
 - Inicio del proyecto. Dominio macstech.mx comprado en GoDaddy.
