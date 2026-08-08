@@ -4,7 +4,7 @@
 - [x] Comprar dominio macstech.mx (GoDaddy)
 - [x] Scaffolding del proyecto (Next.js + Tailwind)
 - [x] Crear repo en GitHub (github.com/maxmarqueza/macs) y conectar a Vercel (team imaxmx, proyecto "macs")
-- [ ] Configurar DNS de GoDaddy → Vercel
+- [x] Configurar DNS de GoDaddy → Vercel (A @ → 216.150.1.1; SSL emitido; sitio vivo en https://macstech.mx)
 - [x] Landing page v1: hero, concepto MACS, roster de agentes, contacto
 
 ## Fase 2 — Contenido
