@@ -3,9 +3,9 @@
 ## Fase 1 — Base (agosto 2026)
 - [x] Comprar dominio macstech.mx (GoDaddy)
 - [x] Scaffolding del proyecto (Next.js + Tailwind)
-- [ ] Crear repo en GitHub y conectar a Vercel
+- [x] Crear repo en GitHub (github.com/maxmarqueza/macs) y conectar a Vercel (team imaxmx, proyecto "macs")
 - [ ] Configurar DNS de GoDaddy → Vercel
-- [ ] Landing page v1: hero, concepto MACS, roster de agentes, contacto
+- [x] Landing page v1: hero, concepto MACS, roster de agentes, contacto
 
 ## Fase 2 — Contenido
 - [ ] Página por agente (empezando con McMarketing)
