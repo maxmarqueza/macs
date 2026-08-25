@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-25
+- Creado `docs/PROGRESS.md`: documento de traspaso entre sesiones (estado, infraestructura, siguientes pasos, decisiones).
+- `CLAUDE.md` ampliado con contexto del proyecto y reglas de trabajo para cualquier sesión nueva (local o en la nube).
+
 ## 2026-08-07 (tarde)
 - Repo creado en GitHub: github.com/maxmarqueza/macs (público). Push inicial hecho.
 - Proyecto desplegado en Vercel (team imaxmx, proyecto "macs"). Deploy exitoso.
