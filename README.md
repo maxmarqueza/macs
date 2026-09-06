@@ -21,8 +21,6 @@ npm run build   # debe pasar antes de cualquier push
 npm run lint
 ```
 
-Cada push y PR a `main` corre `lint` + `build` en GitHub Actions (`.github/workflows/ci.yml`).
-
 ## Estructura
 
 - `src/app/` — páginas y layout (`layout.tsx` tiene la metadata/SEO)

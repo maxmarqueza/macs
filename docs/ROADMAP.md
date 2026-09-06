@@ -29,7 +29,7 @@ Bloqueado a la espera de una decisión de Max:
 
 ## Mantenimiento
 - [x] Next.js al día (16.3.4) — septiembre 2026
-- [x] CI en GitHub Actions (lint + build en cada push y PR a main) — septiembre 2026
+- [ ] CI en GitHub Actions (lint + build) 🔴 lo tiene que crear Max: el token de Claude no tiene scope `workflow`
 - [x] Versión de Node fijada en el repo (`engines` + `.nvmrc`) — septiembre 2026
 - [x] Bug corregido: el sitio renderizaba en Arial pese a cargar Geist — septiembre 2026
 - [ ] Evaluar saltos de versión mayor: eslint 10, TypeScript 7, @types/node 26

@@ -28,7 +28,7 @@
 - `npm run build` ✅ · `npm run lint` ✅ (sin errores)
 - Versiones de `next` y `eslint-config-next` **fijadas exactas** a propósito (sin `^`).
 - Versión de Node fijada en el repo: `engines.node >= 20.9.0` en `package.json` + `.nvmrc` (24, igual que Vercel).
-- **CI en GitHub Actions** (`.github/workflows/ci.yml`): corre `npm ci`, `lint` y `build` en cada push y PR a `main`.
+- **No hay CI todavía** (ver siguiente paso 7): la verificación del build es manual.
 
 ### Actualizaciones mayores pendientes (decisión, no urgencia)
 No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
@@ -69,6 +69,37 @@ No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
    (acento `sky`, escala `neutral`, `emerald` para "Activo", tipografía Geist).
 5. **SEO:** `sitemap.ts`, `robots.ts` y JSON-LD de organización. 🟢 Se puede hacer ya.
 6. **Vercel Analytics** (`@vercel/analytics`). 🟢 Se puede hacer ya.
+
+7. **CI en GitHub Actions.** 🔴 **Solo lo puede hacer Max**, no una sesión de Claude: el token de
+   git y la app de GitHub disponibles **no tienen el scope `workflow`**, así que GitHub rechaza
+   cualquier push que cree o modifique `.github/workflows/` (`refusing to allow a Personal Access
+   Token to create or update workflow ... without workflow scope` / `403 Resource not accessible
+   by integration`). La vía rápida es crearlo desde la web de GitHub (Add file → Create new file →
+   `.github/workflows/ci.yml`) con esto:
+
+   ```yaml
+   name: CI
+   on:
+     push:
+       branches: [main]
+     pull_request:
+       branches: [main]
+   jobs:
+     build:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v4
+         - uses: actions/setup-node@v4
+           with:
+             node-version-file: .nvmrc
+             cache: npm
+         - run: npm ci
+         - run: npm run lint
+         - run: npm run build
+   ```
+
+   Ya está comprobado que `npm ci` + `lint` + `build` pasan desde un clon limpio, así que el
+   workflow debería quedar en verde a la primera.
 
 > Si Max no está disponible, arrancar por 4, 5 y 6: no dependen de nadie.
 
