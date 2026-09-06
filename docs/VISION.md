@@ -28,3 +28,9 @@ La marca funciona como una **familia de agentes**: cada servicio de la empresa s
 ## Público objetivo
 
 Negocios en México que quieren automatizar operaciones con IA sin contratar un equipo técnico.
+
+## Descartado
+
+- **Criptomoneda propia / token $MACS.** Se evaluó en agosto de 2026 (se llegó a escribir un
+  contrato ERC-20 sobre Base en una rama aparte). En septiembre de 2026 Max decidió **no**
+  crear la criptomoneda. No forma parte de la visión de la marca; no retomar el tema.
