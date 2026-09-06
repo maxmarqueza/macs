@@ -25,6 +25,19 @@ La marca funciona como una **familia de agentes**: cada servicio de la empresa s
 - McWeb — sitios web / landing pages
 - McHardware — soluciones IoT / hardware con software
 
+## Identidad visual (de facto)
+
+No hay manual de marca; esto es lo que ya está implementado en `src/app/page.tsx` y sirve como
+fuente para derivar favicon, og:image y material nuevo sin tener que preguntar:
+
+| Elemento | Valor |
+|---|---|
+| Acento / color de marca | `sky` de Tailwind (`sky-400` en textos y detalles, `sky-500` en botones, `sky-600` en enlaces) |
+| Base | escala `neutral` (fondo `neutral-950` en el hero, grises para el resto) |
+| Estado "Activo" | `emerald` (badge del roster) |
+| Tipografía | **Geist** (sans) y **Geist Mono**, cargadas con `next/font` en `layout.tsx` |
+| Tono | oscuro en el hero, claro en el cuerpo |
+
 ## Público objetivo
 
 Negocios en México que quieren automatizar operaciones con IA sin contratar un equipo técnico.

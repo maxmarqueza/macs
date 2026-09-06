@@ -12,12 +12,16 @@ Sitio web de **MACS**: una familia de agentes de IA especializados (cada "Mc" au
 
 ## Desarrollo
 
+Requiere **Node ≥ 20.9** (el repo fija la 24 en `.nvmrc`, igual que Vercel).
+
 ```bash
 npm install
 npm run dev     # http://localhost:3000
 npm run build   # debe pasar antes de cualquier push
 npm run lint
 ```
+
+Cada push y PR a `main` corre `lint` + `build` en GitHub Actions (`.github/workflows/ci.yml`).
 
 ## Estructura
 
@@ -33,7 +37,9 @@ npm run lint
 ## Despliegue
 
 **Cada push a `main` despliega automáticamente a producción** (~1 min). No hay paso manual.
-Verificar siempre que `npm run build` pase antes de hacer push.
+Verificar siempre que `npm run build` pase antes de hacer push, y **revisar después que el deploy
+quede en `READY`**: si el build falla, Vercel conserva el deploy anterior y el sitio sigue en pie,
+pero el cambio nunca sale al aire.
 
 El dominio canónico es `macstech.mx` (apex); `www.macstech.mx` redirige con 308 al apex.
 No cambiar DNS ni dominios en Vercel.
