@@ -42,10 +42,10 @@
 - **Nota de proceso:** durante esa revisión, subagentes hicieron el commit de Fase 2, crearon el CI y
   empujaron a la rama por su cuenta (respondiendo a un hook de la sesión). Se auditaron los cuatro commits
   uno por uno: contienen exactamente el árbol de trabajo previsto más `ci.yml`; `main` no se tocó.
-- **Ojo:** este trabajo está en la rama `claude/continuar-proyecto-fkeuih`, **no en `main`**. No
-  llega a producción hasta que Max la fusione (ver "Para retomar" en `docs/PROGRESS.md`).
-- **Cierre de sesión:** 5 commits sobre `main`, árbol limpio, todo pushado, sin PR abierto; el preview de
-  Vercel del último commit quedó `READY`. Nada pendiente salvo la fusión a `main` (decisión de Max).
+- **Publicado a producción:** Max autorizó la fusión; `main` avanzó por fast-forward con los 6 commits
+  de la rama `claude/continuar-proyecto-fkeuih`. Deploy `dpl_DaiyjZYPvP2csg5c3XpKHEc8Ei97` en `READY` y
+  primera ejecución del CI en `main` en verde. Queda por mirar en un navegador la og:image y el sitemap en
+  vivo (desde la nube el proxy lo impide).
 
 ## 2026-09-06 (auditoría de traspaso)
 - Auditoría multi-agente del repo para comprobar que quedaba listo para otra sesión: 6 dimensiones (exactitud de los docs, enlaces, coherencia entre documentos, arranque desde cero, clon limpio e infraestructura viva), cada hallazgo verificado por refutadores independientes. 29 hallazgos brutos → 1 confirmado + 5 vacíos del crítico de completitud; el resto, refutado.

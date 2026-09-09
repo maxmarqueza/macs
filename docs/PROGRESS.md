@@ -4,53 +4,33 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-09 (cierre de sesión)
-**Estado general:** ✅ Fase 1 completa — sitio en producción en https://macstech.mx ·
-🟡 Fase 2 (marca, SEO, analítica, CI) **hecha, commiteada y pushada en una rama, pendiente de fusionar a `main`**
-**Rama de trabajo:** `claude/continuar-proyecto-fkeuih` (parte de `main` en `fe594bb`; ver "Qué hay en la rama")
+**Última actualización:** 2026-09-09 (cierre de sesión, todo publicado)
+**Estado general:** ✅ Fase 1 completa · ✅ Fase 2 (marca, SEO, analítica, CI) **fusionada a `main` y en producción** en https://macstech.mx
+**Rama de trabajo:** `main` (limpia y sincronizada con `origin/main`). La rama `claude/continuar-proyecto-fkeuih` ya está fusionada (fast-forward) y se puede borrar.
 
 ## Para retomar en la siguiente sesión (leer primero)
 
-**Nada quedó a medias.** Al cerrar la sesión del 2026-09-09: árbol de trabajo limpio, todo commiteado y
-pushado en `claude/continuar-proyecto-fkeuih` (5 commits sobre `main`), sin PR abierto, y el preview de
-Vercel de ese último commit en `READY`. `main` sigue en `fe594bb`, que es lo que hay en producción.
+**Nada quedó a medias.** Al cerrar la sesión del 2026-09-09 todo está fusionado a `main` y publicado:
+el deploy de producción `dpl_DaiyjZYPvP2csg5c3XpKHEc8Ei97` (commit `946a214`) quedó `READY`, y el CI de
+GitHub Actions corrió por primera vez en `main` y quedó en verde. Árbol de trabajo limpio, sin PR abierto.
 
-⚠️ **Si la sesión nueva arranca desde `main`, este archivo se ve en su versión vieja** (la que decía que
-favicon, SEO y Analytics estaban por hacer). Lo primero es ponerse en la rama:
+Para retomar: `git checkout main && git pull && npm ci`, y seguir por "Siguientes pasos".
 
-```bash
-git fetch origin && git checkout claude/continuar-proyecto-fkeuih && npm ci
-```
+Queda por mirar en vivo desde un navegador (desde una sesión en la nube no se puede por el proxy):
+`https://macstech.mx/opengraph-image`, `/sitemap.xml`, `/robots.txt`, `/icon.svg`, y la vista previa al
+compartir el enlace (p. ej. en WhatsApp o con https://www.opengraph.xyz/). Si algo se viera mal, Vercel
+conserva el deploy anterior (`fe594bb`) como candidato de rollback.
 
-**Para publicar a producción** (lo único que falta y que solo decide Max). `main` no avanzó, así que la
-fusión es un fast-forward sin conflictos:
-
-```bash
-git checkout main && git merge --ff-only origin/claude/continuar-proyecto-fkeuih && git push origin main
-```
-
-(o abrir un PR en GitHub desde la rama; ahí correrá el CI). Vercel despliega solo en ~1 min: comprobar que
-el deploy queda `READY` y luego revisar en vivo `https://macstech.mx/opengraph-image`, `/sitemap.xml`,
-`/robots.txt`, `/icon.svg` y la vista previa al compartir el enlace. Después, habilitar Web Analytics en
-el dashboard de Vercel y borrar la rama si se quiere.
-
-## Qué hay en la rama `claude/continuar-proyecto-fkeuih` (2026-09-09)
+## Qué se publicó el 2026-09-09 (Fase 2)
 
 Todo lo de los antiguos siguientes pasos 4, 5, 6 y 7 — favicon + og:image, SEO, Analytics y el CI —
 más limpieza, un parche de seguridad y las correcciones de una revisión adversarial (canonical por
 página, `sharp` declarado, og:image centrada, ícono alineado al píxel). Detalle en `CHANGELOG.md`.
-**Producción no cambia hasta que Max fusione la rama a `main`** (ver "Para retomar"). El build y el
-lint pasan, con `next start` todas las rutas nuevas responden 200, y Vercel construyó la rama desde
-clon limpio sin errores (equivale a la prueba de `npm ci` + `build` desde cero).
+Se trabajó en la rama `claude/continuar-proyecto-fkeuih` (6 commits) y se fusionó a `main` con
+fast-forward; el deploy de producción quedó `READY` y el CI en verde.
 
-Cada push a la rama genera un **deploy de preview** en Vercel (todos `READY` hasta ahora), visible en
-https://macs-git-claude-continuar-proyecto-fkeuih-imaxmx.vercel.app — pide iniciar sesión en Vercel
-(Deployment Protection), así que solo Max puede abrirlo en el navegador; desde una sesión de Claude solo
-se llega a sus build logs por MCP. Ahí ya se puede ver la og:image (`/opengraph-image`) antes de fusionar.
-
-Después de fusionar, hay que **comprobar el deploy en Vercel** y luego ver en vivo:
-`https://macstech.mx/opengraph-image`, `/sitemap.xml`, `/robots.txt`, `/icon.svg`, `/apple-icon`
-y la vista previa al compartir el enlace (p. ej. en WhatsApp o con https://www.opengraph.xyz/).
+Nota: los deploys de preview de ramas (`macs-git-<rama>-imaxmx.vercel.app`) piden iniciar sesión en Vercel
+(Deployment Protection); desde una sesión de Claude solo se llega a sus build logs por MCP.
 
 ## Infraestructura (verificada el 2026-09-09 vía API de Vercel — no tocar)
 
@@ -59,11 +39,11 @@ y la vista previa al compartir el enlace (p. ej. en WhatsApp o con https://www.o
 | Dominio | macstech.mx, comprado en GoDaddy (agosto 2026) | — |
 | DNS | GoDaddy: `A @ → 216.150.1.1` · `CNAME www → macstech.mx.` | `dig` ✅ (2026-09-06) |
 | Repo | github.com/maxmarqueza/macs (público), rama `main` | ✅ |
-| Deploy | Vercel · team **imaxmx** (Pro) · proyecto **macs** (`prj_0QPK0kW8u9T58DflUkRNVpP4j5K9`) | último deploy de `main` (`fe594bb`) `READY` ✅ |
+| Deploy | Vercel · team **imaxmx** (Pro) · proyecto **macs** (`prj_0QPK0kW8u9T58DflUkRNVpP4j5K9`) | último deploy de `main` (`946a214`, 2026-09-09) `READY` ✅ |
 | Runtime en Vercel | Node 24.x, framework Next.js | ✅ |
 | Dominios en Vercel | `macstech.mx` (Production) · `www.macstech.mx` (redirect 308 → apex) · `macs-murex.vercel.app` · `macs-imaxmx.vercel.app` · `macs-git-main-imaxmx.vercel.app` | apex 200 ✅ · www 308 ✅ (2026-09-06) |
 | SSL | Emitido y activo | ✅ |
-| CI/CD | **Cada push a `main` despliega a producción** (~1 min). Las ramas generan un deploy de preview. | ✅ |
+| CI/CD | **Cada push a `main` despliega a producción** (~1 min). Las ramas generan un deploy de preview. GitHub Actions (`.github/workflows/ci.yml`: npm ci + lint + build) corre en cada push a `main` y en cada PR. | deploy ✅ · CI en `main` verde ✅ |
 | Web Analytics | **No habilitado** en el proyecto (comprobado por API el 2026-09-09) | 🟡 lo activa Max en el dashboard |
 
 > Nota para sesiones en la nube: el proxy de red de Claude bloquea `curl` a macstech.mx (403 en el
@@ -77,9 +57,9 @@ y la vista previa al compartir el enlace (p. ej. en WhatsApp o con https://www.o
 - Vercel: Node 24.x · `.nvmrc` = 24 · `engines.node >= 20.9.0` (la sesión del 09-09 usó Node 22 sin problema)
 - `npm run build` ✅ · `npm run lint` ✅ · `npm audit`: **0 vulnerabilidades**
 - Versiones de `next` y `eslint-config-next` **fijadas exactas** a propósito (sin `^`).
-- **CI en GitHub Actions:** `.github/workflows/ci.yml` (npm ci + lint + build) está en la rama desde el
-  2026-09-09. Corre en cada PR hacia `main` y en cada push a `main`; se activa al fusionar (ver siguiente paso 1).
-  Hasta entonces la verificación del build sigue siendo manual.
+- **CI en GitHub Actions:** `.github/workflows/ci.yml` (npm ci + lint + build) corre en cada push a `main`
+  y en cada PR hacia `main`. Primera ejecución en `main` el 2026-09-09: verde. Aun así, correr `npm run build`
+  antes de cada push: el CI avisa, pero no impide el deploy de Vercel.
 
 ### Actualizaciones mayores pendientes (decisión, no urgencia)
 No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
@@ -118,32 +98,22 @@ No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
 
 ## Siguientes pasos (en orden de impacto)
 
-1. **Fusionar `claude/continuar-proyecto-fkeuih` a `main`** y comprobar que el deploy queda `READY`.
-   🟢 Lo puede hacer Max en un minuto (o una sesión de Claude si Max lo pide). Luego verificar en vivo
-   la og:image y el sitemap (ver arriba).
-2. **Habilitar Web Analytics en Vercel** (proyecto `macs` → pestaña Analytics → Enable). 🟡 **Solo Max**:
-   no hay herramienta MCP para hacerlo. El código ya está; no hace falta redeploy. Mientras no se
-   active, el navegador pide `/_vercel/insights/script.js` y recibe 404 (inofensivo, pero se ve en la consola).
-3. **Habilitar el correo de `macstech.mx`.** 🔴 **Bloqueado por una decisión de Max, no por información.**
+1. **Habilitar Web Analytics en Vercel** (proyecto `macs` → pestaña Analytics → Enable). 🟡 **Solo Max**:
+   no hay herramienta MCP para hacerlo. El código ya está en producción; no hace falta redeploy. Mientras no
+   se active, el navegador pide `/_vercel/insights/script.js` y recibe 404 (inofensivo, pero se ve en la consola).
+2. **Habilitar el correo de `macstech.mx`.** 🔴 **Bloqueado por una decisión de Max, no por información.**
    Hecho verificado el 2026-09-06: el dominio **no tiene registros MX ni SPF**, así que
    `contacto@macstech.mx` **no recibe correo** — y hoy es el único canal de contacto del sitio.
    Cualquiera que escriba, rebota. La pregunta a Max es **"¿dónde quieres el correo?"**
    (Google Workspace, Zoho, el correo incluido de GoDaddy…). Después: alta de MX + SPF/DKIM en GoDaddy.
    Alternativa rápida: sustituir el `mailto:` por WhatsApp y quitar el correo hasta que funcione.
    (El correo está en `src/data/site.ts` y también aparece en el JSON-LD.)
-4. **Botón de WhatsApp** en contacto. 🔴 **Bloqueado:** falta que Max dé el número.
-   Resuelve también el punto 3 de forma provisional.
-5. **Ver el CI en verde.** `.github/workflows/ci.yml` ya existe en la rama (creado el 2026-09-09 por la
-   API de GitHub: el token OAuth de la sesión sí tenía el scope `workflow`, a diferencia del token de git
-   del 06-09). GitHub solo indexa los workflows que están en la rama por defecto, así que **no se pudo
-   ejecutar a mano antes de fusionar** (`workflow_dispatch` devolvió 404). Se ejecutará solo en el PR que
-   fusione esta rama y en cada push a `main` después. Si falla, el YAML es el mismo que ya se probó a mano
-   (`npm ci` + `lint` + `build` desde clon limpio). Nota: si `git push` rechaza un cambio a
-   `.github/workflows/` por falta de scope, editar el archivo desde la web de GitHub o con la herramienta
-   MCP `create_or_update_file`, que es como se creó.
-6. **Página de McMarketing** (`/agentes/mcmarketing`) con el caso de éxito del flujo n8n.
-   🔴 **Bloqueado:** falta info de Max (ver `docs/AGENTES/McMarketing.md`). Al crearla: añadir la ruta
-   a `src/app/sitemap.ts`.
+3. **Botón de WhatsApp** en contacto. 🔴 **Bloqueado:** falta que Max dé el número.
+   Resuelve también el punto 2 de forma provisional.
+4. **Página de McMarketing** (`/agentes/mcmarketing`) con el caso de éxito del flujo n8n.
+   🔴 **Bloqueado:** falta info de Max (ver `docs/AGENTES/McMarketing.md`). Al crearla: exportar
+   `metadata` con `alternates.canonical` y `openGraph` desde su `page.tsx` y añadir la ruta a
+   `src/app/sitemap.ts`.
 
 > Si Max no está disponible: ya no queda nada de Fase 2 que no dependa de él. Candidatos que sí se
 > pueden hacer solos: evaluar las actualizaciones mayores (eslint 10, TS 7) en una rama, o añadir un
@@ -175,7 +145,7 @@ web en Vercel. Construye automatizaciones con n8n.
 - [ ] McMarketing: ¿qué redes cubre? ¿qué IA genera el contenido? ¿resultados medibles?
 - [ ] **¿Dónde quieres el correo de macstech.mx?** Ya no es una duda: está comprobado que el dominio
       no tiene MX ni SPF y que `contacto@macstech.mx` **no recibe nada**. Falta que Max elija proveedor
-      (ver siguiente paso 3).
+      (ver siguiente paso 2).
 - [ ] ¿Le gusta el ícono "M" y la og:image? Se hicieron sin consultarle, a partir de la identidad
       visual de facto de `docs/VISION.md`. Si quiere otra cosa, basta con cambiar `src/app/icon.svg`
       y correr `node scripts/brand-assets.mjs`.

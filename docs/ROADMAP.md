@@ -11,7 +11,7 @@ Estado detallado y siguientes pasos: [PROGRESS.md](PROGRESS.md).
 - [x] Landing page v1: hero, concepto MACS, roster de agentes, contacto
 
 ## Fase 2 — Contenido (en curso)
-Hecho en la rama `claude/continuar-proyecto-fkeuih` (septiembre 2026), pendiente de fusionar a `main`:
+Publicado en producción el 9 de septiembre de 2026:
 - [x] Favicon + og:image con la marca MACS (ícono "M", `apple-icon`, `logo.png`, og:image generada en el build)
 - [x] SEO básico: `sitemap.ts`, `robots.ts`, canonical, Twitter card, JSON-LD de organización
 - [x] Vercel Analytics (`@vercel/analytics` en el layout) 🟡 falta que Max habilite Web Analytics en el dashboard de Vercel
@@ -30,7 +30,7 @@ Bloqueado a la espera de una decisión de Max:
 
 ## Mantenimiento
 - [x] Next.js al día (16.3.4) — septiembre 2026
-- [x] CI en GitHub Actions (lint + build) — `.github/workflows/ci.yml` en la rama desde el 9 de septiembre 2026; se activa al fusionar a `main`
+- [x] CI en GitHub Actions (lint + build) — `.github/workflows/ci.yml`, primera ejecución en `main` en verde el 9 de septiembre 2026
 - [x] Versión de Node fijada en el repo (`engines` + `.nvmrc`) — septiembre 2026
 - [x] Bug corregido: el sitio renderizaba en Arial pese a cargar Geist — septiembre 2026
 - [x] `npm audit` limpio otra vez (js-yaml transitivo parchado) — 9 de septiembre 2026
