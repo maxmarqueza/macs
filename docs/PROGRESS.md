@@ -4,17 +4,44 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-09
+**Última actualización:** 2026-09-09 (cierre de sesión)
 **Estado general:** ✅ Fase 1 completa — sitio en producción en https://macstech.mx ·
-🟡 Fase 2 (marca, SEO, analítica) **hecha en una rama, pendiente de fusionar a `main`**
+🟡 Fase 2 (marca, SEO, analítica, CI) **hecha, commiteada y pushada en una rama, pendiente de fusionar a `main`**
 **Rama de trabajo:** `claude/continuar-proyecto-fkeuih` (parte de `main` en `fe594bb`; ver "Qué hay en la rama")
+
+## Para retomar en la siguiente sesión (leer primero)
+
+**Nada quedó a medias.** Al cerrar la sesión del 2026-09-09: árbol de trabajo limpio, todo commiteado y
+pushado en `claude/continuar-proyecto-fkeuih` (5 commits sobre `main`), sin PR abierto, y el preview de
+Vercel de ese último commit en `READY`. `main` sigue en `fe594bb`, que es lo que hay en producción.
+
+⚠️ **Si la sesión nueva arranca desde `main`, este archivo se ve en su versión vieja** (la que decía que
+favicon, SEO y Analytics estaban por hacer). Lo primero es ponerse en la rama:
+
+```bash
+git fetch origin && git checkout claude/continuar-proyecto-fkeuih && npm ci
+```
+
+**Para publicar a producción** (lo único que falta y que solo decide Max). `main` no avanzó, así que la
+fusión es un fast-forward sin conflictos:
+
+```bash
+git checkout main && git merge --ff-only origin/claude/continuar-proyecto-fkeuih && git push origin main
+```
+
+(o abrir un PR en GitHub desde la rama; ahí correrá el CI). Vercel despliega solo en ~1 min: comprobar que
+el deploy queda `READY` y luego revisar en vivo `https://macstech.mx/opengraph-image`, `/sitemap.xml`,
+`/robots.txt`, `/icon.svg` y la vista previa al compartir el enlace. Después, habilitar Web Analytics en
+el dashboard de Vercel y borrar la rama si se quiere.
 
 ## Qué hay en la rama `claude/continuar-proyecto-fkeuih` (2026-09-09)
 
 Todo lo de los antiguos siguientes pasos 4, 5, 6 y 7 — favicon + og:image, SEO, Analytics y el CI —
-más limpieza y un parche de seguridad. Detalle en `CHANGELOG.md`. **Producción no cambia hasta
-que Max fusione la rama a `main`** (un PR en GitHub, o `git merge` local + push). El build y el
-lint pasan, y con `next start` todas las rutas nuevas responden 200.
+más limpieza, un parche de seguridad y las correcciones de una revisión adversarial (canonical por
+página, `sharp` declarado, og:image centrada, ícono alineado al píxel). Detalle en `CHANGELOG.md`.
+**Producción no cambia hasta que Max fusione la rama a `main`** (ver "Para retomar"). El build y el
+lint pasan, con `next start` todas las rutas nuevas responden 200, y Vercel construyó la rama desde
+clon limpio sin errores (equivale a la prueba de `npm ci` + `build` desde cero).
 
 Cada push a la rama genera un **deploy de preview** en Vercel (todos `READY` hasta ahora), visible en
 https://macs-git-claude-continuar-proyecto-fkeuih-imaxmx.vercel.app — pide iniciar sesión en Vercel

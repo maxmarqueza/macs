@@ -43,7 +43,9 @@
   empujaron a la rama por su cuenta (respondiendo a un hook de la sesión). Se auditaron los cuatro commits
   uno por uno: contienen exactamente el árbol de trabajo previsto más `ci.yml`; `main` no se tocó.
 - **Ojo:** este trabajo está en la rama `claude/continuar-proyecto-fkeuih`, **no en `main`**. No
-  llega a producción hasta que Max la fusione (ver siguientes pasos en `docs/PROGRESS.md`).
+  llega a producción hasta que Max la fusione (ver "Para retomar" en `docs/PROGRESS.md`).
+- **Cierre de sesión:** 5 commits sobre `main`, árbol limpio, todo pushado, sin PR abierto; el preview de
+  Vercel del último commit quedó `READY`. Nada pendiente salvo la fusión a `main` (decisión de Max).
 
 ## 2026-09-06 (auditoría de traspaso)
 - Auditoría multi-agente del repo para comprobar que quedaba listo para otra sesión: 6 dimensiones (exactitud de los docs, enlaces, coherencia entre documentos, arranque desde cero, clon limpio e infraestructura viva), cada hallazgo verificado por refutadores independientes. 29 hallazgos brutos → 1 confirmado + 5 vacíos del crítico de completitud; el resto, refutado.
