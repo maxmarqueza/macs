@@ -41,6 +41,7 @@ npm run lint
 ## Despliegue
 
 **Cada push a `main` despliega automáticamente a producción** (~1 min). No hay paso manual.
+GitHub Actions (`.github/workflows/ci.yml`) corre lint + build en cada PR hacia `main` y en cada push a `main`.
 Verificar siempre que `npm run build` pase antes de hacer push, y **revisar después que el deploy
 quede en `READY`**: si el build falla, Vercel conserva el deploy anterior y el sitio sigue en pie,
 pero el cambio nunca sale al aire.

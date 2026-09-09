@@ -17,6 +17,10 @@
 - **Vercel Analytics:** `@vercel/analytics` 2.0.1 y `<Analytics />` en el layout. ⚠️ Comprobado por la
   API de Vercel que **Web Analytics no está habilitado en el proyecto**: hasta que Max lo active en el
   dashboard (Analytics → Enable) el script responde 404 y no se registra nada. No hace falta redeploy.
+- **CI en GitHub Actions:** `.github/workflows/ci.yml` (npm ci + lint + build, Node de `.nvmrc`, con
+  `workflow_dispatch` para correrlo a mano). El 06-09 no se pudo por falta del scope `workflow`; esta vez
+  el token OAuth de GitHub de la sesión sí lo tenía y se creó por la API. No se pudo ejecutar todavía:
+  GitHub solo indexa workflows de la rama por defecto, así que correrá en el PR de fusión y en `main`.
 - **Limpieza:** eliminados los cinco SVG de `create-next-app` en `public/` (no los usaba nada).
 - **Seguridad:** `npm audit` marcaba 1 vulnerabilidad alta (js-yaml 4.3.1, transitiva vía eslint);
   `npm audit fix` la subió a 4.3.2. De nuevo 0 vulnerabilidades.

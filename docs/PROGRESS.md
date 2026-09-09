@@ -11,7 +11,7 @@
 
 ## Qué hay en la rama `claude/continuar-proyecto-fkeuih` (2026-09-09)
 
-Todo lo de los antiguos siguientes pasos 4, 5 y 6 — favicon + og:image, SEO y Analytics —
+Todo lo de los antiguos siguientes pasos 4, 5, 6 y 7 — favicon + og:image, SEO, Analytics y el CI —
 más limpieza y un parche de seguridad. Detalle en `CHANGELOG.md`. **Producción no cambia hasta
 que Max fusione la rama a `main`** (un PR en GitHub, o `git merge` local + push). El build y el
 lint pasan, y con `next start` todas las rutas nuevas responden 200.
@@ -45,7 +45,9 @@ y la vista previa al compartir el enlace (p. ej. en WhatsApp o con https://www.o
 - Vercel: Node 24.x · `.nvmrc` = 24 · `engines.node >= 20.9.0` (la sesión del 09-09 usó Node 22 sin problema)
 - `npm run build` ✅ · `npm run lint` ✅ · `npm audit`: **0 vulnerabilidades**
 - Versiones de `next` y `eslint-config-next` **fijadas exactas** a propósito (sin `^`).
-- **No hay CI todavía** (ver siguiente paso 5): la verificación del build es manual.
+- **CI en GitHub Actions:** `.github/workflows/ci.yml` (npm ci + lint + build) está en la rama desde el
+  2026-09-09. Corre en cada PR hacia `main` y en cada push a `main`; se activa al fusionar (ver siguiente paso 1).
+  Hasta entonces la verificación del build sigue siendo manual.
 
 ### Actualizaciones mayores pendientes (decisión, no urgencia)
 No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
@@ -94,36 +96,14 @@ No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
    (El correo está en `src/data/site.ts` y también aparece en el JSON-LD.)
 4. **Botón de WhatsApp** en contacto. 🔴 **Bloqueado:** falta que Max dé el número.
    Resuelve también el punto 3 de forma provisional.
-5. **CI en GitHub Actions.** 🔴 **Solo lo puede hacer Max**, no una sesión de Claude: el token de
-   git y la app de GitHub disponibles **no tienen el scope `workflow`**, así que GitHub rechaza
-   cualquier push que cree o modifique `.github/workflows/` (`refusing to allow a Personal Access
-   Token to create or update workflow ... without workflow scope` / `403 Resource not accessible
-   by integration`). La vía rápida es crearlo desde la web de GitHub (Add file → Create new file →
-   `.github/workflows/ci.yml`) con esto:
-
-   ```yaml
-   name: CI
-   on:
-     push:
-       branches: [main]
-     pull_request:
-       branches: [main]
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v4
-         - uses: actions/setup-node@v4
-           with:
-             node-version-file: .nvmrc
-             cache: npm
-         - run: npm ci
-         - run: npm run lint
-         - run: npm run build
-   ```
-
-   Ya está comprobado que `npm ci` + `lint` + `build` pasan desde un clon limpio, así que el
-   workflow debería quedar en verde a la primera.
+5. **Ver el CI en verde.** `.github/workflows/ci.yml` ya existe en la rama (creado el 2026-09-09 por la
+   API de GitHub: el token OAuth de la sesión sí tenía el scope `workflow`, a diferencia del token de git
+   del 06-09). GitHub solo indexa los workflows que están en la rama por defecto, así que **no se pudo
+   ejecutar a mano antes de fusionar** (`workflow_dispatch` devolvió 404). Se ejecutará solo en el PR que
+   fusione esta rama y en cada push a `main` después. Si falla, el YAML es el mismo que ya se probó a mano
+   (`npm ci` + `lint` + `build` desde clon limpio). Nota: si `git push` rechaza un cambio a
+   `.github/workflows/` por falta de scope, editar el archivo desde la web de GitHub o con la herramienta
+   MCP `create_or_update_file`, que es como se creó.
 6. **Página de McMarketing** (`/agentes/mcmarketing`) con el caso de éxito del flujo n8n.
    🔴 **Bloqueado:** falta info de Max (ver `docs/AGENTES/McMarketing.md`). Al crearla: añadir la ruta
    a `src/app/sitemap.ts`.
