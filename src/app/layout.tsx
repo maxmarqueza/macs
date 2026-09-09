@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { site } from "@/data/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,22 +15,56 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://macstech.mx"),
+  metadataBase: new URL(site.url),
   title: {
-    default: "MACS — Agentes IA para tu negocio",
-    template: "%s | MACS",
+    default: site.title,
+    template: `%s | ${site.name}`,
   },
-  description:
-    "MACS es una familia de agentes de inteligencia artificial especializados. Cada Mc automatiza una parte de tu negocio: marketing, soporte, ventas y más.",
+  description: site.description,
+  applicationName: site.name,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "MACS — Agentes IA para tu negocio",
+    title: site.title,
     description:
       "Cada Mc es un agente de IA especializado que automatiza una parte de tu negocio.",
-    url: "https://macstech.mx",
-    siteName: "MACS",
-    locale: "es_MX",
+    url: "/",
+    siteName: site.name,
+    locale: site.locale,
     type: "website",
   },
+  twitter: { card: "summary_large_image" },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
+// Datos estructurados (schema.org) para buscadores y asistentes de IA.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${site.url}/#organization`,
+      name: site.name,
+      url: site.url,
+      logo: `${site.url}/logo.png`,
+      description: site.description,
+      email: site.email,
+      areaServed: "MX",
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      name: site.name,
+      url: site.url,
+      inLanguage: site.language,
+      publisher: { "@id": `${site.url}/#organization` },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -37,7 +73,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

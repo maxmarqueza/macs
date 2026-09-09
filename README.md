@@ -9,6 +9,7 @@ Sitio web de **MACS**: una familia de agentes de IA especializados (cada "Mc" au
 - [Next.js 16](https://nextjs.org) (App Router, Turbopack) + TypeScript + Tailwind CSS 4
 - Deploy: **Vercel** (team `imaxmx`, proyecto `macs`) · Dominio: **macstech.mx** (GoDaddy)
 - Sin backend ni variables de entorno: el sitio es estático.
+- Analítica: Vercel Web Analytics (`@vercel/analytics`).
 
 ## Desarrollo
 
@@ -23,8 +24,13 @@ npm run lint
 
 ## Estructura
 
-- `src/app/` — páginas y layout (`layout.tsx` tiene la metadata/SEO)
+- `src/app/` — páginas y layout (`layout.tsx` tiene la metadata/SEO y el JSON-LD), más los
+  archivos especiales de Next: `sitemap.ts`, `robots.ts`, `icon.svg`, `favicon.ico`, `apple-icon.tsx`
+  y `opengraph-image.tsx` (estos dos últimos se generan en el build)
+- `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo): fuente única
 - `src/data/agents.ts` — roster de agentes (fuente única: agregar aquí cada nuevo Mc)
+- `src/assets/fonts/` — Geist en TrueType para la og:image (licencia OFL)
+- `scripts/brand-assets.mjs` — regenera `favicon.ico` y `public/logo.png` a partir de `icon.svg`
 - `docs/PROGRESS.md` — **empieza por aquí**: estado actual, infraestructura y siguientes pasos
 - `docs/VISION.md` — concepto y visión de la marca
 - `docs/ROADMAP.md` — plan por fases

@@ -37,6 +37,7 @@ fuente para derivar favicon, og:image y material nuevo sin tener que preguntar:
 | Estado "Activo" | `emerald` (badge del roster) |
 | Tipografía | **Geist** (sans) y **Geist Mono**, cargadas con `next/font` en `layout.tsx` |
 | Tono | oscuro en el hero, claro en el cuerpo |
+| Ícono / logo | una **"M"** de trazo redondeado en `sky-400` sobre un cuadrado `neutral-950` con brillo sutil arriba (`src/app/icon.svg`, desde septiembre 2026). De ahí salen favicon, ícono de iOS, `logo.png` y la og:image |
 
 ## Público objetivo
 

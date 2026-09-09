@@ -11,10 +11,10 @@ Estado detallado y siguientes pasos: [PROGRESS.md](PROGRESS.md).
 - [x] Landing page v1: hero, concepto MACS, roster de agentes, contacto
 
 ## Fase 2 — Contenido (en curso)
-Listo para empezar (no depende de nadie):
-- [ ] Favicon + og:image con la marca MACS (identidad visual en [VISION.md](VISION.md))
-- [ ] SEO básico: `sitemap.ts`, `robots.ts`, JSON-LD de organización
-- [ ] Vercel Analytics
+Hecho en la rama `claude/continuar-proyecto-fkeuih` (septiembre 2026), pendiente de fusionar a `main`:
+- [x] Favicon + og:image con la marca MACS (ícono "M", `apple-icon`, `logo.png`, og:image generada en el build)
+- [x] SEO básico: `sitemap.ts`, `robots.ts`, canonical, Twitter card, JSON-LD de organización
+- [x] Vercel Analytics (`@vercel/analytics` en el layout) 🟡 falta que Max habilite Web Analytics en el dashboard de Vercel
 
 Bloqueado a la espera de una decisión de Max:
 - [ ] Habilitar correo en macstech.mx (no hay MX ni SPF: `contacto@macstech.mx` no recibe nada) 🔴 falta elegir proveedor
@@ -32,6 +32,8 @@ Bloqueado a la espera de una decisión de Max:
 - [ ] CI en GitHub Actions (lint + build) 🔴 lo tiene que crear Max: el token de Claude no tiene scope `workflow`
 - [x] Versión de Node fijada en el repo (`engines` + `.nvmrc`) — septiembre 2026
 - [x] Bug corregido: el sitio renderizaba en Arial pese a cargar Geist — septiembre 2026
+- [x] `npm audit` limpio otra vez (js-yaml transitivo parchado) — 9 de septiembre 2026
+- [x] Restos de `create-next-app` eliminados (`public/*.svg`) — 9 de septiembre 2026
 - [ ] Evaluar saltos de versión mayor: eslint 10, TypeScript 7, @types/node 26
 
 ## Descartado

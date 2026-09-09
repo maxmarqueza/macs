@@ -1,4 +1,5 @@
 import { agents } from "@/data/agents";
+import { site } from "@/data/site";
 
 export default function Home() {
   return (
@@ -106,10 +107,10 @@ export default function Home() {
           Cuéntanos qué necesitas y te decimos qué Mc lo resuelve.
         </p>
         <a
-          href="mailto:contacto@macstech.mx"
+          href={`mailto:${site.email}`}
           className="mt-8 inline-block rounded-full bg-sky-500 px-8 py-3 font-medium text-white transition hover:bg-sky-400"
         >
-          contacto@macstech.mx
+          {site.email}
         </a>
       </section>
 

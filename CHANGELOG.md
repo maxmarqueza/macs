@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-09-09 (Fase 2: marca, SEO y analítica)
+- **Marca:** nuevo ícono de MACS — una "M" en `sky-400` sobre `neutral-950` con un brillo sutil, la
+  misma paleta del hero (`src/app/icon.svg`, fuente única de la marca). De ahí salen el
+  `favicon.ico` (16/32/48 px, sustituye al de Next.js), el `apple-icon` de 180 px que se genera en el
+  build y `public/logo.png` (512 px, para los datos estructurados). Script reproducible:
+  `node scripts/brand-assets.mjs`.
+- **og:image generada en el build** con `next/og` (`src/app/opengraph-image.tsx`, 1200×630): marca,
+  "MACS", el lema y las píldoras del roster leídas de `src/data/agents.ts` (un Mc nuevo aparece solo).
+  Usa Geist Regular y Bold en TrueType (`src/assets/fonts/`, licencia OFL incluida). Verificada en
+  local: se renderiza correctamente.
+- **SEO:** `sitemap.xml` y `robots.txt` generados por código, `<link rel="canonical">`, Twitter card
+  `summary_large_image`, `theme-color` claro/oscuro y JSON-LD (`Organization` + `WebSite`) en el layout.
+  Los datos del sitio (nombre, URL, descripción, correo, idioma) ahora viven en `src/data/site.ts` y
+  los consumen el layout, la página, el sitemap, el robots y la og:image.
+- **Vercel Analytics:** `@vercel/analytics` 2.0.1 y `<Analytics />` en el layout. ⚠️ Comprobado por la
+  API de Vercel que **Web Analytics no está habilitado en el proyecto**: hasta que Max lo active en el
+  dashboard (Analytics → Enable) el script responde 404 y no se registra nada. No hace falta redeploy.
+- **Limpieza:** eliminados los cinco SVG de `create-next-app` en `public/` (no los usaba nada).
+- **Seguridad:** `npm audit` marcaba 1 vulnerabilidad alta (js-yaml 4.3.1, transitiva vía eslint);
+  `npm audit fix` la subió a 4.3.2. De nuevo 0 vulnerabilidades.
+- **Verificación:** `npm run lint` y `npm run build` pasan; con `next start` todas las rutas nuevas
+  responden 200 (`/`, `/sitemap.xml`, `/robots.txt`, `/opengraph-image`, `/apple-icon`, `/icon.svg`,
+  `/favicon.ico`, `/logo.png`) y el `<head>` lleva canonical, og:image con alt, twitter:image e íconos.
+- **Ojo:** este trabajo está en la rama `claude/continuar-proyecto-fkeuih`, **no en `main`**. No
+  llega a producción hasta que Max la fusione (ver siguientes pasos en `docs/PROGRESS.md`).
+
 ## 2026-09-06 (auditoría de traspaso)
 - Auditoría multi-agente del repo para comprobar que quedaba listo para otra sesión: 6 dimensiones (exactitud de los docs, enlaces, coherencia entre documentos, arranque desde cero, clon limpio e infraestructura viva), cada hallazgo verificado por refutadores independientes. 29 hallazgos brutos → 1 confirmado + 5 vacíos del crítico de completitud; el resto, refutado.
 - **Bug corregido en el sitio:** `globals.css` fijaba `font-family: Arial` en `body` fuera de toda capa CSS, y eso le ganaba a la utilidad `.font-sans` (que vive en `@layer utilities`). Producción renderizaba en **Arial** mientras precargaba dos archivos de **Geist** que nunca se usaban. Verificado en navegador antes y después: producción `Arial, Helvetica, sans-serif` → local `Geist, "Geist Fallback"`. Era un resto del scaffolding de `create-next-app`.
