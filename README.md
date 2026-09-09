@@ -9,7 +9,7 @@ Sitio web de **MACS**: una familia de agentes de IA especializados (cada "Mc" au
 - [Next.js 16](https://nextjs.org) (App Router, Turbopack) + TypeScript + Tailwind CSS 4
 - Deploy: **Vercel** (team `imaxmx`, proyecto `macs`) · Dominio: **macstech.mx** (GoDaddy)
 - Sin backend ni variables de entorno: el sitio es estático.
-- Analítica: Vercel Web Analytics (`@vercel/analytics`).
+- Analítica: Vercel Web Analytics (`@vercel/analytics`; falta habilitarlo en el dashboard de Vercel).
 
 ## Desarrollo
 
@@ -41,7 +41,8 @@ npm run lint
 ## Despliegue
 
 **Cada push a `main` despliega automáticamente a producción** (~1 min). No hay paso manual.
-GitHub Actions (`.github/workflows/ci.yml`) corre lint + build en cada PR hacia `main` y en cada push a `main`.
+GitHub Actions (`.github/workflows/ci.yml`) corre lint + build en cada PR hacia `main` y en cada push a `main`
+(empieza a funcionar cuando el archivo llegue a `main`; GitHub solo indexa workflows de la rama por defecto).
 Verificar siempre que `npm run build` pase antes de hacer push, y **revisar después que el deploy
 quede en `READY`**: si el build falla, Vercel conserva el deploy anterior y el sitio sigue en pie,
 pero el cambio nunca sale al aire.

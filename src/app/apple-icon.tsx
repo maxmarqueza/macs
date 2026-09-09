@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { brand } from "@/data/site";
 
 // Ícono para pantalla de inicio en iOS (180×180). iOS recorta las esquinas él
 // solo, así que el fondo va a sangre completa. Reusa la marca de `icon.svg`.
@@ -21,9 +22,8 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0a0a0a",
-          backgroundImage:
-            "radial-gradient(circle at 50% 0%, rgba(56,189,248,0.35) 0%, rgba(56,189,248,0) 75%)",
+          backgroundColor: brand.background,
+          backgroundImage: `radial-gradient(circle at 50% 0%, rgba(${brand.accentRgb},0.35) 0%, rgba(${brand.accentRgb},0) 75%)`,
         }}
       >
         <img src={markSrc} width={180} height={180} alt="" />

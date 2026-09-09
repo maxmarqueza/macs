@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import { agents } from "@/data/agents";
-import { site } from "@/data/site";
+import { openGraphBase, site } from "@/data/site";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: {
+    ...openGraphBase,
+    url: "/",
+    title: site.title,
+    description: site.ogDescription,
+  },
+};
 
 export default function Home() {
   return (

@@ -27,6 +27,21 @@
 - **Verificación:** `npm run lint` y `npm run build` pasan; con `next start` todas las rutas nuevas
   responden 200 (`/`, `/sitemap.xml`, `/robots.txt`, `/opengraph-image`, `/apple-icon`, `/icon.svg`,
   `/favicon.ico`, `/logo.png`) y el `<head>` lleva canonical, og:image con alt, twitter:image e íconos.
+- **Revisión adversarial** del cambio (6 finders: API de Next 16, despliegue en Vercel, SEO, calidad de
+  código, marca/visual y docs; 3 refutadores por hallazgo). Se quedó a medias por el límite de gasto de la
+  cuenta (39 de 55 agentes no corrieron), así que los hallazgos sin refutar se verificaron a mano. Corregido:
+  `sharp` pasa a `devDependencies` (el script de marca lo importaba sin declararlo; Next solo lo trae como
+  dependencia opcional); `alternates.canonical` y `openGraph.url` se mueven del layout a `page.tsx`
+  (en el layout los heredaría cualquier ruta nueva y Google la tomaría por duplicado de la portada);
+  colores de marca y base de Open Graph centralizados en `src/data/site.ts`; og:image con composición
+  centrada (sobrevive al recorte cuadrado de WhatsApp/iMessage), píldoras que envuelven y se acotan a 6,
+  la del Mc activo en `emerald` como manda `VISION.md` y las de "próximamente" con más contraste; ícono
+  con trazo alineado al píxel (2 px sólidos a 16 px en vez de bordes difusos); `CLAUDE.md` avisa que el
+  proxy de las sesiones en la nube bloquea `curl` a producción; README y PROGRESS matizan CI y Analytics.
+  Descartado tras comprobarlo: `<html lang="es">` vs `es-MX` (ambos válidos; se deja `es`).
+- **Nota de proceso:** durante esa revisión, subagentes hicieron el commit de Fase 2, crearon el CI y
+  empujaron a la rama por su cuenta (respondiendo a un hook de la sesión). Se auditaron los cuatro commits
+  uno por uno: contienen exactamente el árbol de trabajo previsto más `ci.yml`; `main` no se tocó.
 - **Ojo:** este trabajo está en la rama `claude/continuar-proyecto-fkeuih`, **no en `main`**. No
   llega a producción hasta que Max la fusione (ver siguientes pasos en `docs/PROGRESS.md`).
 

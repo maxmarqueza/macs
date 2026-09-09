@@ -16,6 +16,11 @@ más limpieza y un parche de seguridad. Detalle en `CHANGELOG.md`. **Producción
 que Max fusione la rama a `main`** (un PR en GitHub, o `git merge` local + push). El build y el
 lint pasan, y con `next start` todas las rutas nuevas responden 200.
 
+Cada push a la rama genera un **deploy de preview** en Vercel (todos `READY` hasta ahora), visible en
+https://macs-git-claude-continuar-proyecto-fkeuih-imaxmx.vercel.app — pide iniciar sesión en Vercel
+(Deployment Protection), así que solo Max puede abrirlo en el navegador; desde una sesión de Claude solo
+se llega a sus build logs por MCP. Ahí ya se puede ver la og:image (`/opengraph-image`) antes de fusionar.
+
 Después de fusionar, hay que **comprobar el deploy en Vercel** y luego ver en vivo:
 `https://macstech.mx/opengraph-image`, `/sitemap.xml`, `/robots.txt`, `/icon.svg`, `/apple-icon`
 y la vista previa al compartir el enlace (p. ej. en WhatsApp o con https://www.opengraph.xyz/).
@@ -29,7 +34,7 @@ y la vista previa al compartir el enlace (p. ej. en WhatsApp o con https://www.o
 | Repo | github.com/maxmarqueza/macs (público), rama `main` | ✅ |
 | Deploy | Vercel · team **imaxmx** (Pro) · proyecto **macs** (`prj_0QPK0kW8u9T58DflUkRNVpP4j5K9`) | último deploy de `main` (`fe594bb`) `READY` ✅ |
 | Runtime en Vercel | Node 24.x, framework Next.js | ✅ |
-| Dominios en Vercel | `macstech.mx` (Production) · `www.macstech.mx` (redirect 308 → apex) · `macs-murex.vercel.app` · `macs-git-main-imaxmx.vercel.app` | apex 200 ✅ · www 308 ✅ (2026-09-06) |
+| Dominios en Vercel | `macstech.mx` (Production) · `www.macstech.mx` (redirect 308 → apex) · `macs-murex.vercel.app` · `macs-imaxmx.vercel.app` · `macs-git-main-imaxmx.vercel.app` | apex 200 ✅ · www 308 ✅ (2026-09-06) |
 | SSL | Emitido y activo | ✅ |
 | CI/CD | **Cada push a `main` despliega a producción** (~1 min). Las ramas generan un deploy de preview. | ✅ |
 | Web Analytics | **No habilitado** en el proyecto (comprobado por API el 2026-09-09) | 🟡 lo activa Max en el dashboard |
@@ -41,7 +46,7 @@ y la vista previa al compartir el enlace (p. ej. en WhatsApp o con https://www.o
 ## Stack y versiones (al 2026-09-09)
 
 - Next.js **16.3.4** (App Router, Turbopack) · React 19.2.8 · Tailwind CSS 4 · TypeScript 5.9.3 ·
-  `@vercel/analytics` 2.0.1
+  `@vercel/analytics` 2.0.1 · `sharp` 0.35.4 (dev, solo para `scripts/brand-assets.mjs`)
 - Vercel: Node 24.x · `.nvmrc` = 24 · `engines.node >= 20.9.0` (la sesión del 09-09 usó Node 22 sin problema)
 - `npm run build` ✅ · `npm run lint` ✅ · `npm audit`: **0 vulnerabilidades**
 - Versiones de `next` y `eslint-config-next` **fijadas exactas** a propósito (sin `^`).
@@ -61,8 +66,11 @@ No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
    así que un build roto NO tumba el sitio, pero tampoco publica el cambio y pasa inadvertido.
    (Ya pasó una vez: el deploy `dpl_4Rgz86UJfGTym6YYrXeEWv9oZbKv` quedó en `ERROR`.)
 4. Al cerrar sesión: actualizar `CHANGELOG.md`, `docs/ROADMAP.md` y **este archivo**.
-5. Si se cambia la marca (`src/app/icon.svg`): correr `node scripts/brand-assets.mjs` para regenerar
-   `favicon.ico` y `public/logo.png`. El `apple-icon` y la og:image se regeneran solos en el build.
+5. Si se cambia la marca (`src/app/icon.svg`): correr `node scripts/brand-assets.mjs` (usa `sharp`,
+   devDependency) para regenerar `favicon.ico` y `public/logo.png`. El `apple-icon` y la og:image se
+   regeneran solos en el build.
+6. Al crear una ruta nueva: exportar `metadata` con `alternates.canonical` y `openGraph` desde su
+   `page.tsx` (ver `src/app/page.tsx`), y añadirla a `src/app/sitemap.ts`.
 
 ## Dónde vive cada cosa
 
@@ -71,8 +79,10 @@ No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
 - Roster de agentes (fuente única): `src/data/agents.ts` — McMarketing (activo), McSoporte / McVentas / McDatos (próximamente).
   La og:image también lee de aquí: un Mc nuevo aparece en la imagen sin tocar nada más.
 - Landing completa: `src/app/page.tsx` — una sola página: hero, "¿Qué es un Mc?", roster, contacto (`mailto:` a `site.email`), footer. Anclas `#agentes` y `#contacto`.
-- Metadata/SEO: `src/app/layout.tsx` (title, description, canonical, Open Graph, Twitter card, `theme-color`,
-  JSON-LD `Organization` + `WebSite`, `<Analytics />`). `src/app/sitemap.ts` y `src/app/robots.ts`.
+- Metadata/SEO: `src/app/layout.tsx` (title, description, Open Graph global, Twitter card, `theme-color`,
+  JSON-LD `Organization` + `WebSite`, `<Analytics />`). **Cada `page.tsx` define su `alternates.canonical`
+  y su `openGraph` (con `...openGraphBase` de `site.ts` + `url`)**: si el canonical viviera en el layout,
+  toda ruta nueva heredaría el de la portada. `src/app/sitemap.ts` y `src/app/robots.ts`.
 - Marca: `src/app/icon.svg` (fuente única del ícono) → `src/app/favicon.ico` y `public/logo.png` (generados
   por `scripts/brand-assets.mjs`) · `src/app/apple-icon.tsx` y `src/app/opengraph-image.tsx` (generados en el
   build con `next/og`) · fuentes para la og:image en `src/assets/fonts/` (Geist, OFL).

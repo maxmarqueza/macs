@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { site } from "@/data/site";
+import { brand, openGraphBase, site } from "@/data/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,6 +14,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Solo lo global. `alternates.canonical` y `openGraph.url` van en cada
+// `page.tsx`: si estuvieran aquí, cualquier ruta nueva heredaría el canonical
+// de la portada y Google la trataría como duplicado.
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -22,15 +25,10 @@ export const metadata: Metadata = {
   },
   description: site.description,
   applicationName: site.name,
-  alternates: { canonical: "/" },
   openGraph: {
+    ...openGraphBase,
     title: site.title,
-    description:
-      "Cada Mc es un agente de IA especializado que automatiza una parte de tu negocio.",
-    url: "/",
-    siteName: site.name,
-    locale: site.locale,
-    type: "website",
+    description: site.ogDescription,
   },
   twitter: { card: "summary_large_image" },
 };
@@ -38,7 +36,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: dark)", color: brand.background },
   ],
 };
 

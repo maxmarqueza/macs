@@ -2,7 +2,7 @@
 // a partir de `src/app/icon.svg`, que es la fuente única de la marca.
 //
 // Uso: node scripts/brand-assets.mjs
-// Usa `sharp`, que ya viene instalado como dependencia de Next.js.
+// Requiere `sharp` (devDependency; Next.js lo trae solo como dependencia opcional).
 
 import { readFile, writeFile } from "node:fs/promises";
 import sharp from "sharp";

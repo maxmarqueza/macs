@@ -20,4 +20,9 @@ Reglas de trabajo:
   en GitHub (`claude/crear-criptomoneda-propia-8a300q`) que **no** se fusiona a `main`.
   No proponer ni retomar el tema.
 - Antes de dar por hecha la infraestructura, se puede verificar en vivo: `curl -I https://macstech.mx`
-  (200) y `curl -I https://www.macstech.mx` (308 al apex).
+  (200) y `curl -I https://www.macstech.mx` (308 al apex). **Ojo:** eso solo funciona en local; en las
+  sesiones de Claude en la nube el proxy de red bloquea `curl` a macstech.mx y a `*.vercel.app` (403).
+  Ahí se verifica con las herramientas MCP de Vercel (`get_project`, `list_deployments`,
+  `get_deployment_build_logs`).
+- Si se cambia el ícono (`src/app/icon.svg`), correr `node scripts/brand-assets.mjs` para regenerar
+  `favicon.ico` y `public/logo.png`; el `apple-icon` y la og:image se regeneran solos en el build.
