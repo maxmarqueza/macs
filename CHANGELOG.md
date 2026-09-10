@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-10 (flujo de trabajo: directo a `main`)
+- **Sin ramas ni pull requests.** Max pidió que todo se publique directo: commit en `main` + push.
+  Queda escrito como primera regla en `CLAUDE.md` y en `docs/PROGRESS.md`.
+- **Remoto de git cambiado a SSH** (`git@github.com:maxmarqueza/macs.git`, llave
+  `~/.ssh/id_ed25519_github`). Por HTTPS el `push` pedía usuario y contraseña —que GitHub ya no
+  acepta— y dejaba la terminal colgada; por SSH sale sin pedir nada.
+- Deploy de producción `50ff554` `READY`.
+
 ## 2026-09-09 (Fase 2: marca, SEO y analítica)
 - **Marca:** nuevo ícono de MACS — una "M" en `sky-400` sobre `neutral-950` con un brillo sutil, la
   misma paleta del hero (`src/app/icon.svg`, fuente única de la marca). De ahí salen el

@@ -4,17 +4,34 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-09 (cierre de sesión, todo publicado)
-**Estado general:** ✅ Fase 1 completa · ✅ Fase 2 (marca, SEO, analítica, CI) **fusionada a `main` y en producción** en https://macstech.mx
-**Rama de trabajo:** `main` (limpia y sincronizada con `origin/main`). La rama `claude/continuar-proyecto-fkeuih` ya está fusionada (fast-forward) y se puede borrar.
+**Última actualización:** 2026-09-10 (flujo directo a `main`)
+**Estado general:** ✅ Fase 1 completa · ✅ Fase 2 (marca, SEO, analítica, CI) **en producción** en https://macstech.mx
+**Rama de trabajo:** `main`, y **solo `main`**. Max pidió (2026-09-10) que todo se publique directo:
+commit en `main` + push, sin ramas ni pull requests.
 
 ## Para retomar en la siguiente sesión (leer primero)
 
-**Nada quedó a medias.** Al cerrar la sesión del 2026-09-09 todo está fusionado a `main` y publicado:
-el deploy de producción `dpl_DaiyjZYPvP2csg5c3XpKHEc8Ei97` (commit `946a214`) quedó `READY`, y el CI de
-GitHub Actions corrió por primera vez en `main` y quedó en verde. Árbol de trabajo limpio, sin PR abierto.
+**Nada quedó a medias.** Al cerrar la sesión del 2026-09-10 todo está en `main` y publicado:
+el deploy de producción `dpl_HoMnGVnexbXyYMuzqGBLkKW75mAa` (commit `50ff554`) quedó `READY`.
+Árbol de trabajo limpio, sin PR abierto.
 
-Para retomar: `git checkout main && git pull && npm ci`, y seguir por "Siguientes pasos".
+**Flujo de trabajo (decisión de Max, 2026-09-10): directo en `main`.** Nada de ramas ni PRs.
+
+**Autenticación con GitHub:** el remoto usa **SSH** (`git@github.com:maxmarqueza/macs.git`) con la llave
+`~/.ssh/id_ed25519_github`, ya registrada en la cuenta. Se cambió desde HTTPS porque el `push` por HTTPS
+pedía usuario y contraseña (GitHub ya no acepta contraseña ahí) y colgaba la terminal. Con SSH el push
+sale sin pedir nada. No hay `gh` instalado en la Mac.
+
+**Ramas viejas en GitHub, pendientes de borrar** (Max ya dijo que sí; falta el permiso para
+ejecutar `git push origin --delete` desde la sesión):
+
+- `claude/continuar-proyecto-fkeuih` — 0 commits propios, todo su trabajo ya está en `main`. Borrar sin riesgo.
+- `claude/crear-criptomoneda-propia-8a300q` — 1 commit propio (`894fb95`, el token $MACS **descartado**).
+
+Ambas quedaron respaldadas en tags locales (`archivo/rama-continuar-proyecto` y `archivo/cripto-macs`),
+así que borrarlas en GitHub no pierde nada mientras exista este clon.
+
+Para retomar: `git pull && npm ci`, y seguir por "Siguientes pasos".
 
 Queda por mirar en vivo desde un navegador (desde una sesión en la nube no se puede por el proxy):
 `https://macstech.mx/opengraph-image`, `/sitemap.xml`, `/robots.txt`, `/icon.svg`, y la vista previa al
@@ -29,8 +46,9 @@ página, `sharp` declarado, og:image centrada, ícono alineado al píxel). Detal
 Se trabajó en la rama `claude/continuar-proyecto-fkeuih` (6 commits) y se fusionó a `main` con
 fast-forward; el deploy de producción quedó `READY` y el CI en verde.
 
-Nota: los deploys de preview de ramas (`macs-git-<rama>-imaxmx.vercel.app`) piden iniciar sesión en Vercel
-(Deployment Protection); desde una sesión de Claude solo se llega a sus build logs por MCP.
+Nota (ya solo histórica, porque desde el 2026-09-10 no se usan ramas): los deploys de preview de ramas
+(`macs-git-<rama>-imaxmx.vercel.app`) piden iniciar sesión en Vercel (Deployment Protection); desde una
+sesión de Claude solo se llega a sus build logs por MCP.
 
 ## Infraestructura (verificada el 2026-09-09 vía API de Vercel — no tocar)
 
@@ -38,12 +56,12 @@ Nota: los deploys de preview de ramas (`macs-git-<rama>-imaxmx.vercel.app`) pide
 |---|---|---|
 | Dominio | macstech.mx, comprado en GoDaddy (agosto 2026) | — |
 | DNS | GoDaddy: `A @ → 216.150.1.1` · `CNAME www → macstech.mx.` | `dig` ✅ (2026-09-06) |
-| Repo | github.com/maxmarqueza/macs (público), rama `main` | ✅ |
-| Deploy | Vercel · team **imaxmx** (Pro) · proyecto **macs** (`prj_0QPK0kW8u9T58DflUkRNVpP4j5K9`) | último deploy de `main` (`946a214`, 2026-09-09) `READY` ✅ |
+| Repo | github.com/maxmarqueza/macs (público), rama `main` · remoto por **SSH** (`git@github.com:...`) | ✅ |
+| Deploy | Vercel · team **imaxmx** (Pro) · proyecto **macs** (`prj_0QPK0kW8u9T58DflUkRNVpP4j5K9`) | último deploy de `main` (`50ff554`, 2026-09-10) `READY` ✅ |
 | Runtime en Vercel | Node 24.x, framework Next.js | ✅ |
 | Dominios en Vercel | `macstech.mx` (Production) · `www.macstech.mx` (redirect 308 → apex) · `macs-murex.vercel.app` · `macs-imaxmx.vercel.app` · `macs-git-main-imaxmx.vercel.app` | apex 200 ✅ · www 308 ✅ (2026-09-06) |
 | SSL | Emitido y activo | ✅ |
-| CI/CD | **Cada push a `main` despliega a producción** (~1 min). Las ramas generan un deploy de preview. GitHub Actions (`.github/workflows/ci.yml`: npm ci + lint + build) corre en cada push a `main` y en cada PR. | deploy ✅ · CI en `main` verde ✅ |
+| CI/CD | **Cada push a `main` despliega a producción** (~1 min). Ya no se usan ramas (todo va directo a `main`). GitHub Actions (`.github/workflows/ci.yml`: npm ci + lint + build) corre en cada push a `main` y en cada PR. | deploy ✅ · CI en `main` verde ✅ |
 | Web Analytics | **No habilitado** en el proyecto (comprobado por API el 2026-09-09) | 🟡 lo activa Max en el dashboard |
 
 > Nota para sesiones en la nube: el proxy de red de Claude bloquea `curl` a macstech.mx (403 en el
@@ -68,7 +86,8 @@ No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
 ## Cómo trabajar
 
 1. `npm install && npm run dev` → http://localhost:3000
-2. Editar → verificar → `npm run build` (debe pasar) → commit → push a `main` → producción.
+2. Editar → verificar → `npm run build` (debe pasar) → commit **en `main`** → push → producción.
+   **No crear ramas ni pull requests** (decisión de Max, 2026-09-10).
 3. **Después del push, verificar que el deploy salió READY** — Vercel conserva el último deploy bueno,
    así que un build roto NO tumba el sitio, pero tampoco publica el cambio y pasa inadvertido.
    (Ya pasó una vez: el deploy `dpl_4Rgz86UJfGTym6YYrXeEWv9oZbKv` quedó en `ERROR`.)
