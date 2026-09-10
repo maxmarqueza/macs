@@ -4,26 +4,29 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-10 (ficha de McMarketing validada)
+**Última actualización:** 2026-09-10 (ficha de McMarketing publicada)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
-en producción en https://macstech.mx; faltan contenido y contacto. La ficha de McMarketing está
-implementada y validada; publicación pendiente.
+en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
+siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
 **Rama de trabajo:** `main`, y **solo `main`**. Max pidió (2026-09-10) que todo se publique directo:
 commit en `main` + push, sin ramas ni pull requests.
 
 ## Para retomar en la siguiente sesión (leer primero)
 
-**Trabajo actual:** implementada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
+**Último trabajo completado:** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
 frecuentes, diseño adaptable y metadata propia. La portada enlaza mediante `Agent.href` opcional
 y el sitemap incluye solamente páginas existentes. No se añaden redes específicas, clientes ni
-resultados sin evidencia. **Lint, build y navegador aprobados; publicación pendiente.**
+resultados sin evidencia. **Lint, build, navegador, CI y despliegue confirmados.** El siguiente
+paso es resolver el contacto: proveedor de correo y número de WhatsApp pendientes de Max.
 
 **Clon local:** `/Users/max/Desktop/Todo/Proyectos/MACS`. La ruta registrada anteriormente,
 `/Users/max/Desktop/Proyectos/MACS`, ya no existe.
 
-El último despliegue confirmado antes de este avance fue
-`dpl_HoMnGVnexbXyYMuzqGBLkKW75mAa` (commit `50ff554`), `READY`. El avance actual aún no se da
-por publicado; revisar los cambios locales antes de sincronizar o instalar dependencias.
+**Implementación publicada:** commit `ecfe86f89ff26969d256c719eeee33e32a66f78c` en `main`.
+[Despliegue Vercel](https://vercel.com/imaxmx/macs/Esvs2WHA1BRCq6BFMLUEfbYkf7MW)
+confirmado por el estado Vercel del commit en GitHub: `success`, «Deployment has completed».
+[CI](https://github.com/maxmarqueza/macs/actions/runs/34544060537): `completed` / `success`.
+Revisar `git status` antes de sincronizar o instalar dependencias.
 
 **Flujo de trabajo (decisión de Max, 2026-09-10): directo en `main`.** Nada de ramas ni PRs.
 
@@ -43,13 +46,14 @@ así que borrarlas en GitHub no pierde nada mientras exista este clon.
 
 Para retomar: revisar `git status` en el clon indicado y seguir por "Siguientes pasos".
 
-Auditoría HTTP del 2026-09-10: portada, `/opengraph-image`, `/sitemap.xml`, `/robots.txt` e
+Auditoría HTTP del 2026-09-10: portada, `/agentes/mcmarketing`, `/opengraph-image`, `/sitemap.xml`, `/robots.txt` e
 `/icon.svg` responden 200; HTTP y www redirigen con 308 al apex HTTPS. Canonical y metadatos
-sociales apuntan al dominio correcto; la og:image es PNG de 1200 × 630. El sitemap de producción
-todavía solo incluye la portada. La revisión visual y de navegación local del avance pasó en 1280/390/320 px y modos claro/oscuro.
-Canonical, OG/Twitter con imagen y sitemap del build comprobados; FAQ operable con teclado.
-Axe no detectó infracciones en la ficha; los gradientes se revisaron visualmente.
-Falta comprobar la nueva ruta en producción y la vista previa al compartir el enlace.
+sociales apuntan al dominio correcto; la og:image es PNG de 1200 × 630. La portada de producción
+enlaza la ficha y el sitemap la incluye; OG/Twitter contienen imagen.
+Dos comprobaciones finales de lint y build aprobadas. La revisión visual y de navegación pasó
+en 1280/390/320 px sin desbordamiento y en modos claro/oscuro; FAQ operable con teclado.
+Axe detectó cero infracciones en la ficha; los gradientes se revisaron visualmente.
+La vista previa dentro de aplicaciones al compartir el enlace no se comprobó.
 
 ## Qué se publicó el 2026-09-09 (Fase 2)
 
@@ -70,16 +74,20 @@ sesión de Claude solo se llega a sus build logs por MCP.
 | Dominio | macstech.mx, comprado en GoDaddy (agosto 2026) | — |
 | DNS | GoDaddy: `A @ → 216.150.1.1` · `CNAME www → macstech.mx.`; sin MX ni SPF | `dig` autoritativo y Cloudflare ✅ (2026-09-10) |
 | Repo | github.com/maxmarqueza/macs (público), rama `main` · remoto por **SSH** (`git@github.com:...`) | ✅ |
-| Deploy | Vercel · team **imaxmx** (Pro) · proyecto **macs** (`prj_0QPK0kW8u9T58DflUkRNVpP4j5K9`) | Último confirmado: `50ff554`, `READY`; nuevo avance pendiente |
+| Deploy | Vercel · team **imaxmx** (Pro) · proyecto **macs** (`prj_0QPK0kW8u9T58DflUkRNVpP4j5K9`) | `ecfe86f`: estado Vercel en GitHub `success`; producción verificada |
 | Runtime en Vercel | Node 24.x, framework Next.js | ✅ |
 | Dominios en Vercel | `macstech.mx` (Production) · `www.macstech.mx` (redirect 308 → apex) · `macs-murex.vercel.app` · `macs-imaxmx.vercel.app` · `macs-git-main-imaxmx.vercel.app` | apex 200 ✅ · www 308 ✅ (2026-09-10) |
 | SSL | Emitido y activo | ✅ |
-| CI/CD | **Cada push a `main` despliega a producción** (~1 min). Ya no se usan ramas (todo va directo a `main`). GitHub Actions (`.github/workflows/ci.yml`: npm ci + lint + build) corre en cada push a `main` y en cada PR. | deploy ✅ · CI en `main` verde ✅ |
+| CI/CD | **Cada push a `main` despliega a producción** (~1 min). Ya no se usan ramas (todo va directo a `main`). GitHub Actions (`.github/workflows/ci.yml`: npm ci + lint + build) corre en cada push a `main` y en cada PR. | `ecfe86f`: deploy ✅ · CI `34544060537` `success` ✅ |
 | Web Analytics | Integración publicada; `/_vercel/insights/script.js` responde **200** | HTTP ✅ (2026-09-10); eventos y dashboard pendientes de confirmar |
 
 > Nota para sesiones en la nube: el proxy de red de Claude bloquea `curl` a macstech.mx (403 en el
 > túnel). Para verificar producción usar las herramientas MCP de Vercel (`get_project`,
 > `list_deployments`, `web_fetch_vercel_url`), no `curl`.
+
+> Acceso del 2026-09-10: el MCP de Vercel devolvió 403 con el scope `imaxmx`. En esta sesión local
+> se verificaron el estado Vercel del commit mediante la API pública de GitHub y las URLs públicas.
+> No se confirmó `READY` mediante la API de Vercel.
 
 ## Stack y versiones (al 2026-09-09)
 
@@ -132,18 +140,14 @@ No se aplicaron por ser cambios de versión mayor con riesgo de romper el build:
 
 ## Siguientes pasos
 
-1. **Validar y publicar la ficha funcional de McMarketing.** En curso: publicación diaria,
-   respuestas a comentarios y DMs mediante n8n, preguntas frecuentes y navegación desde la portada.
-   Lint, build y revisión en navegador aprobados. Falta commit/push en `main` y confirmar
-   el nuevo despliegue. Los datos actuales bastan para esta ficha.
-2. **Habilitar el correo de `macstech.mx`.** 🔴 Falta que Max elija proveedor. El 2026-09-10
+1. **Habilitar el correo de `macstech.mx`.** 🔴 Falta que Max elija proveedor. El 2026-09-10
    se reconfirmó la ausencia de MX y SPF con DNS autoritativo y Cloudflare. El sitio sigue mostrando
    `contacto@macstech.mx` como único canal de contacto; no se ha verificado un buzón operativo.
    La elección de proveedor y la configuración de correo siguen pendientes; no se cambió DNS.
-3. **Botón de WhatsApp** en contacto. 🔴 Número solicitado a Max; pendiente de respuesta.
-4. **Confirmar eventos de Analytics en el dashboard.** El script de producción ya responde 200;
+2. **Botón de WhatsApp** en contacto. 🔴 Número solicitado a Max; pendiente de respuesta.
+3. **Confirmar eventos de Analytics en el dashboard.** El script de producción ya responde 200;
    esto reemplaza la observación anterior del 404, pero no demuestra recepción de eventos.
-5. **Caso de éxito de McMarketing.** 🔴 Faltan redes específicas, herramientas de IA, resultados,
+4. **Caso de éxito de McMarketing.** 🔴 Faltan redes específicas, herramientas de IA, resultados,
    capturas y permiso para nombrar clientes (ver `docs/AGENTES/McMarketing.md`). Esos datos bloquean
    el caso de éxito y sus afirmaciones, no la ficha funcional básica.
 
@@ -172,7 +176,7 @@ web en Vercel. Construye automatizaciones con n8n.
 - [ ] Número de WhatsApp para el botón de contacto: solicitado, pendiente de respuesta.
 - [ ] Caso de éxito de McMarketing: redes, IA, resultados medibles, capturas y cliente publicable.
 - [ ] **¿Dónde quieres el correo de macstech.mx?** Falta elegir proveedor; ausencia de MX/SPF
-      reconfirmada el 2026-09-10 (ver siguiente paso 2).
+      reconfirmada el 2026-09-10 (ver siguiente paso 1).
 - [ ] ¿Le gusta el ícono "M" y la og:image? Se hicieron sin consultarle, a partir de la identidad
       visual de facto de `docs/VISION.md`. Si quiere otra cosa, basta con cambiar `src/app/icon.svg`
       y correr `node scripts/brand-assets.mjs`.

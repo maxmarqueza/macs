@@ -43,9 +43,11 @@ npm run lint
 
 ## Avance del 10 de septiembre de 2026
 
-Implementada y validada: `/agentes/mcmarketing`, su enlace desde la portada y su entrada en el sitemap.
+Publicada y validada: [ficha de McMarketing](https://macstech.mx/agentes/mcmarketing),
+su enlace desde la portada y su entrada en el sitemap.
 La ficha usa las funciones documentadas (publicación diaria, comentarios y DMs mediante n8n);
-el caso de éxito sigue pendiente de datos. **Lint, build y revisión en navegador aprobados; publicación pendiente.** El correo sigue sin MX/SPF y falta el número de WhatsApp solicitado a Max.
+el caso de éxito sigue pendiente de datos. Lint, build, navegador, CI y despliegue confirmados
+para el commit `ecfe86f`. El correo sigue sin MX/SPF y falta el número de WhatsApp solicitado a Max.
 
 ## Despliegue
 

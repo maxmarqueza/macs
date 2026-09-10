@@ -17,9 +17,10 @@ Publicado en producción el 9 de septiembre de 2026:
 - [x] Vercel Analytics (`@vercel/analytics` en el layout); script 200 en producción el 10 de septiembre
 - [x] CI en GitHub Actions (ver Mantenimiento)
 
-En curso el 10 de septiembre de 2026:
-- [ ] Publicar `/agentes/mcmarketing`: ficha funcional, preguntas frecuentes, diseño adaptable y metadata propia;
-      enlace desde la portada y sitemap limitado a páginas existentes. Lint, build y navegador aprobados; publicación pendiente.
+Avance del 10 de septiembre de 2026:
+- [x] Publicar `/agentes/mcmarketing`: ficha funcional, preguntas frecuentes, diseño adaptable y metadata propia;
+      enlace desde la portada y sitemap limitado a páginas existentes. Commit `ecfe86f` publicado;
+      lint, build, navegador y CI aprobados; ruta y metadatos comprobados en producción.
 - [ ] Confirmar recepción de eventos de Analytics en el dashboard (el script 200 no la demuestra).
 
 Bloqueado a la espera de una decisión de Max:

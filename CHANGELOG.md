@@ -1,25 +1,33 @@
 # Changelog
 
-## 2026-09-10 (ficha de McMarketing — validada)
+## 2026-09-10 (ficha de McMarketing — publicada)
 - Recuperado el clon local en `/Users/max/Desktop/Todo/Proyectos/MACS`; la antigua ruta
   `/Users/max/Desktop/Proyectos/MACS` ya no existe.
 - Implementada: `/agentes/mcmarketing` con funciones documentadas (publicación diaria,
   comentarios y DMs mediante n8n), preguntas frecuentes, diseño adaptable y metadata propia.
   La portada enlaza fichas mediante `Agent.href` opcional y el sitemap incluye solamente las existentes.
   Los datos pendientes bloquean el caso de éxito, no la ficha funcional básica.
-- Auditoría HTTP de producción: portada, sitemap, robots, icono y og:image responden 200;
+- Auditoría HTTP de producción: portada, nueva ficha, sitemap, robots, icono y og:image responden 200;
   www y HTTP redirigen con 308 al dominio canónico HTTPS. La og:image es PNG de 1200 × 630.
+  La portada enlaza la ficha y el sitemap la incluye; OG/Twitter contienen imagen.
 - **Analytics:** `/_vercel/insights/script.js` ya responde 200 y el código publicado incorpora
   `@vercel/analytics` 2.0.1. Actualiza la observación del 9 de septiembre; no se verificaron
   recepción de eventos ni dashboard.
 - **Contacto:** consultas DNS autoritativas y a Cloudflare confirman ausencia de MX y SPF.
   Falta elegir proveedor de correo; número de WhatsApp solicitado a Max, pendiente de respuesta.
-- **Validación:** lint y build aprobados; ruta estática. Navegación catálogo → agente → contacto,
-  FAQ con teclado, vistas de 1280/390/320 px y modos claro/oscuro revisados.
+- **Validación:** dos comprobaciones finales de lint y build aprobadas; ruta estática.
+  Navegación catálogo → agente → contacto, FAQ con teclado, vistas de 1280/390/320 px sin
+  desbordamiento y modos claro/oscuro revisados.
   Canonical, OG/Twitter con imagen y sitemap comprobados en el HTML generado.
   Axe: cero infracciones detectadas en la ficha en ambos modos; gradientes revisados visualmente.
 - Mejorado el contraste de botones y numeración, y el foco visible de enlaces.
-- **Publicación pendiente:** commit/push en `main` y confirmación del despliegue.
+- **Publicada** en [macstech.mx/agentes/mcmarketing](https://macstech.mx/agentes/mcmarketing)
+  con el commit `ecfe86f89ff26969d256c719eeee33e32a66f78c` en `main`.
+  [Despliegue Vercel](https://vercel.com/imaxmx/macs/Esvs2WHA1BRCq6BFMLUEfbYkf7MW): estado del commit
+  en GitHub `success`, «Deployment has completed».
+  [CI](https://github.com/maxmarqueza/macs/actions/runs/34544060537) completado con `success`.
+  El MCP de Vercel devolvió 403 para el scope `imaxmx`; se verificó mediante la API pública de
+  GitHub y las URLs públicas, sin consultar `READY` en la API de Vercel.
 
 ## 2026-09-10 (flujo de trabajo: directo a `main`)
 - **Sin ramas ni pull requests.** Max pidió que todo se publique directo: commit en `main` + push.

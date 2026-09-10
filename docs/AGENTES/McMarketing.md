@@ -13,14 +13,16 @@
 
 ## Cómo aparece en el sitio
 - Ficha en el roster de la landing, definida en `src/data/agents.ts` (slug `mcmarketing`).
-- Página propia implementada y validada: `/agentes/mcmarketing`, enlazada mediante el `href` del roster.
+- Página propia publicada: [McMarketing](https://macstech.mx/agentes/mcmarketing),
+  enlazada mediante el `href` del roster e incluida en el sitemap.
 - La ficha presenta publicación diaria, respuestas a comentarios y DMs, uso de n8n y preguntas
   frecuentes. Incluye diseño adaptable y metadata propia; no afirma redes, herramientas de IA,
   clientes ni resultados todavía no documentados.
-- **Estado del avance (2026-09-10):** lint, build y navegador aprobados; publicación pendiente.
+- **Estado del avance (2026-09-10):** publicada con el commit `ecfe86f`; lint, build, navegador
+  y CI aprobados. HTTP 200 y metadata comprobados en producción.
 
 ## 🔴 Pendientes de información para el caso de éxito
-La ficha funcional puede publicarse con los datos actuales. Para ampliar detalles y documentar
+La ficha funcional ya está publicada con los datos actuales. Para ampliar detalles y documentar
 un caso de éxito hacen falta:
 
 - [ ] ¿Qué redes cubre? (Instagram, Facebook, TikTok, X…)
