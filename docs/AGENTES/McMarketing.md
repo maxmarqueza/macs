@@ -13,10 +13,15 @@
 
 ## Cómo aparece en el sitio
 - Ficha en el roster de la landing, definida en `src/data/agents.ts` (slug `mcmarketing`).
-- Todavía **no** tiene página propia. La siguiente es `/agentes/mcmarketing` con el caso de éxito.
+- Página propia implementada y validada: `/agentes/mcmarketing`, enlazada mediante el `href` del roster.
+- La ficha presenta publicación diaria, respuestas a comentarios y DMs, uso de n8n y preguntas
+  frecuentes. Incluye diseño adaptable y metadata propia; no afirma redes, herramientas de IA,
+  clientes ni resultados todavía no documentados.
+- **Estado del avance (2026-09-10):** lint, build y navegador aprobados; publicación pendiente.
 
-## 🔴 Pendientes de información (bloquean la página del agente)
-Sin estos datos no se puede escribir la página ni el caso de éxito:
+## 🔴 Pendientes de información para el caso de éxito
+La ficha funcional puede publicarse con los datos actuales. Para ampliar detalles y documentar
+un caso de éxito hacen falta:
 
 - [ ] ¿Qué redes cubre? (Instagram, Facebook, TikTok, X…)
 - [ ] ¿Qué IA genera el contenido y las respuestas?

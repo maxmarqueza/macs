@@ -6,11 +6,13 @@ export type Agent = {
   description: string;
   capabilities: string[];
   status: "activo" | "proximamente";
+  href?: `/agentes/${string}`;
 };
 
 export const agents: Agent[] = [
   {
     slug: "mcmarketing",
+    href: "/agentes/mcmarketing",
     name: "McMarketing",
     emoji: "📣",
     tagline: "Tu equipo de marketing que nunca duerme",

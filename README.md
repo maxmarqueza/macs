@@ -9,11 +9,13 @@ Sitio web de **MACS**: una familia de agentes de IA especializados (cada "Mc" au
 - [Next.js 16](https://nextjs.org) (App Router, Turbopack) + TypeScript + Tailwind CSS 4
 - Deploy: **Vercel** (team `imaxmx`, proyecto `macs`) · Dominio: **macstech.mx** (GoDaddy)
 - Sin backend ni variables de entorno: el sitio es estático.
-- Analítica: Vercel Web Analytics (`@vercel/analytics`; falta habilitarlo en el dashboard de Vercel).
+- Analítica: Vercel Web Analytics (`@vercel/analytics`); el script responde 200 en producción
+  (10 de septiembre de 2026). Falta confirmar la recepción de eventos en el dashboard.
 
 ## Desarrollo
 
 Requiere **Node ≥ 20.9** (el repo fija la 24 en `.nvmrc`, igual que Vercel).
+El clon local está en `/Users/max/Desktop/Todo/Proyectos/MACS`.
 
 ```bash
 npm install
@@ -28,7 +30,8 @@ npm run lint
   archivos especiales de Next: `sitemap.ts`, `robots.ts`, `icon.svg`, `favicon.ico`, `apple-icon.tsx`
   y `opengraph-image.tsx` (estos dos últimos se generan en el build)
 - `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo): fuente única
-- `src/data/agents.ts` — roster de agentes (fuente única: agregar aquí cada nuevo Mc)
+- `src/data/agents.ts` — roster de agentes; `href` opcional enlaza solamente fichas existentes
+- `src/app/agentes/mcmarketing/page.tsx` — ficha funcional de McMarketing con preguntas frecuentes
 - `src/assets/fonts/` — Geist en TrueType para la og:image (licencia OFL)
 - `scripts/brand-assets.mjs` — regenera `favicon.ico` y `public/logo.png` a partir de `icon.svg`
 - `docs/PROGRESS.md` — **empieza por aquí**: estado actual, infraestructura y siguientes pasos
@@ -37,6 +40,12 @@ npm run lint
 - `docs/AGENTES/` — un `.md` por agente
 - `CHANGELOG.md` — bitácora de cambios por sesión
 - `CLAUDE.md` / `AGENTS.md` — instrucciones para sesiones de Claude Code
+
+## Avance del 10 de septiembre de 2026
+
+Implementada y validada: `/agentes/mcmarketing`, su enlace desde la portada y su entrada en el sitemap.
+La ficha usa las funciones documentadas (publicación diaria, comentarios y DMs mediante n8n);
+el caso de éxito sigue pendiente de datos. **Lint, build y revisión en navegador aprobados; publicación pendiente.** El correo sigue sin MX/SPF y falta el número de WhatsApp solicitado a Max.
 
 ## Despliegue
 

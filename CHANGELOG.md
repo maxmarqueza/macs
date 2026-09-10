@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-09-10 (ficha de McMarketing — validada)
+- Recuperado el clon local en `/Users/max/Desktop/Todo/Proyectos/MACS`; la antigua ruta
+  `/Users/max/Desktop/Proyectos/MACS` ya no existe.
+- Implementada: `/agentes/mcmarketing` con funciones documentadas (publicación diaria,
+  comentarios y DMs mediante n8n), preguntas frecuentes, diseño adaptable y metadata propia.
+  La portada enlaza fichas mediante `Agent.href` opcional y el sitemap incluye solamente las existentes.
+  Los datos pendientes bloquean el caso de éxito, no la ficha funcional básica.
+- Auditoría HTTP de producción: portada, sitemap, robots, icono y og:image responden 200;
+  www y HTTP redirigen con 308 al dominio canónico HTTPS. La og:image es PNG de 1200 × 630.
+- **Analytics:** `/_vercel/insights/script.js` ya responde 200 y el código publicado incorpora
+  `@vercel/analytics` 2.0.1. Actualiza la observación del 9 de septiembre; no se verificaron
+  recepción de eventos ni dashboard.
+- **Contacto:** consultas DNS autoritativas y a Cloudflare confirman ausencia de MX y SPF.
+  Falta elegir proveedor de correo; número de WhatsApp solicitado a Max, pendiente de respuesta.
+- **Validación:** lint y build aprobados; ruta estática. Navegación catálogo → agente → contacto,
+  FAQ con teclado, vistas de 1280/390/320 px y modos claro/oscuro revisados.
+  Canonical, OG/Twitter con imagen y sitemap comprobados en el HTML generado.
+  Axe: cero infracciones detectadas en la ficha en ambos modos; gradientes revisados visualmente.
+- Mejorado el contraste de botones y numeración, y el foco visible de enlaces.
+- **Publicación pendiente:** commit/push en `main` y confirmación del despliegue.
+
 ## 2026-09-10 (flujo de trabajo: directo a `main`)
 - **Sin ramas ni pull requests.** Max pidió que todo se publique directo: commit en `main` + push.
   Queda escrito como primera regla en `CLAUDE.md` y en `docs/PROGRESS.md`.

@@ -14,14 +14,19 @@ Estado detallado y siguientes pasos: [PROGRESS.md](PROGRESS.md).
 Publicado en producción el 9 de septiembre de 2026:
 - [x] Favicon + og:image con la marca MACS (ícono "M", `apple-icon`, `logo.png`, og:image generada en el build)
 - [x] SEO básico: `sitemap.ts`, `robots.ts`, canonical, Twitter card, JSON-LD de organización
-- [x] Vercel Analytics (`@vercel/analytics` en el layout) 🟡 falta que Max habilite Web Analytics en el dashboard de Vercel
+- [x] Vercel Analytics (`@vercel/analytics` en el layout); script 200 en producción el 10 de septiembre
 - [x] CI en GitHub Actions (ver Mantenimiento)
 
+En curso el 10 de septiembre de 2026:
+- [ ] Publicar `/agentes/mcmarketing`: ficha funcional, preguntas frecuentes, diseño adaptable y metadata propia;
+      enlace desde la portada y sitemap limitado a páginas existentes. Lint, build y navegador aprobados; publicación pendiente.
+- [ ] Confirmar recepción de eventos de Analytics en el dashboard (el script 200 no la demuestra).
+
 Bloqueado a la espera de una decisión de Max:
-- [ ] Habilitar correo en macstech.mx (no hay MX ni SPF: `contacto@macstech.mx` no recibe nada) 🔴 falta elegir proveedor
-- [ ] Botón / link de WhatsApp en contacto 🔴 falta el número
-- [ ] Página por agente, empezando con `/agentes/mcmarketing` 🔴 falta info del agente
-- [ ] Caso de éxito de McMarketing (flujo n8n) 🔴 falta info y capturas
+- [ ] Habilitar correo en macstech.mx (ausencia de MX/SPF reconfirmada el 10 de septiembre) 🔴 falta elegir proveedor
+- [ ] Botón / link de WhatsApp en contacto 🔴 número solicitado a Max, pendiente de respuesta
+- [ ] Caso de éxito de McMarketing (flujo n8n) 🔴 faltan resultados, redes, herramientas y capturas;
+      estos datos no bloquean la ficha funcional básica
 
 ## Fase 3 — Crecimiento
 - [ ] Blog / novedades

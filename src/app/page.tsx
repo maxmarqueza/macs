@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { agents } from "@/data/agents";
 import { openGraphBase, site } from "@/data/site";
 
@@ -33,10 +34,10 @@ export default function Home() {
             solo objetivo: cada Mc es un agente de inteligencia artificial
             especializado que automatiza una parte de tu negocio.
           </p>
-          <div className="mt-10 flex justify-center gap-4">
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
               href="#agentes"
-              className="rounded-full bg-sky-500 px-6 py-3 font-medium text-white transition hover:bg-sky-400"
+              className="rounded-full bg-sky-400 px-6 py-3 font-medium text-neutral-950 transition hover:bg-sky-300"
             >
               Conoce a los Mc
             </a>
@@ -100,6 +101,15 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+                {agent.href && (
+                  <Link
+                    href={agent.href}
+                    className="mt-6 inline-flex min-h-11 items-center gap-2 self-start rounded-lg text-sm font-semibold text-sky-700 underline-offset-4 hover:underline dark:text-sky-400"
+                  >
+                    Conoce a {agent.name}
+                    <span aria-hidden>→</span>
+                  </Link>
+                )}
               </article>
             ))}
           </div>
@@ -119,7 +129,7 @@ export default function Home() {
         </p>
         <a
           href={`mailto:${site.email}`}
-          className="mt-8 inline-block rounded-full bg-sky-500 px-8 py-3 font-medium text-white transition hover:bg-sky-400"
+          className="mt-8 inline-block rounded-full bg-sky-400 px-8 py-3 font-medium text-neutral-950 transition hover:bg-sky-300"
         >
           {site.email}
         </a>
