@@ -10,6 +10,8 @@ los siguientes pasos y las decisiones tomadas. Es el documento de traspaso entre
 
 Reglas de trabajo:
 
+- **Trabajar siempre directo en `main`. No crear ramas ni pull requests.** Max quiere que todo
+  se publique directo: commit en `main` + push.
 - Cada push a `main` despliega automáticamente a producción (https://macstech.mx). Verificar
   que `npm run build` pase antes de hacer push.
 - Al terminar una sesión de trabajo: actualizar `CHANGELOG.md`, `docs/ROADMAP.md` y
