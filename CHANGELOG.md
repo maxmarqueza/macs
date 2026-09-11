@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-10 (preferencias permanentes de trabajo)
+- Guardadas en `AGENTS.md` las preferencias de Max: respuestas breves, ejecución continua hasta
+  finalizar, autoanálisis y revisión, comunicación sin narración rutinaria y consultas solo ante
+  cambios de rumbo no planeados o decisiones importantes.
+- Referencias en `CLAUDE.md` y `docs/PROGRESS.md`; roadmap ajustado para sugerir únicamente
+  próximos pasos todavía no indicados por Max.
+
 ## 2026-09-10 (ficha de McMarketing — publicada)
 - Recuperado el clon local en `/Users/max/Desktop/Todo/Proyectos/MACS`; la antigua ruta
   `/Users/max/Desktop/Proyectos/MACS` ya no existe.

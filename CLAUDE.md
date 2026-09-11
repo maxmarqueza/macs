@@ -5,6 +5,11 @@
 Sitio de MACS: familia de agentes IA ("Mc") que automatizan áreas de un negocio.
 Comunicarse con Max **en español**.
 
+**Preferencias permanentes:** aplicar la sección «Preferencias de Max — comunicación y ejecución»
+de `AGENTS.md`: brevedad, ejecución continua hasta terminar, autoanálisis y revisión, sin narración
+rutinaria. Consultar solo cambios de rumbo no planeados o decisiones importantes de Max. Cerrar con
+un resultado conciso y sugerir únicamente un próximo paso todavía no indicado.
+
 **Antes de trabajar, leer `docs/PROGRESS.md`** — tiene el estado actual, la infraestructura,
 los siguientes pasos y las decisiones tomadas. Es el documento de traspaso entre sesiones.
 

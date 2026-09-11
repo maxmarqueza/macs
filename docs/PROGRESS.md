@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-10 (ficha de McMarketing publicada)
+**Última actualización:** 2026-09-10 (preferencias de comunicación y ejecución guardadas)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -12,6 +12,11 @@ siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxit
 commit en `main` + push, sin ramas ni pull requests.
 
 ## Para retomar en la siguiente sesión (leer primero)
+
+**Preferencias de Max:** brevedad; continuar hasta finalizar; autoanalizar y revisar el resultado;
+evitar narración rutinaria; consultar solo cambios de rumbo no planeados o decisiones importantes.
+Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
+`AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
 **Último trabajo completado:** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
 frecuentes, diseño adaptable y metadata propia. La portada enlaza mediante `Agent.href` opcional

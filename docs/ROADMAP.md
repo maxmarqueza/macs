@@ -49,4 +49,5 @@ Bloqueado a la espera de una decisión de Max:
 
 ## Mejora continua
 Cada sesión de trabajo: actualizar `CHANGELOG.md`, marcar avances aquí, poner al día
-`PROGRESS.md`, y proponer 1–2 mejoras.
+`PROGRESS.md`, revisar el resultado e informar brevemente. Sugerir únicamente un próximo paso
+que Max aún no haya indicado, considerando el contexto completo (ver preferencias en `AGENTS.md`).
