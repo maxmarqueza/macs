@@ -24,7 +24,9 @@ a MACS: barra, textos «NeuralKinetics / cybernetics made organic», pie y etiqu
 Inter + Outfit). Los videos se reescalaron con IA a 4K UHD y se sirven por niveles según la pantalla
 (1920 / 3072 / 3840 px las manos; 1920 / 3840 px el fondo), 33 MB en `public/media/`. Código en
 `src/components/hero/` (WebGL puro, sin dependencias nuevas). Verificado en local (lint, build,
-1440 × 900 y 375 × 812, fuentes, consola limpia). Detalle en `CHANGELOG.md`. Pendientes: decidir el
+1440 × 900 y 375 × 812, fuentes, consola limpia) y **publicado** con el commit `b4847ae`
+([despliegue](https://vercel.com/imaxmx/macs/8LDSXyvBqRLBEn8VBgXwEusVUaYL) `success`; portada,
+videos y póster responden 200 en producción). Detalle en `CHANGELOG.md`. Pendientes: decidir el
 texto y la barra definitivos del hero, y confirmar la licencia de los videos.
 
 **Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas

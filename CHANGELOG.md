@@ -24,6 +24,11 @@
 - `next.config.ts`: `images.qualities: [75, 90]` (Next 16 exige declarar las calidades usadas).
 - Verificado en local: lint, build, 1440 × 900 (nivel 3072 + fondo 4K, póster 3840) y 375 × 812
   (niveles 1920) sin desbordamiento, fuentes Outfit/Inter activas, sin errores de consola.
+- **Publicado** con el commit `b4847aeb8198656bc72a34081e554ce602a72cfd` en `main`.
+  [Despliegue Vercel](https://vercel.com/imaxmx/macs/8LDSXyvBqRLBEn8VBgXwEusVUaYL): estado del commit
+  en GitHub `success`, «Deployment has completed». En producción la portada responde 200 con el hero
+  original, los cinco videos y el póster responden 200 con su content-type, y `next/image` entrega el
+  póster como webp con canal alfa (3840 × 1280 para `w=3840`, 1920 × 640 para `w=1920`).
 
 ## 2026-09-22 (hero con manos humana y robótica)
 - **Nuevo hero en la portada**, adaptado de [vikod3/handstouch](https://github.com/vikod3/handstouch)
