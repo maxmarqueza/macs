@@ -2,12 +2,15 @@ import { Inter, Outfit } from "next/font/google";
 import HeroScene from "./HeroScene";
 
 /**
- * Sección hero copiada tal cual de github.com/vikod3/handstouch (src/App.tsx):
- * barra superior, título, pie con etiquetas, video ambiental de fondo y las
- * manos humana y robótica por encima. Textos, tipografías (Inter + Outfit),
- * medidas y animaciones son las del original; solo se sustituyó `motion` por
- * animaciones CSS, `lucide-react` por el SVG equivalente, y `fixed` por
- * `absolute` para que todo viva dentro de la sección.
+ * Página de github.com/vikod3/handstouch (src/App.tsx) copiada tal cual: barra
+ * superior, hero con título y pie de etiquetas, sección «about», video ambiental
+ * de fondo y las manos humana y robótica por encima. Textos, tipografías
+ * (Inter + Outfit), medidas y animaciones son las del original. Diferencias solo
+ * de implementación, sin efecto visual: `motion` → animaciones CSS con los mismos
+ * valores, el icono de `lucide-react` → su SVG, y las capas `fixed` del original
+ * (barra, video, degradado, manos) → capas `.hero-layer` pegajosas con el mismo
+ * z-index, que se comportan como `fixed` durante las dos pantallas del original
+ * y se van con ellas.
  */
 
 const inter = Inter({
@@ -98,7 +101,7 @@ function AdaptiveIcon() {
 
 function Navbar() {
   return (
-    <nav className="pointer-events-none absolute top-0 left-0 z-50 flex w-full flex-col items-center justify-between gap-4 p-6 motion-safe:animate-hero-nav sm:flex-row md:p-8">
+    <nav className="pointer-events-none absolute top-0 left-0 z-50 flex w-full flex-col items-center justify-between gap-4 p-6 animate-hero-nav sm:flex-row md:p-8">
       <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-3 sm:justify-start">
         <div className="flex items-center gap-1">
           <NeuralMark />
@@ -145,7 +148,7 @@ function Hero() {
   return (
     <div className="relative z-30 flex min-h-0 flex-1 flex-col items-center justify-center px-6 md:px-12">
       <div className="mt-24 w-full max-w-7xl translate-y-10 px-4 text-center md:mt-0 md:translate-y-14">
-        <div className="flex flex-col items-center justify-center select-none motion-safe:animate-hero-rise">
+        <div className="flex flex-col items-center justify-center select-none animate-hero-rise">
           <h1
             id="hero-title"
             className="font-hero-display text-[7.5vw] leading-[0.9] font-medium tracking-tight text-black md:text-[5.8vw] lg:text-[4.6vw]"
@@ -169,7 +172,7 @@ function Hero() {
 function Footer() {
   return (
     <footer className="relative z-30 w-full shrink-0 px-8 py-10 md:px-16 md:py-14">
-      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 motion-safe:animate-hero-footer md:flex-row md:items-end">
+      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 animate-hero-footer md:flex-row md:items-end">
         <div className="max-w-[300px] md:max-w-[340px]">
           <p className="mb-2 text-[11.5px] font-medium text-black/50">
             Autonomous Dynamics
@@ -198,16 +201,99 @@ function Footer() {
   );
 }
 
+function About() {
+  return (
+    <section aria-labelledby="about-title" className="about-section">
+      <div className="about-grid">
+        <div className="about-headline">
+          <h2 id="about-title">
+            <span>Built to</span>
+            <span>move with you</span>
+          </h2>
+          <p className="about-intro">
+            Biological instinct. Adaptive intelligence. A more natural
+            connection between human and machine.
+          </p>
+        </div>
+
+        <div className="about-feature about-cognition">
+          <p className="about-overline">01 / Cognitive intelligence</p>
+          <h3>
+            Sense.
+            <br />
+            Understand.
+            <br />
+            Adapt.
+          </h3>
+          <p className="about-detail">
+            Intelligence that reads the world around it, learns from every
+            interaction, and responds in the moment.
+          </p>
+        </div>
+
+        <div className="about-bio">
+          <p className="about-overline">The human side of technology</p>
+          <p>
+            We work at the intersection of biology and computation. Every
+            system begins with the way people feel, think, and move.
+          </p>
+        </div>
+
+        <div className="about-feature about-movement">
+          <p className="about-overline">02 / Advanced bionics</p>
+          <h3>
+            Precision.
+            <br />
+            With feeling.
+          </h3>
+          <p className="about-detail">
+            Engineered for strength. Designed for subtlety. Movement that
+            feels like a part of you.
+          </p>
+        </div>
+      </div>
+
+      <ul className="about-disciplines" aria-label="Our disciplines">
+        {[
+          "Bionics",
+          "Cognition",
+          "Perception",
+          "Robotics",
+          "Adaptation",
+          "Symbiosis",
+        ].map((discipline) => (
+          <li key={discipline}>{discipline}</li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export default function HandsTouchHero() {
   return (
-    <section
-      aria-labelledby="hero-title"
-      className={`${inter.variable} ${outfit.variable} relative flex h-screen w-full flex-col justify-between overflow-hidden bg-white font-hero-sans text-black antialiased selection:bg-black selection:text-white`}
+    <div
+      className={`${inter.variable} ${outfit.variable} hero-root relative w-full bg-white font-hero-sans text-black antialiased selection:bg-black selection:text-white`}
     >
-      <Navbar />
+      {/* Capas «fixed» del original: video z-0 y manos z-60 (HeroScene), degradado z-20, barra z-50. */}
       <HeroScene />
-      <Hero />
-      <Footer />
-    </section>
+      <div className="hero-layer z-20">
+        <div aria-hidden="true" className="bottom-gradient" />
+      </div>
+      <div className="hero-layer z-50">
+        <Navbar />
+      </div>
+
+      <div className="hero-content">
+        <section
+          aria-labelledby="hero-title"
+          className="relative flex h-screen w-full flex-col justify-between overflow-hidden"
+        >
+          <Hero />
+          <Footer />
+        </section>
+
+        <About />
+      </div>
+    </div>
   );
 }

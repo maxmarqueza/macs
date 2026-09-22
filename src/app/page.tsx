@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="flex-1">
-      {/* Hero «hands touch», copiado tal cual de vikod3/handstouch (ver src/components/hero) */}
+      {/* Hero «hands touch»: las dos pantallas de vikod3/handstouch tal cual (ver src/components/hero) */}
       <HandsTouchHero />
 
       {/* Concepto */}

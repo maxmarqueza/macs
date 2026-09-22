@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-09-22 (hero 100 % original: capas fijas y segunda pantalla)
+- Max señaló que el hero no era idéntico al original. Diferencias corregidas: en
+  [vikod3/handstouch](https://github.com/vikod3/handstouch) la barra, el video de fondo, el degradado
+  inferior y las manos son `position: fixed`, así que al hacer scroll se quedan en pantalla mientras entra
+  la segunda pantalla («Built to move with you»), que además no estaba incluida. Ahora la página abre con
+  las **dos pantallas del original tal cual** (hero + «about», textos y CSS intactos, `.about-*` copiado de
+  su `index.css`) y las cuatro capas se comportan como `fixed` durante esas dos pantallas.
+- Implementación: `.hero-root` es una rejilla de una celda; cada capa es un `.hero-layer` pegajoso
+  (`position: sticky`, 100vh, mismo z-index que en el original: video 0, degradado 20, barra 50, manos 60)
+  que se va con la sección «about», para no flotar sobre el resto del sitio. Verificado que los botones de
+  la barra y las etiquetas del pie reciben clics y que el texto se intercala igual que en el original.
+- Las animaciones de entrada corren siempre, como con `motion` en el original (antes se omitían con
+  `prefers-reduced-motion`).
+- Verificado en local contra el build original servido lado a lado: 1440 × 900 en scroll 0 / 450 / 900 px
+  idéntico; a 1350 y 1800 px las capas ya se fueron y siguen las secciones de MACS; 375 × 812 sin
+  desbordamiento. Lint y build en verde.
+
 ## 2026-09-22 (hero tal cual el original, en 4K UHD)
 - **Hero copiado tal cual de [vikod3/handstouch](https://github.com/vikod3/handstouch)**, por
   indicación de Max («no lo adecues al sitio de MACS, pégalo tal cual la sección»): barra superior

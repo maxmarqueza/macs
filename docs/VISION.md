@@ -37,7 +37,7 @@ tener que preguntar:
 | Base | escala `neutral` (fondo `neutral-950` en el hero, grises para el resto) |
 | Estado "Activo" | `emerald` (badge del roster) |
 | Tipografía | **Geist** (sans) y **Geist Mono**, cargadas con `next/font` en `layout.tsx` |
-| Tono | claro en todo el sitio desde el 22 de septiembre de 2026: el hero es la sección de handstouch tal cual (blanco, video ambiental 4K y manos humana y robótica de `public/media/`; antes era oscuro). Sus textos y su barra son todavía los del original («NeuralKinetics»), pendientes de decisión de Max |
+| Tono | claro en todo el sitio desde el 22 de septiembre de 2026: la portada abre con las dos pantallas de handstouch tal cual (blanco, video ambiental 4K, manos humana y robótica de `public/media/`, sección «Built to move with you»; antes el hero era oscuro). Sus textos y su barra son los del original («NeuralKinetics»), pendientes de decisión de Max |
 | Ícono / logo | una **"M"** de trazo redondeado en `sky-400` sobre un cuadrado `neutral-950` con brillo sutil arriba (`src/app/icon.svg`, desde septiembre 2026). De ahí salen favicon, ícono de iOS, `logo.png` y la og:image |
 
 ## Público objetivo

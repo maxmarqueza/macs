@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (hero de handstouch tal cual, en 4K UHD)
+**Última actualización:** 2026-09-22 (hero de handstouch 100 % original, dos pantallas, 4K UHD)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,16 +18,16 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22):** la portada abre con la sección hero de
-[vikod3/handstouch](https://github.com/vikod3/handstouch) **copiada tal cual** (Max pidió no adaptarla
-a MACS: barra, textos «NeuralKinetics / cybernetics made organic», pie y etiquetas del original,
-Inter + Outfit). Los videos se reescalaron con IA a 4K UHD y se sirven por niveles según la pantalla
-(1920 / 3072 / 3840 px las manos; 1920 / 3840 px el fondo), 33 MB en `public/media/`. Código en
-`src/components/hero/` (WebGL puro, sin dependencias nuevas). Verificado en local (lint, build,
-1440 × 900 y 375 × 812, fuentes, consola limpia) y **publicado** con el commit `b4847ae`
-([despliegue](https://vercel.com/imaxmx/macs/8LDSXyvBqRLBEn8VBgXwEusVUaYL) `success`; portada,
-videos y póster responden 200 en producción). Detalle en `CHANGELOG.md`. Pendientes: decidir el
-texto y la barra definitivos del hero, y confirmar la licencia de los videos.
+**Último trabajo completado (2026-09-22):** la portada abre con las **dos pantallas** de
+[vikod3/handstouch](https://github.com/vikod3/handstouch) **copiadas tal cual** (Max pidió no adaptar nada:
+barra, hero «NeuralKinetics / cybernetics made organic», pie con etiquetas, sección «Built to move with
+you», Inter + Outfit). Las capas `fixed` del original (video, degradado, barra, manos) se reproducen con
+capas pegajosas que se van con la segunda pantalla, así no flotan sobre las secciones de MACS. Los videos
+se reescalaron con IA a 4K UHD y se sirven por niveles según la pantalla (1920 / 3072 / 3840 px las
+manos; 1920 / 3840 px el fondo), 33 MB en `public/media/`. Código en `src/components/hero/` (WebGL puro,
+sin dependencias nuevas). Verificado en local lado a lado con el build original (scroll 0 / 450 / 900 px
+idéntico a 1440 × 900; 375 × 812 sin desbordamiento; lint y build). Detalle en `CHANGELOG.md`.
+Pendientes: decidir el texto y la barra definitivos del hero, y confirmar la licencia de los videos.
 
 **Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
 frecuentes, diseño adaptable y metadata propia. La portada enlaza mediante `Agent.href` opcional

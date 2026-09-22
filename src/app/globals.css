@@ -16,8 +16,8 @@
   --font-hero-display: var(--font-hero-outfit), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Entradas del hero (equivalen a las animaciones de `motion` del original; se
-   desactivan con `motion-safe:` si el usuario reduce el movimiento). */
+/* Entradas del hero: mismos valores que las animaciones de `motion` del original
+   (duración, retardo y curva 0.16, 1, 0.3, 1); corren siempre, como allí. */
 @theme {
   --ease-hero: cubic-bezier(0.16, 1, 0.3, 1);
   --animate-hero-nav: hero-nav 0.8s var(--ease-hero) both;
@@ -91,9 +91,32 @@ section[id] {
   scroll-margin-top: 2rem;
 }
 
-/* Hero «hands touch», copiado de vikod3/handstouch (src/index.css). Lo único
-   que cambia es `fixed` → `absolute`, para que el efecto viva dentro de la
-   sección y no flote sobre el resto del sitio al hacer scroll. */
+/* Hero «hands touch», copiado de vikod3/handstouch (src/index.css), valores
+   intactos. En el original la barra, el video de fondo, el degradado y las manos
+   son `position: fixed` (z 50, 0, 20 y 60) y la página termina tras la sección
+   «about». Aquí `.hero-root` es una rejilla de una sola celda: las cuatro capas
+   son `.hero-layer` pegajosas (sticky) que se comportan exactamente como `fixed`
+   durante las dos pantallas del original y se van con ellas, para no flotar
+   sobre el resto del sitio. Cada capa conserva su z-index original, así que el
+   texto del hero (z 30) y la sección «about» (z 10) se intercalan igual. */
+.hero-root {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.hero-root > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.hero-layer {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: start;
+  pointer-events: none;
+}
+
 .hands-overlay {
   position: absolute;
   inset: 0;
@@ -151,5 +174,256 @@ section[id] {
 @media (max-width: 639px) {
   .hands-frame {
     top: calc(33% + 200px);
+  }
+}
+
+/* Segunda pantalla del original («Built to move with you»), CSS tal cual. */
+.about-section {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  padding: 132px 48px 36px;
+  gap: 28px;
+  overflow: hidden;
+  background: transparent;
+  color: black;
+  letter-spacing: 0;
+}
+
+.about-grid {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: 1.25fr 1fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas: "headline cognition" "bio movement";
+  gap: 24px 72px;
+}
+
+.about-headline {
+  grid-area: headline;
+}
+
+.about-headline h2 {
+  font-family: var(--font-hero-outfit), ui-sans-serif, system-ui, sans-serif;
+  font-size: 58px;
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.about-headline h2 span {
+  display: block;
+}
+
+.about-intro {
+  max-width: 420px;
+  margin-top: 22px;
+  font-size: 18px;
+  line-height: 1.45;
+  color: #6e6e73;
+}
+
+.about-cognition {
+  grid-area: cognition;
+}
+
+.about-movement {
+  grid-area: movement;
+}
+
+.about-feature {
+  text-align: right;
+}
+
+.about-overline {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #6e6e73;
+}
+
+.about-feature h3 {
+  margin-top: 12px;
+  font-family: var(--font-hero-outfit), ui-sans-serif, system-ui, sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.08;
+}
+
+.about-detail {
+  max-width: 320px;
+  margin-top: 14px;
+  margin-left: auto;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #6e6e73;
+}
+
+.about-bio {
+  grid-area: bio;
+  align-self: end;
+  max-width: 420px;
+}
+
+.about-bio > p + p {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.about-disciplines {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 22px 0 0;
+  border-top: 1px solid rgb(0 0 0 / 15%);
+  list-style: none;
+  font-family: var(--font-hero-outfit), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.about-disciplines li:last-child {
+  text-align: right;
+}
+
+@media (min-width: 768px) and (max-height: 780px),
+  (min-width: 768px) and (max-width: 1023px) {
+  .about-section {
+    padding-top: 104px;
+    padding-bottom: 24px;
+    gap: 24px;
+  }
+
+  .about-grid {
+    gap: 20px 64px;
+  }
+
+  .about-headline h2 {
+    font-size: 48px;
+  }
+
+  .about-intro {
+    margin-top: 16px;
+    font-size: 16px;
+  }
+
+  .about-feature h3 {
+    font-size: 28px;
+    margin-top: 10px;
+  }
+
+  .about-detail {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+
+  .about-bio > p + p {
+    font-size: 15px;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-section {
+    padding: 148px 24px 24px;
+    gap: 24px;
+  }
+
+  .about-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "headline headline" "cognition movement" "bio bio";
+    gap: 24px 20px;
+  }
+
+  .about-headline h2 {
+    font-size: 38px;
+  }
+
+  .about-intro {
+    margin-top: 16px;
+    max-width: 360px;
+    font-size: 16px;
+  }
+
+  .about-feature,
+  .about-disciplines li:last-child {
+    text-align: left;
+  }
+
+  .about-overline {
+    font-size: 12px;
+  }
+
+  .about-feature h3 {
+    font-size: 22px;
+    margin-top: 12px;
+  }
+
+  .about-detail {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .about-bio > p + p {
+    font-size: 14px;
+    margin-top: 10px;
+    line-height: 1.45;
+  }
+
+  .about-disciplines {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-top: 16px;
+    gap: 12px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) and (max-height: 740px) {
+  .about-section {
+    padding-top: 136px;
+    padding-bottom: 20px;
+    gap: 16px;
+  }
+
+  .about-grid {
+    gap: 16px;
+  }
+
+  .about-headline h2 {
+    font-size: 36px;
+  }
+
+  .about-intro {
+    font-size: 14px;
+    margin-top: 12px;
+  }
+
+  .about-feature h3 {
+    font-size: 22px;
+    margin-top: 8px;
+  }
+
+  .about-detail {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .about-bio > p + p {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  .about-disciplines {
+    padding-top: 12px;
+    gap: 8px 12px;
+    font-size: 12px;
   }
 }
