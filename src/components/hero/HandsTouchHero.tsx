@@ -14,14 +14,14 @@ import HeroScene from "./HeroScene";
  * valores y el icono de `lucide-react` → su SVG.
  */
 
-const inter = Inter({
+export const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-hero-inter",
   display: "swap",
 });
 
-const outfit = Outfit({
+export const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-hero-outfit",
@@ -96,7 +96,7 @@ function AdaptiveIcon() {
   );
 }
 
-function Navbar() {
+export function Navbar() {
   return (
     <nav className="pointer-events-none fixed top-0 left-0 z-50 flex w-full flex-col items-center justify-between gap-4 p-6 animate-hero-nav sm:flex-row md:p-8">
       <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-3 sm:justify-start">
@@ -141,7 +141,7 @@ function Navbar() {
   );
 }
 
-function Hero() {
+export function Hero() {
   return (
     <div className="relative z-30 flex min-h-0 flex-1 flex-col items-center justify-center px-6 md:px-12">
       <div className="mt-24 w-full max-w-7xl translate-y-10 px-4 text-center md:mt-0 md:translate-y-14">
@@ -176,7 +176,7 @@ const footerTags = [
 const tagClass =
   "cursor-pointer rounded-full border border-black/15 bg-white px-6 py-3.5 text-[11.5px] font-normal text-black transition-all duration-300 hover:border-black hover:bg-black hover:text-white active:scale-95";
 
-function Footer() {
+export function Footer() {
   return (
     <footer className="relative z-30 w-full shrink-0 px-8 py-10 md:px-16 md:py-14">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 animate-hero-footer md:flex-row md:items-end">
@@ -210,7 +210,7 @@ function Footer() {
   );
 }
 
-function About() {
+export function About() {
   return (
     <section aria-labelledby="about-title" className="about-section">
       <div className="about-grid">

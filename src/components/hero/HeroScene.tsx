@@ -46,7 +46,7 @@ export default function HeroScene() {
     if (!backdrop || !canvas || !source) return;
 
     let cancelled = false;
-    let dispose: (() => void) | undefined;
+    let renderer: { dispose(): void } | undefined;
 
     // Píxeles reales que cubre el hero (ancho CSS × densidad, tope 3×).
     const neededWidth = Math.ceil(
@@ -75,7 +75,7 @@ export default function HeroScene() {
       .then(({ createHandRenderer }) => {
         if (cancelled) return;
         try {
-          dispose = createHandRenderer(canvas, source, setReady);
+          renderer = createHandRenderer(canvas, source, setReady);
         } catch {
           setReady(false);
         }
@@ -84,7 +84,7 @@ export default function HeroScene() {
 
     return () => {
       cancelled = true;
-      dispose?.();
+      renderer?.dispose();
       reducedMotion.removeEventListener("change", syncBackdrop);
       document.removeEventListener("visibilitychange", syncBackdrop);
       window.removeEventListener("pointerdown", syncBackdrop);

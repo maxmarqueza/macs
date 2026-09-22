@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-09-22 (vista previa: manos controladas por el scroll)
+- Max pidió que el acercamiento de las manos lo controle el scroll (empieza en reposo, termina al tocarse
+  los dedos, con parallax y 4K) y opciones con vista previa. Nueva página **`/lab/scroll`** (no indexada,
+  `robots` la excluye) con tres variantes conmutables (`?v=a|b|c`), sobre el mismo diseño y textos de la
+  portada: **A · Directo** (el scroll mueve las manos 1:1, recorrido de 200vh), **B · Parallax** (suavizado
+  con inercia; fondo, título, pie y manos a distinta velocidad; recorrido de 260vh) y **C · Ciclo** (como B y,
+  al entrar la segunda pantalla, las manos se separan y dejan libre el contenido).
+- Técnica: `hand-renderer.ts` gana un modo `scrub` (`seek(time)` con búsquedas agrupadas, la última gana) y
+  devuelve `{ dispose, seek }`. Los videos de scrub van con todos los cuadros clave (`-g 1`) para que cada
+  búsqueda sea inmediata: `public/media/lab/hands-scrub-3072.mp4` (18.6 MB, retina) y `-1920` (10 MB,
+  móvil). La portada no cambia; `HandsTouchHero.tsx` exporta sus piezas para reutilizarlas.
+- La inercia es independiente de los fps (constante de tiempo, no por cuadro), para que se sienta igual a
+  60 y 120 Hz. Las búsquedas esperan a los metadatos del video y se liberan solas si el navegador no
+  emite `seeked`.
+- Verificado en local (el panel de Claude limita la animación a ~2 fps en segundo plano, así que las
+  comprobaciones son por valores, no por fluidez): en B el cuadro sigue al scroll (2.2 s a mitad del
+  recorrido, 5.19 s = toque al final) y la segunda pantalla entra con las manos fijas; en C las manos se
+  separan al entrar la segunda pantalla (8.2 s → 10.3 s); móvil elige el archivo de 1920 px sin
+  desbordamiento; consola limpia; lint y build. La fluidez real se juzga en Chrome, que es el objetivo de
+  la vista previa.
+
 ## 2026-09-22 (textos de MACS sobre el diseño de handstouch)
 - Con el diseño ya idéntico al original, Max pidió opciones de texto para MACS y aprobó esta mezcla
   («publícalo tal cual»): marca «M» de MACS en el logo; barra «MACS · Menú · Agentes IA · Automatización ·

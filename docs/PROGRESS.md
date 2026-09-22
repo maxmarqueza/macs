@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (portada: diseño de handstouch con textos de MACS)
+**Última actualización:** 2026-09-22 (vista previa de manos por scroll en /lab/scroll)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -17,6 +17,12 @@ commit en `main` + push, sin ramas ni pull requests.
 evitar narración rutinaria; consultar solo cambios de rumbo no planeados o decisiones importantes.
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
+
+**Último trabajo completado (2026-09-22, tarde):** vista previa en **`/lab/scroll`** de tres variantes
+donde el scroll controla el acercamiento de las manos (A directo, B parallax con inercia, C ciclo con
+separación al entrar la segunda pantalla), con videos de scrub de cuadros clave en `public/media/lab/`
+(28 MB) y un modo `scrub` en `hand-renderer.ts`. La portada no cambió. **Pendiente: que Max elija una
+variante**; entonces se lleva a la portada, se borran las demás y los videos de `media/lab`.
 
 **Último trabajo completado (2026-09-22):** la portada usa el diseño de
 [vikod3/handstouch](https://github.com/vikod3/handstouch) intacto (barra fija, hero, pie, sección «about»,

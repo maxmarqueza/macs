@@ -99,15 +99,37 @@ function createResources(gl: WebGLRenderingContext) {
   };
 }
 
+export type HandRenderer = {
+  /** Desmonta el compositor y libera la GPU. */
+  dispose(): void;
+  /**
+   * Solo en modo `scrub`: pide el cuadro del instante `time` (s). Las peticiones
+   * se agrupan: si llega otra mientras el video busca, se atiende la última.
+   */
+  seek(time: number): void;
+};
+
+export type HandRendererOptions = {
+  /**
+   * `scrub`: el video no se reproduce solo; cada cuadro se pide con `seek()`
+   * (p. ej. desde el scroll). Requiere un archivo con todos los cuadros clave
+   * (`-g 1`), como los de `public/media/lab/`.
+   */
+  scrub?: boolean;
+};
+
+const FRAME_RATE = 24;
+
 /**
- * Arranca el compositor y devuelve la función para desmontarlo.
+ * Arranca el compositor y devuelve su controlador.
  * Lanza si WebGL no está disponible; el llamador conserva el póster estático.
  */
 export function createHandRenderer(
   canvas: HTMLCanvasElement,
   video: HTMLVideoElement,
   onReady: (ready: boolean) => void,
-): () => void {
+  { scrub = false }: HandRendererOptions = {},
+): HandRenderer {
   const gl = canvas.getContext("webgl", {
     alpha: true,
     antialias: false,
@@ -174,9 +196,49 @@ export function createHandRenderer(
   };
 
   const play = () => {
+    if (scrub) return;
     if (!stopped && !contextLost && !document.hidden && !reducedMotion.matches) {
       void video.play().catch(() => draw());
     }
+  };
+
+  // Modo scrub: una búsqueda a la vez; la última petición gana. Las peticiones
+  // esperan a que el video tenga metadatos, y si una búsqueda no termina (p. ej.
+  // el navegador se traga el evento) se libera a los 400 ms.
+  let seeking = false;
+  let pendingTime: number | null = null;
+  let lastSeekTime = -1;
+  let seekTimer: number | undefined;
+  const issueSeek = () => {
+    if (pendingTime === null || stopped || contextLost) return;
+    if (video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+    const time = pendingTime;
+    pendingTime = null;
+    if (time === lastSeekTime) return;
+    lastSeekTime = time;
+    seeking = true;
+    window.clearTimeout(seekTimer);
+    seekTimer = window.setTimeout(() => {
+      seeking = false;
+      issueSeek();
+    }, 400);
+    video.currentTime = time;
+  };
+  const seek = (time: number) => {
+    if (!scrub) return;
+    // Al centro del cuadro, para que el redondeo no caiga en el anterior.
+    const frame = Math.max(0, Math.round(time * FRAME_RATE));
+    pendingTime = (frame + 0.5) / FRAME_RATE;
+    if (!seeking) issueSeek();
+  };
+  const onSeeked = () => {
+    window.clearTimeout(seekTimer);
+    draw();
+    seeking = false;
+    issueSeek();
+  };
+  const onLoadedMetadata = () => {
+    if (!seeking) issueSeek();
   };
   const onPlaying = () => {
     cancelFrame();
@@ -184,6 +246,11 @@ export function createHandRenderer(
   };
   const syncPlayback = () => {
     cancelFrame();
+    if (scrub) {
+      video.pause();
+      draw();
+      return;
+    }
     if (document.hidden || reducedMotion.matches || contextLost) {
       video.pause();
       if (reducedMotion.matches && Number.isFinite(video.duration)) {
@@ -233,9 +300,10 @@ export function createHandRenderer(
   observer.observe(canvas);
   canvas.addEventListener("webglcontextlost", onContextLost);
   canvas.addEventListener("webglcontextrestored", onContextRestored);
+  video.addEventListener("loadedmetadata", onLoadedMetadata);
   video.addEventListener("loadeddata", onLoaded);
   video.addEventListener("playing", onPlaying);
-  video.addEventListener("seeked", draw);
+  video.addEventListener("seeked", onSeeked);
   video.addEventListener("error", onError);
   document.addEventListener("visibilitychange", syncPlayback);
   window.addEventListener("pointerdown", play, { passive: true });
@@ -245,15 +313,17 @@ export function createHandRenderer(
   if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) onLoaded();
   else play();
 
-  return () => {
+  const dispose = () => {
     stopped = true;
     cancelFrame();
     observer.disconnect();
     canvas.removeEventListener("webglcontextlost", onContextLost);
     canvas.removeEventListener("webglcontextrestored", onContextRestored);
+    window.clearTimeout(seekTimer);
+    video.removeEventListener("loadedmetadata", onLoadedMetadata);
     video.removeEventListener("loadeddata", onLoaded);
     video.removeEventListener("playing", onPlaying);
-    video.removeEventListener("seeked", draw);
+    video.removeEventListener("seeked", onSeeked);
     video.removeEventListener("error", onError);
     document.removeEventListener("visibilitychange", syncPlayback);
     window.removeEventListener("pointerdown", play);
@@ -261,4 +331,6 @@ export function createHandRenderer(
     video.pause();
     if (!contextLost) resources.dispose();
   };
+
+  return { dispose, seek };
 }
