@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (portada = página original de handstouch completa, 4K, sin contorno)
+**Última actualización:** 2026-09-22 (portada: diseño de handstouch con textos de MACS)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,18 +18,16 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22):** la portada **es la página de
-[vikod3/handstouch](https://github.com/vikod3/handstouch) completa y tal cual** (Max: «exactamente como la
-página original, no importa si no queda nada de MACS»): barra fija, hero «NeuralKinetics / cybernetics made
-organic», pie con etiquetas, sección «Built to move with you», video de fondo, degradado y manos `fixed`,
-título y descripción del original, fondo blanco en ambos modos. Las secciones de MACS ya no están en la
-portada (sigue `/agentes/mcmarketing`). Los videos van reescalados a 4K UHD por niveles (1920 / 3072 /
-3840 px las manos; 1920 / 3840 px el fondo) y se corrigió el contorno negro de las manos (ffmpeg
-desincronizaba color y máscara al apilarlos por bases de tiempo distintas; ahora se normalizan las marcas
-de tiempo y se verifica cuadro por cuadro). Código en `src/components/hero/` (WebGL puro, sin dependencias nuevas). **Publicado** con el commit `c4dbe26`
-([despliegue](https://vercel.com/imaxmx/macs/BQef5EGDWfzJ4Lysg8ezSvwjAk5B) `success`; portada y niveles de
-las manos responden 200 en producción). Detalle en `CHANGELOG.md`.
-Pendientes: qué hacer con el contenido de MACS que salió de la portada, y la licencia de los videos.
+**Último trabajo completado (2026-09-22):** la portada usa el diseño de
+[vikod3/handstouch](https://github.com/vikod3/handstouch) intacto (barra fija, hero, pie, sección «about»,
+video de fondo, degradado y manos `fixed`, Inter + Outfit, videos 4K por niveles, sin contorno negro) con
+los **textos de MACS aprobados por Max**: marca «M», «MACS / inteligencia hecha humana», «Agentes IA para tu
+negocio», «Un Mc para cada área», «01 / McMarketing: Publica. Responde. Conversa.» (enlaza a la ficha),
+«El lado humano de la automatización», «02 / Próximos Mc: Soporte. Ventas. Datos.», áreas Marketing ·
+Soporte · Ventas · Datos · Contenido · Automatización; Contacto y etiquetas Soporte/Ventas enlazan a
+`contacto@macstech.mx`, Marketing a la ficha. Título y descripción de MACS. Código en
+`src/components/hero/`. Detalle en `CHANGELOG.md`. Pendientes: dónde vuelven el concepto, el roster
+completo y el contacto de MACS; y la licencia de los videos.
 
 **Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
 frecuentes, diseño adaptable y metadata propia. La portada enlaza mediante `Agent.href` opcional
@@ -194,9 +192,9 @@ web en Vercel. Construye automatizaciones con n8n.
 - [ ] **Licencia de los videos del hero** (`public/media/hands-rgba-*.mp4`, `background-*.mp4`,
       `hands-poster.webp`): derivan del repo `vikod3/handstouch`, que no declara licencia ni la
       procedencia del metraje. Confirmar que Max tiene derecho a usarlos en macstech.mx.
-- [ ] **Contenido de MACS fuera de la portada.** La portada es la página original de handstouch tal cual
-      (NeuralKinetics, Menu, Advanced Bionics, etc.) por decisión de Max. Falta decidir dónde y cuándo
-      vuelven el concepto, el roster y el contacto de MACS, y qué textos llevará el hero.
+- [ ] **Contenido de MACS fuera de la portada.** La portada ya lleva los textos de MACS sobre el diseño
+      de handstouch, pero el concepto, el roster completo y el bloque de contacto siguen sin página.
+      Falta decidir si vuelven a la portada o viven en una página aparte.
 - [ ] Número de WhatsApp para el botón de contacto: solicitado, pendiente de respuesta.
 - [ ] Caso de éxito de McMarketing: redes, IA, resultados medibles, capturas y cliente publicable.
 - [ ] **¿Dónde quieres el correo de macstech.mx?** Falta elegir proveedor; ausencia de MX/SPF

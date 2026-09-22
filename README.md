@@ -29,10 +29,10 @@ npm run lint
 - `src/app/` — páginas y layout (`layout.tsx` tiene la metadata/SEO y el JSON-LD), más los
   archivos especiales de Next: `sitemap.ts`, `robots.ts`, `icon.svg`, `favicon.ico`, `apple-icon.tsx`
   y `opengraph-image.tsx` (estos dos últimos se generan en el build)
-- `src/components/hero/` — la página de vikod3/handstouch completa y tal cual (es la portada entera):
-  `HandsTouchHero.tsx` (barra fija, hero, sección «about», Inter + Outfit) y `HeroScene.tsx` (video de
-  fondo fijo + manos fijas compuestas en WebGL sin dependencias, con niveles de resolución hasta 4K UHD
-  según la pantalla); los medios viven en `public/media/`
+- `src/components/hero/` — la portada entera: diseño de vikod3/handstouch con los textos de MACS.
+  `HandsTouchHero.tsx` (barra fija, hero, sección «about», Inter + Outfit, marca «M») y `HeroScene.tsx`
+  (video de fondo fijo + manos fijas compuestas en WebGL sin dependencias, con niveles de resolución
+  hasta 4K UHD según la pantalla); los medios viven en `public/media/`
 - `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo): fuente única
 - `src/data/agents.ts` — roster de agentes; `href` opcional enlaza solamente fichas existentes
 - `src/app/agentes/mcmarketing/page.tsx` — ficha funcional de McMarketing con preguntas frecuentes

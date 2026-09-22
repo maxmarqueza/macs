@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-09-22 (textos de MACS sobre el diseño de handstouch)
+- Con el diseño ya idéntico al original, Max pidió opciones de texto para MACS y aprobó esta mezcla
+  («publícalo tal cual»): marca «M» de MACS en el logo; barra «MACS · Menú · Agentes IA · Automatización ·
+  Contacto» (Contacto enlaza a `contacto@macstech.mx`); hero «MACS / inteligencia hecha humana»; pie
+  «Agentes IA para tu negocio» + «Cada Mc es un agente de inteligencia artificial que automatiza una parte
+  de tu negocio, para que tú te concentres en hacerlo crecer» + etiquetas Marketing (enlaza a la ficha),
+  Soporte y Ventas (enlazan al correo); segunda pantalla «Un Mc para / cada área», «01 / McMarketing:
+  Publica. Responde. Conversa.» (enlaza a la ficha) con sus funciones documentadas, «El lado humano de la
+  automatización», «02 / Próximos Mc: Soporte. Ventas. Datos.» y áreas Marketing · Soporte · Ventas ·
+  Datos · Contenido · Automatización. Título y descripción vuelven a los de MACS.
+- Diseño, medidas, tipografías, capas fijas, animaciones y videos 4K: sin cambios. Solo se afirma lo que
+  documenta `src/data/agents.ts` (los Mc en camino se presentan como «vienen en camino»).
+
 ## 2026-09-22 (portada = página original completa; manos sin contorno negro)
 - **La portada es ahora la página de [vikod3/handstouch](https://github.com/vikod3/handstouch)
   completa y tal cual**, por indicación de Max («exactamente como la página original, no importa si no

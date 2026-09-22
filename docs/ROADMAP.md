@@ -21,8 +21,11 @@ Avance del 22 de septiembre de 2026:
 - [x] Portada = la página de vikod3/handstouch completa y tal cual (barra, hero, sección «about», capas
       fijas, textos, título y tipografías; sin secciones de MACS, por indicación de Max) con los videos
       reescalados a 4K UHD, sin contorno negro, servidos por niveles según la pantalla. Ver `CHANGELOG.md`.
-- [ ] Decidir qué pasa con el contenido de MACS que salió de la portada (concepto, roster, contacto):
-      hoy solo sigue publicado `/agentes/mcmarketing`.
+- [x] Textos de MACS sobre ese diseño (aprobados por Max el 22 de septiembre): «inteligencia hecha
+      humana», «Un Mc para cada área», McMarketing y Mc en camino; Contacto y etiquetas enlazadas.
+- [ ] Decidir si el concepto, el roster completo y el contacto de MACS vuelven a la portada o viven en
+      otra página: hoy la portada es el diseño de handstouch con los textos de MACS y solo sigue
+      publicada `/agentes/mcmarketing`.
 - [ ] Confirmar con Max la licencia de los videos de las manos (el repo original no la declara).
 
 Avance del 10 de septiembre de 2026:
