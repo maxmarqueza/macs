@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-09-22 (hero con manos humana y robótica)
+- **Nuevo hero en la portada**, adaptado de [vikod3/handstouch](https://github.com/vikod3/handstouch)
+  a petición de Max: video ambiental de fondo y, por encima del texto, una mano humana y una robótica
+  que se buscan y se tocan (loop de 12 s). El hero pasa de fondo oscuro a **blanco**; el resto del
+  sitio no cambia.
+- Implementación sin dependencias nuevas: `src/components/hero/HeroScene.tsx` (cliente) y
+  `src/components/hero/hand-renderer.ts` (WebGL 1 puro, ~200 líneas, cargado aparte con `import()`).
+  El video `hands-rgba.mp4` va apilado (color arriba, máscara alfa abajo) y un shader lo compone con
+  transparencia real; el original usaba three.js. Póster estático mientras llega el primer cuadro o
+  si WebGL falla; respeta `prefers-reduced-motion` (cuadro fijo) y pausa al ocultar la pestaña.
+- Medios en `public/media/` (1.4 MB en total: `background.mp4`, `hands-rgba.mp4`, `hands-poster.webp`),
+  copiados tal cual del repo original, que **no declara licencia** (ver pendientes en `PROGRESS.md`).
+- Texto del hero: eyebrow `macstech.mx`, «MACS», «Muchos Mc, un solo objetivo», y abajo la frase
+  de siempre con los dos botones («Conoce a los Mc», «Contacto»). Sin afirmaciones nuevas.
+- Verificado en local: lint, build (ruta estática), 1440/1024/375 px sin desbordamiento, modo oscuro
+  (el hero se mantiene blanco), pérdida y restauración del contexto WebGL (vuelve al póster y se
+  recupera), y ambos videos reproduciéndose.
+
 ## 2026-09-10 (preferencias permanentes de trabajo)
 - Guardadas en `AGENTS.md` las preferencias de Max: respuestas breves, ejecución continua hasta
   finalizar, autoanálisis y revisión, comunicación sin narración rutinaria y consultas solo ante

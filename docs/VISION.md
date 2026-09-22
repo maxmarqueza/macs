@@ -27,8 +27,9 @@ La marca funciona como una **familia de agentes**: cada servicio de la empresa s
 
 ## Identidad visual (de facto)
 
-No hay manual de marca; esto es lo que ya está implementado en `src/app/page.tsx` y sirve como
-fuente para derivar favicon, og:image y material nuevo sin tener que preguntar:
+No hay manual de marca; esto es lo que ya está implementado en `src/app/page.tsx` y
+`src/components/hero/` y sirve como fuente para derivar favicon, og:image y material nuevo sin
+tener que preguntar:
 
 | Elemento | Valor |
 |---|---|
@@ -36,7 +37,7 @@ fuente para derivar favicon, og:image y material nuevo sin tener que preguntar:
 | Base | escala `neutral` (fondo `neutral-950` en el hero, grises para el resto) |
 | Estado "Activo" | `emerald` (badge del roster) |
 | Tipografía | **Geist** (sans) y **Geist Mono**, cargadas con `next/font` en `layout.tsx` |
-| Tono | oscuro en el hero, claro en el cuerpo |
+| Tono | claro en todo el sitio desde el 22 de septiembre de 2026: el hero es blanco, con video ambiental y las manos humana y robótica de `public/media/` (antes era oscuro) |
 | Ícono / logo | una **"M"** de trazo redondeado en `sky-400` sobre un cuadrado `neutral-950` con brillo sutil arriba (`src/app/icon.svg`, desde septiembre 2026). De ahí salen favicon, ícono de iOS, `logo.png` y la og:image |
 
 ## Público objetivo

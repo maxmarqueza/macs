@@ -17,6 +17,11 @@ Publicado en producción el 9 de septiembre de 2026:
 - [x] Vercel Analytics (`@vercel/analytics` en el layout); script 200 en producción el 10 de septiembre
 - [x] CI en GitHub Actions (ver Mantenimiento)
 
+Avance del 22 de septiembre de 2026:
+- [x] Hero nuevo en la portada: manos humana y robótica sobre video ambiental (adaptado de
+      vikod3/handstouch, sin dependencias nuevas). Ver `CHANGELOG.md`.
+- [ ] Confirmar con Max la licencia de los videos de las manos (el repo original no la declara).
+
 Avance del 10 de septiembre de 2026:
 - [x] Publicar `/agentes/mcmarketing`: ficha funcional, preguntas frecuentes, diseño adaptable y metadata propia;
       enlace desde la portada y sitemap limitado a páginas existentes. Commit `ecfe86f` publicado;

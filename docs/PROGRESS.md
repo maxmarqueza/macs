@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-10 (preferencias de comunicación y ejecución guardadas)
+**Última actualización:** 2026-09-22 (hero nuevo con manos humana y robótica)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,7 +18,14 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado:** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
+**Último trabajo completado (2026-09-22):** hero nuevo en la portada, adaptado de
+[vikod3/handstouch](https://github.com/vikod3/handstouch) a petición de Max: fondo blanco con video
+ambiental y una mano humana y una robótica que se tocan por encima del texto. Código en
+`src/components/hero/` (WebGL puro, sin three.js ni dependencias nuevas), medios en `public/media/`.
+Verificado en local (lint, build, 1440/1024/375 px, modo oscuro, pérdida de contexto WebGL).
+Detalle en `CHANGELOG.md`. Pendiente confirmar con Max la licencia de esos videos.
+
+**Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
 frecuentes, diseño adaptable y metadata propia. La portada enlaza mediante `Agent.href` opcional
 y el sitemap incluye solamente páginas existentes. No se añaden redes específicas, clientes ni
 resultados sin evidencia. **Lint, build, navegador, CI y despliegue confirmados.** El siguiente
@@ -178,6 +185,9 @@ web en Vercel. Construye automatizaciones con n8n.
 
 ## Pendientes de información (preguntar a Max)
 
+- [ ] **Licencia de los videos del hero** (`public/media/background.mp4`, `hands-rgba.mp4`,
+      `hands-poster.webp`): vienen del repo `vikod3/handstouch`, que no declara licencia ni la
+      procedencia del metraje. Confirmar que Max tiene derecho a usarlos en macstech.mx.
 - [ ] Número de WhatsApp para el botón de contacto: solicitado, pendiente de respuesta.
 - [ ] Caso de éxito de McMarketing: redes, IA, resultados medibles, capturas y cliente publicable.
 - [ ] **¿Dónde quieres el correo de macstech.mx?** Falta elegir proveedor; ausencia de MX/SPF

@@ -29,6 +29,8 @@ npm run lint
 - `src/app/` — páginas y layout (`layout.tsx` tiene la metadata/SEO y el JSON-LD), más los
   archivos especiales de Next: `sitemap.ts`, `robots.ts`, `icon.svg`, `favicon.ico`, `apple-icon.tsx`
   y `opengraph-image.tsx` (estos dos últimos se generan en el build)
+- `src/components/hero/` — escena del hero (video de fondo + manos humana y robótica compuestas en
+  WebGL sin dependencias); los medios viven en `public/media/`
 - `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo): fuente única
 - `src/data/agents.ts` — roster de agentes; `href` opcional enlaza solamente fichas existentes
 - `src/app/agentes/mcmarketing/page.tsx` — ficha funcional de McMarketing con preguntas frecuentes
