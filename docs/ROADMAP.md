@@ -27,6 +27,9 @@ Avance del 22 de septiembre de 2026:
       integral el 22 de septiembre: clip hasta el contacto real, material regenerado (BT.709, píxel
       cuadrado, nivel 5.1, máscara ajustada), carga por Blob con precarga, movimiento afinado, menú real,
       cierre de sitio, 404, imagen para compartir. Ver `CHANGELOG.md`.
+- [x] Explosión de partículas que forma «MACS» al tocarse las manos (escena de Grupo MaSa portada
+      fielmente) y escena **Halion** recreada exactamente a continuación, con transición coordinada y
+      scroll suave (Lenis) en toda la portada. Ver `CHANGELOG.md`.
 - [ ] Unificar la ficha de McMarketing con la identidad blanca de la portada (hoy sigue oscura, Geist).
 - [ ] Contacto real: el buzón `contacto@macstech.mx` no existe (sin MX); decidir proveedor o canal.
 - [ ] Decidir si el concepto, el roster completo y el contacto de MACS vuelven a la portada o viven en

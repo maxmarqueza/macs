@@ -72,11 +72,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans">
-        {/* Precarga del video de la portada antes de que cargue el JS (solo en «/»). */}
+        {/* Marca «js» antes del primer pintado (la escena Halion oculta su cabecera y
+            su hero hasta la intro solo con JS) y precarga del video de la portada (solo en «/»). */}
         <Script id="hands-preload" strategy="beforeInteractive">
-          {`if(location.pathname==="/"){${preloadScript}}`}
+          {`document.documentElement.classList.add("js");if(location.pathname==="/"){${preloadScript}}`}
         </Script>
         <script
           type="application/ld+json"

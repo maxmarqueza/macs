@@ -88,12 +88,13 @@ export function Navbar() {
         <MenuButton />
 
         <div className="hidden h-11 items-center gap-5 rounded-full border border-black/[0.03] bg-[#F4F4F6] px-6 text-[11.5px] font-normal text-black/60 md:flex">
-          <Link href="/#agentes" className="transition-colors hover:text-black">
+          {/* Anclas de la misma página: <a> normal para que Lenis las desplace con suavidad. */}
+          <a href="#agentes" className="transition-colors hover:text-black">
             Agentes IA
-          </Link>
-          <Link href="/#proximos" className="transition-colors hover:text-black">
+          </a>
+          <a href="#proximos" className="transition-colors hover:text-black">
             Automatización
-          </Link>
+          </a>
         </div>
       </div>
 

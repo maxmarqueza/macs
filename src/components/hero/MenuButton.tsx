@@ -88,16 +88,20 @@ export default function MenuButton() {
             className="fixed inset-0 z-[90] flex flex-col bg-white px-8 pt-28 pb-10 text-black md:px-16 md:pt-36"
           >
             <nav className="mx-auto flex w-full max-w-7xl flex-col items-start gap-1">
-              {ITEMS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="font-hero-display rounded-lg py-2 text-[9vw] leading-[1.05] font-medium tracking-tight underline-offset-8 hover:underline focus-visible:underline sm:text-[5.5vw] lg:text-[3.6vw]"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {ITEMS.map((item) => {
+                const className =
+                  "font-hero-display rounded-lg py-2 text-[9vw] leading-[1.05] font-medium tracking-tight underline-offset-8 hover:underline focus-visible:underline sm:text-[5.5vw] lg:text-[3.6vw]";
+                // Anclas de la misma página: <a> normal para que Lenis las desplace con suavidad.
+                return item.href.startsWith("/#") ? (
+                  <a key={item.href} href={item.href} onClick={() => setOpen(false)} className={className}>
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className={className}>
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
             <p className="mx-auto mt-auto w-full max-w-7xl text-[12px] text-black/60">
               MACS · Agentes IA para tu negocio · macstech.mx

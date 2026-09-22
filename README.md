@@ -31,8 +31,11 @@ npm run lint
   y `opengraph-image.tsx` (estos dos últimos se generan en el build)
 - `src/components/hero/` — la portada entera: diseño de vikod3/handstouch con los textos de MACS.
   `ScrollHero.tsx` (fondo fijo + manos compuestas en WebGL cuyo acercamiento controla el scroll, con
-  resorte, parallax, carga por Blob y niveles de resolución según la pantalla), `HandsTouchHero.tsx`
+  parallax, carga por Blob y niveles de resolución según la pantalla; al tocarse, la explosión de
+  partículas de `macs-burst.ts` forma «MACS» y da paso a la escena Halion), `HandsTouchHero.tsx`
   (piezas: barra, hero, pie, sección «about», cierre de sitio, Inter + Outfit, marca «M»), `MenuButton.tsx`
+- `src/components/halion/` — escena Halion (clon literal): `Halion.tsx`, `halion.css`, `halion-motion.ts`
+  (GSAP) y `scroll.ts` (Locomotive Scroll + Lenis, dueño del scroll suave de toda la portada).
   (menú) y `hand-renderer.ts` (compositor WebGL en modo scrub). `src/data/media.ts` define los videos
   (nombres versionados; `/media/*` se cachea un año). Medios en `public/media/` (61 MB).
 - `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo): fuente única

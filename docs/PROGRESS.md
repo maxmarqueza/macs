@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (auditoría a fondo de la portada y corrección integral)
+**Última actualización:** 2026-09-22 (explosión «MACS» al tocarse las manos + escena Halion)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,7 +18,17 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22, noche):** auditoría a fondo de la portada (siete revisores) y
+**Último trabajo completado (2026-09-22, tercera entrega):** al tocarse las manos, la escena de
+partículas de Grupo MaSa (port fiel en `src/components/hero/macs-burst.ts`) estalla desde las yemas y
+forma «MACS»; al disolverse entra la escena **Halion** (`src/components/halion/`: clon literal del
+original new-13-v2 con GSAP 3.13 + Locomotive/Lenis, mismos textos, medios de CloudFront, hoja y
+movimiento), y después «Un Mc para cada área» y el pie de MACS. Lenis es ahora el dueño del scroll de
+toda la portada. Bloque fijo del hero: 100 + 180 + 260 svh. Verificado en local; publicación y
+verificación en producción registradas al final de esta entrada del `CHANGELOG.md`.
+Pendientes: buzón de `contacto@macstech.mx` (sin MX), ficha de McMarketing con la identidad oscura, y
+en móvil los callouts de Halion quedan fuera de pantalla (anclajes del clip 16:9, como en el original).
+
+**Trabajo anterior (2026-09-22, noche):** auditoría a fondo de la portada (siete revisores) y
 corrección integral: el clip ahora llega al contacto real de los dedos (cuadro 144), material regenerado
 (`hands-scroll-*.v2.mp4`: BT.709 etiquetado, píxel cuadrado, H.264 nivel 5.1 a 3744 px, máscara ajustada,
 nivel 1296 para móvil; fondo solo 1920), carga completa por `fetch`/Blob con precarga desde `<head>` y caché

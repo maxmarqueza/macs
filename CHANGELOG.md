@@ -1,5 +1,47 @@
 # Changelog
 
+## 2026-09-22 (explosión «MACS» al tocarse las manos + escena Halion)
+- Max: al tocarse las manos, el efecto de partículas del sitio de Grupo MaSa «tal cual, misma calidad,
+  mismo diseño, misma operación», formando la palabra **MACS**, y enseguida la siguiente escena con una
+  transición coordinada: **Halion (new-13-v2, build CDN) recreado exactamente**, sin adaptarlo a MACS.
+- **Explosión.** `src/components/hero/macs-burst.ts`, port fiel de la escena three.js de `portada.html`
+  de MaSa (shader de partículas azul con núcleo y halo, agua con ondas, chispas, niebla, haz, estrellas,
+  bokeh, reflejo en el agua, aberración cromática, cámara con parallax del puntero). 50 000 partículas
+  nacen en las yemas (punto de contacto medido sobre el marco de las manos), estallan y forman «MACS» con
+  contorno blanco y escombros; al final se disuelven hacia arriba. El bloque fijo del hero pasa de
+  100 + 180 svh a 100 + 180 + 260 svh: acercamiento de las manos y después oscurecimiento 0–12 %,
+  explosión 12–55 % (las manos se apagan entre 12 y 30 %), palabra sostenida, disolución 80–100 %. La
+  escena solo se dibuja mientras está en pantalla, el video de fondo se pausa cuando queda tapado y la
+  barra de MACS se apaga en las escenas oscuras y vuelve con «Un Mc para cada área».
+- **Halion.** `src/components/halion/`: `Halion.tsx` (DOM y textos exactos de la especificación, los
+  cuatro medios de CloudFront intactos, Inter Tight 400/500 por `next/font` con el mismo respaldo métrico
+  que el original, bootstrap-icons 1.13.1 del CDN), `halion.css` (la hoja del original; la raíz fluida
+  `html { font-size }` vive en `--u` y cada `rem` es `calc(N * var(--u))` para no alterar el resto de la
+  portada), `halion-motion.ts` (catálogo H1–H9 con GSAP 3.13: intro por beats, título que sale por su
+  máscara, plegado de la cabecera con Flip, reloj de Zúrich, clips scrubeados con búsquedas coalescidas,
+  parallax del cursor, statement, título de producto con línea maestra, callouts en gravedad sobre los
+  tres anclajes del clip 2 con cola de 1.2 s propiedad del cursor) y `scroll.ts` (Locomotive Scroll 5 +
+  Lenis sobre el ticker de GSAP, dueño del scroll de toda la portada; anclas internas con `scrollTo` de
+  2 s; `scrollRestoration` manual y scroll a 0 al arrancar, como el original).
+- **Transición.** La palabra se disuelve subiendo justo al soltarse el bloque; el escenario negro de
+  Halion entra por debajo (continuidad negro → negro) y su intro arranca cuando su hero llega al 15 %
+  superior de la pantalla; la cabecera de Halion existe solo dentro de su escena y se releva con la barra
+  de MACS al entrar la sección final. Únicas diferencias respecto al original, obligadas por vivir dentro
+  de la portada: la intro no arranca al cargar sino al llegar; el escenario se recorta a su altura
+  (`overflow: clip`, porque su sticky seguiría pegado 100 lvh sobre la sección siguiente); bajo 768 px
+  hero, about y product se apilan (la especificación solo describe la composición de escritorio). Los
+  clips de Halion son 1920 × 1080 por especificación (URLs fijas): no existe versión 4K de ellos.
+- Con Lenis activo, el hero de las manos pasa a mapeo directo (Lenis ya suaviza; el resorte queda como
+  respaldo). Las anclas de MACS (`#agentes`, `#proximos`, `#contacto`) son `<a>` normales para que
+  Lenis las desplace. Clase `js` en `<html>` desde el script inline del `<head>`.
+- Dependencias nuevas: three 0.170, gsap 3.13, locomotive-scroll 5.0 (lenis 1.3.17), @types/three.
+- Verificado en local (lint, build, 1440 × 900 y 390 × 844): partículas desde las yemas, «MACS» formado
+  y disuelto; Halion con intro, título de tres palabras (691 / 417 / 283 px a 1440, peso 400), lead en
+  tres líneas, cápsula compacta con Flip y vuelta, roll-out del título, statement en cinco líneas,
+  hairlines, chips 02 y 03, clip 1 hasta 8.04 s, clip 2 hasta 10.04 s, callouts con líneas y puntos, y
+  regreso de la barra de MACS sobre fondo blanco. La captura del panel del navegador no incluye capas de
+  video; el cuadro decodificado se comprobó volcándolo a un canvas.
+
 ## 2026-09-22 (auditoría a fondo de la portada y corrección integral)
 - Max: «vuelve a revisar a fondo, no quedó bien, déjalo perfecto, es la imagen de mi empresa». Se corrió una
   auditoría con siete revisores independientes (código, carga, imagen, movimiento, marca, navegadores y una
