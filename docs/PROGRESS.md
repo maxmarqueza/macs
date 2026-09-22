@@ -21,7 +21,8 @@ Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. R
 **Último trabajo completado (2026-09-22, tarde):** vista previa en **`/lab/scroll`** de tres variantes
 donde el scroll controla el acercamiento de las manos (A directo, B parallax con inercia, C ciclo con
 separación al entrar la segunda pantalla), con videos de scrub de cuadros clave en `public/media/lab/`
-(28 MB) y un modo `scrub` en `hand-renderer.ts`. La portada no cambió. **Pendiente: que Max elija una
+(28 MB) y un modo `scrub` en `hand-renderer.ts`. La portada no cambió. Publicado con el commit `5b2577a`
+([despliegue](https://vercel.com/imaxmx/macs/625iBJ6Xj8r4MVRyGMDKacU6RSqj) `success`; página y videos 200). **Pendiente: que Max elija una
 variante**; entonces se lleva a la portada, se borran las demás y los videos de `media/lab`.
 
 **Último trabajo completado (2026-09-22):** la portada usa el diseño de

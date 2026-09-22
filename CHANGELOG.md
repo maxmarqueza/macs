@@ -20,6 +20,10 @@
   separan al entrar la segunda pantalla (8.2 s → 10.3 s); móvil elige el archivo de 1920 px sin
   desbordamiento; consola limpia; lint y build. La fluidez real se juzga en Chrome, que es el objetivo de
   la vista previa.
+- **Publicado** con el commit `5b2577ad3516f50124539766849b958bda2f7dcb` en `main`.
+  [Despliegue Vercel](https://vercel.com/imaxmx/macs/625iBJ6Xj8r4MVRyGMDKacU6RSqj): estado del commit en
+  GitHub `success`. En producción `/lab/scroll` responde 200 (con `noindex`), los dos videos de scrub
+  responden 200 y `robots.txt` excluye `/lab/`.
 
 ## 2026-09-22 (textos de MACS sobre el diseño de handstouch)
 - Con el diseño ya idéntico al original, Max pidió opciones de texto para MACS y aprobó esta mezcla
