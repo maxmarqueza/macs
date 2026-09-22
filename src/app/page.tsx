@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import HeroScene from "@/components/hero/HeroScene";
+import HandsTouchHero from "@/components/hero/HandsTouchHero";
 import { agents } from "@/data/agents";
 import { openGraphBase, site } from "@/data/site";
 
@@ -17,62 +17,8 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="flex-1">
-      {/* Hero: manos humana y robótica sobre video ambiental (ver src/components/hero) */}
-      <section
-        aria-labelledby="hero-title"
-        className="relative flex min-h-svh flex-col overflow-hidden bg-white text-neutral-950"
-      >
-        <HeroScene>
-          <div className="flex flex-1 flex-col items-center justify-center px-6 pt-24 pb-6 text-center sm:pt-28">
-            <div className="translate-y-4 motion-safe:animate-hero-rise [animation-delay:200ms]">
-              <p className="mb-4 font-mono text-xs tracking-[0.3em] text-sky-700 uppercase sm:mb-5 sm:text-sm">
-                macstech.mx
-              </p>
-              <h1
-                id="hero-title"
-                className="text-[22vw] leading-[0.85] font-bold tracking-tighter sm:text-[14vw] lg:text-[8.5vw]"
-              >
-                MACS
-              </h1>
-              <p className="mt-3 text-[7.5vw] leading-[0.95] font-medium tracking-tight text-balance sm:mt-4 sm:text-[4.6vw] lg:text-[3vw]">
-                <span className="inline-block font-light text-neutral-950/35">
-                  Muchos Mc,
-                </span>{" "}
-                <span className="inline-block">un solo objetivo</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="motion-safe:animate-hero-rise px-6 pb-10 [animation-delay:500ms] md:px-12 md:pb-14">
-            <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-              <div className="max-w-sm">
-                <p className="mb-2 text-xs font-medium tracking-wide text-neutral-500">
-                  {site.tagline}
-                </p>
-                <p className="text-lg leading-snug tracking-tight sm:text-xl">
-                  Cada <span className="font-semibold">Mc</span> es un agente de
-                  inteligencia artificial especializado que automatiza una parte
-                  de tu negocio.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href="#agentes"
-                  className="rounded-full bg-sky-400 px-6 py-3 font-medium text-neutral-950 transition hover:bg-sky-300"
-                >
-                  Conoce a los Mc
-                </a>
-                <a
-                  href="#contacto"
-                  className="rounded-full border border-neutral-300 bg-white/70 px-6 py-3 font-medium text-neutral-800 backdrop-blur-sm transition hover:border-neutral-950 hover:text-neutral-950"
-                >
-                  Contacto
-                </a>
-              </div>
-            </div>
-          </div>
-        </HeroScene>
-      </section>
+      {/* Hero «hands touch», copiado tal cual de vikod3/handstouch (ver src/components/hero) */}
+      <HandsTouchHero />
 
       {/* Concepto */}
       <section className="mx-auto max-w-5xl px-6 py-20">

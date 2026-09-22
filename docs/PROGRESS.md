@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (hero nuevo con manos humana y robótica)
+**Última actualización:** 2026-09-22 (hero de handstouch tal cual, en 4K UHD)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,14 +18,14 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22):** hero nuevo en la portada, adaptado de
-[vikod3/handstouch](https://github.com/vikod3/handstouch) a petición de Max: fondo blanco con video
-ambiental y una mano humana y una robótica que se tocan por encima del texto. Código en
-`src/components/hero/` (WebGL puro, sin three.js ni dependencias nuevas), medios en `public/media/`.
-Verificado en local (lint, build, 1440/1024/375 px, modo oscuro, pérdida de contexto WebGL).
-Publicado en producción con el commit `4e5d61d` ([despliegue](https://vercel.com/imaxmx/macs/3xRRHBkLiNvobLaXWLfWrwA2PCpn)
-`success`; portada y `/media/*` responden 200). Detalle en `CHANGELOG.md`. Pendiente confirmar con
-Max la licencia de esos videos.
+**Último trabajo completado (2026-09-22):** la portada abre con la sección hero de
+[vikod3/handstouch](https://github.com/vikod3/handstouch) **copiada tal cual** (Max pidió no adaptarla
+a MACS: barra, textos «NeuralKinetics / cybernetics made organic», pie y etiquetas del original,
+Inter + Outfit). Los videos se reescalaron con IA a 4K UHD y se sirven por niveles según la pantalla
+(1920 / 3072 / 3840 px las manos; 1920 / 3840 px el fondo), 33 MB en `public/media/`. Código en
+`src/components/hero/` (WebGL puro, sin dependencias nuevas). Verificado en local (lint, build,
+1440 × 900 y 375 × 812, fuentes, consola limpia). Detalle en `CHANGELOG.md`. Pendientes: decidir el
+texto y la barra definitivos del hero, y confirmar la licencia de los videos.
 
 **Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
 frecuentes, diseño adaptable y metadata propia. La portada enlaza mediante `Agent.href` opcional
@@ -187,9 +187,11 @@ web en Vercel. Construye automatizaciones con n8n.
 
 ## Pendientes de información (preguntar a Max)
 
-- [ ] **Licencia de los videos del hero** (`public/media/background.mp4`, `hands-rgba.mp4`,
-      `hands-poster.webp`): vienen del repo `vikod3/handstouch`, que no declara licencia ni la
+- [ ] **Licencia de los videos del hero** (`public/media/hands-rgba-*.mp4`, `background-*.mp4`,
+      `hands-poster.webp`): derivan del repo `vikod3/handstouch`, que no declara licencia ni la
       procedencia del metraje. Confirmar que Max tiene derecho a usarlos en macstech.mx.
+- [ ] **Texto y barra del hero.** Hoy son los del original (NeuralKinetics, Menu, Advanced Bionics,
+      etc.) porque Max pidió pegar la sección tal cual. Falta decidir qué textos van para MACS.
 - [ ] Número de WhatsApp para el botón de contacto: solicitado, pendiente de respuesta.
 - [ ] Caso de éxito de McMarketing: redes, IA, resultados medibles, capturas y cliente publicable.
 - [ ] **¿Dónde quieres el correo de macstech.mx?** Falta elegir proveedor; ausencia de MX/SPF

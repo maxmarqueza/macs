@@ -21,8 +21,9 @@ precision mediump float;
 uniform sampler2D uHands;
 varying vec2 vUv;
 void main() {
-  // Sin UNPACK_FLIP_Y, t = 0 es la primera fila del video (arriba).
-  float t = 1.0 - vUv.y;
+  // Sin UNPACK_FLIP_Y, t = 0 es la primera fila del video (arriba). El
+  // pequeño margen evita que el filtrado lineal mezcle las dos mitades.
+  float t = mix(0.0005, 0.9995, 1.0 - vUv.y);
   vec3 color = texture2D(uHands, vec2(vUv.x, t * 0.5)).rgb;
   float alpha = texture2D(uHands, vec2(vUv.x, 0.5 + t * 0.5)).r;
   alpha = smoothstep(0.02, 0.98, alpha);
@@ -74,6 +75,8 @@ function createResources(gl: WebGLRenderingContext) {
   gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
 
   const texture = gl.createTexture();
+  // Sin conversiones de color del navegador: los valores del video pasan tal cual.
+  gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -196,7 +199,7 @@ export function createHandRenderer(
     syncPlayback();
   };
   const resize = () => {
-    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const ratio = Math.min(window.devicePixelRatio || 1, 3);
     const { width, height } = canvas.getBoundingClientRect();
     const w = Math.max(1, Math.round(width * ratio));
     const h = Math.max(1, Math.round(height * ratio));

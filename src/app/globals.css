@@ -10,13 +10,31 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Tipografías del hero «hands touch» (Inter + Outfit, cargadas con next/font en HandsTouchHero). */
+  --font-hero-sans: var(--font-hero-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-hero-display: var(--font-hero-outfit), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Entradas del hero (se desactivan con `motion-safe:` si el usuario reduce el movimiento). */
+/* Entradas del hero (equivalen a las animaciones de `motion` del original; se
+   desactivan con `motion-safe:` si el usuario reduce el movimiento). */
 @theme {
   --ease-hero: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-hero-nav: hero-nav 0.8s var(--ease-hero) both;
   --animate-hero-backdrop: hero-backdrop 1.8s var(--ease-hero) both;
-  --animate-hero-rise: hero-rise 1.4s var(--ease-hero) both;
+  --animate-hero-rise: hero-rise 1.4s var(--ease-hero) 0.2s both;
+  --animate-hero-footer: hero-footer 1s var(--ease-hero) 0.5s both;
+
+  @keyframes hero-nav {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 
   @keyframes hero-backdrop {
     from {
@@ -32,7 +50,18 @@
   @keyframes hero-rise {
     from {
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes hero-footer {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
@@ -60,4 +89,67 @@ body {
 
 section[id] {
   scroll-margin-top: 2rem;
+}
+
+/* Hero «hands touch», copiado de vikod3/handstouch (src/index.css). Lo único
+   que cambia es `fixed` → `absolute`, para que el efecto viva dentro de la
+   sección y no flote sobre el resto del sitio al hacer scroll. */
+.hands-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bottom-gradient {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  height: 220px;
+  pointer-events: none;
+  background: linear-gradient(to top, white 0%, rgb(255 255 255 / 80%) 48%, transparent 100%);
+}
+
+.hands-frame {
+  position: absolute;
+  top: calc(27.5% + 200px);
+  left: 0;
+  width: 100%;
+  aspect-ratio: 3;
+  transform: translateY(-50%);
+}
+
+.hands-canvas,
+.hands-poster {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hands-canvas,
+.hands-frame[data-ready="true"] .hands-poster {
+  opacity: 0;
+}
+
+.hands-frame[data-ready="true"] .hands-canvas {
+  opacity: 1;
+}
+
+.hands-source {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+@media (max-width: 639px) {
+  .hands-frame {
+    top: calc(33% + 200px);
+  }
 }

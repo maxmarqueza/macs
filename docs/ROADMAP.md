@@ -18,8 +18,11 @@ Publicado en producción el 9 de septiembre de 2026:
 - [x] CI en GitHub Actions (ver Mantenimiento)
 
 Avance del 22 de septiembre de 2026:
-- [x] Hero nuevo en la portada: manos humana y robótica sobre video ambiental (adaptado de
-      vikod3/handstouch, sin dependencias nuevas). Ver `CHANGELOG.md`.
+- [x] Hero nuevo en la portada: la sección de vikod3/handstouch copiada tal cual (textos, tipografías y
+      barra incluidos, por indicación de Max) con los videos reescalados a 4K UHD y servidos por
+      niveles según la pantalla. Ver `CHANGELOG.md`.
+- [ ] Decidir el texto definitivo del hero (hoy dice «NeuralKinetics / cybernetics made organic»,
+      como el original) y si se conservan la barra y el pie del original.
 - [ ] Confirmar con Max la licencia de los videos de las manos (el repo original no la declara).
 
 Avance del 10 de septiembre de 2026:

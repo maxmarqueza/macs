@@ -1,15 +1,38 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
- * Escena del hero (adaptada de github.com/vikod3/handstouch): video ambiental
- * de fondo, el contenido en medio y, por encima, una mano humana y una robótica
- * que se buscan. Las manos se componen en WebGL con `hand-renderer.ts`; hasta
- * que llega el primer cuadro (o si WebGL falla) se ve el póster estático.
+ * Capas de video del hero (adaptado de HandsOverlay.tsx de vikod3/handstouch):
+ * video ambiental de fondo, el degradado inferior y, por encima, las manos
+ * humana y robótica compuestas en WebGL con `hand-renderer.ts`. Hasta que llega
+ * el primer cuadro (o si WebGL falla) se ve el póster estático.
+ *
+ * Los videos existen en varias resoluciones (máximo 4K UHD, 3840 px de ancho).
+ * Se elige la mínima que cubre los píxeles reales de la pantalla (ancho CSS ×
+ * densidad), para que en retina y monitores 4K nunca se escale hacia arriba y
+ * los teléfonos no descarguen el archivo grande.
  */
-export default function HeroScene({ children }: { children: ReactNode }) {
+
+type Tier = readonly [maxWidth: number, src: string];
+
+const HANDS_TIERS: readonly Tier[] = [
+  [1920, "/media/hands-rgba-1920.mp4"],
+  [3072, "/media/hands-rgba-3072.mp4"],
+  [Infinity, "/media/hands-rgba-3840.mp4"],
+];
+
+const BACKDROP_TIERS: readonly Tier[] = [
+  [1920, "/media/background-1920.mp4"],
+  [Infinity, "/media/background-3840.mp4"],
+];
+
+function pickSource(neededWidth: number, tiers: readonly Tier[]) {
+  return (tiers.find(([max]) => neededWidth <= max) ?? tiers[tiers.length - 1])[1];
+}
+
+export default function HeroScene() {
   const backdropRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sourceRef = useRef<HTMLVideoElement>(null);
@@ -24,6 +47,13 @@ export default function HeroScene({ children }: { children: ReactNode }) {
     let cancelled = false;
     let dispose: (() => void) | undefined;
 
+    // Píxeles reales que cubre el hero (ancho CSS × densidad, tope 3×).
+    const neededWidth = Math.ceil(
+      window.innerWidth * Math.min(window.devicePixelRatio || 1, 3),
+    );
+    backdrop.src = pickSource(neededWidth, BACKDROP_TIERS);
+    source.src = pickSource(neededWidth, HANDS_TIERS);
+
     // Fondo: `muted` se fija aquí porque React no lo serializa como atributo
     // y sin él los navegadores bloquean la reproducción automática.
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -35,6 +65,9 @@ export default function HeroScene({ children }: { children: ReactNode }) {
     syncBackdrop();
     reducedMotion.addEventListener("change", syncBackdrop);
     document.addEventListener("visibilitychange", syncBackdrop);
+    // Si el navegador bloqueó la reproducción automática (p. ej. modo de bajo
+    // consumo en iOS), el primer toque la reanuda.
+    window.addEventListener("pointerdown", syncBackdrop, { passive: true });
 
     // Manos: el compositor se carga aparte para no engordar el bundle inicial.
     import("./hand-renderer")
@@ -53,6 +86,7 @@ export default function HeroScene({ children }: { children: ReactNode }) {
       dispose?.();
       reducedMotion.removeEventListener("change", syncBackdrop);
       document.removeEventListener("visibilitychange", syncBackdrop);
+      window.removeEventListener("pointerdown", syncBackdrop);
       backdrop.pause();
     };
   }, []);
@@ -60,13 +94,12 @@ export default function HeroScene({ children }: { children: ReactNode }) {
   return (
     <>
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 select-none overflow-hidden"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 select-none motion-safe:animate-hero-backdrop"
       >
         <video
           ref={backdropRef}
-          src="/media/background.mp4"
-          className="absolute inset-0 h-full w-full object-cover motion-safe:animate-hero-backdrop"
+          className="absolute inset-0 h-full w-full object-cover"
           autoPlay
           loop
           muted
@@ -77,41 +110,26 @@ export default function HeroScene({ children }: { children: ReactNode }) {
         />
       </div>
 
-      {/* Funde el video con el fondo blanco de la siguiente sección; queda bajo el texto. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-56 bg-linear-to-t from-white via-white/80 via-48% to-transparent"
-      />
+      <div aria-hidden="true" className="bottom-gradient" />
 
-      <div className="relative z-10 flex flex-1 flex-col">{children}</div>
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-20 select-none overflow-hidden"
-      >
-        <div
-          data-ready={ready}
-          className="group absolute top-[calc(33%_+_200px)] left-0 aspect-[3/1] w-full -translate-y-1/2 sm:top-[calc(27.5%_+_200px)]"
-        >
+      <div className="hands-overlay" aria-hidden="true">
+        <div className="hands-frame" data-ready={ready}>
           <Image
+            className="hands-poster"
             src="/media/hands-poster.webp"
+            width={3840}
+            height={1280}
+            sizes="100vw"
+            quality={90}
             alt=""
-            width={1920}
-            height={640}
             priority
-            unoptimized
             draggable={false}
-            className="absolute inset-0 h-full w-full transition-opacity duration-300 group-data-[ready=true]:opacity-0"
           />
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 h-full w-full opacity-0 transition-opacity duration-300 group-data-[ready=true]:opacity-100"
-          />
+          <canvas ref={canvasRef} className="hands-canvas" />
         </div>
         <video
           ref={sourceRef}
-          src="/media/hands-rgba.mp4"
-          className="absolute h-px w-px opacity-0"
+          className="hands-source"
           preload="auto"
           muted
           playsInline
@@ -121,7 +139,6 @@ export default function HeroScene({ children }: { children: ReactNode }) {
           disableRemotePlayback
         />
       </div>
-
     </>
   );
 }

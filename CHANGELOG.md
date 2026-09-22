@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-09-22 (hero tal cual el original, en 4K UHD)
+- **Hero copiado tal cual de [vikod3/handstouch](https://github.com/vikod3/handstouch)**, por
+  indicación de Max («no lo adecues al sitio de MACS, pégalo tal cual la sección»): barra superior
+  (NeuralKinetics, Menu, Advanced Bionics / Cognitive AI, Adaptive Systems), título «NeuralKinetics /
+  cybernetics made organic», pie «Autonomous Dynamics» con sus etiquetas, tipografías Inter + Outfit
+  (`next/font`), medidas y animaciones del original. Sin dependencias nuevas: `motion` se sustituyó por
+  animaciones CSS equivalentes y el icono de `lucide-react` por su SVG. Lo único distinto: `fixed` →
+  `absolute`, para que el efecto viva dentro de la sección y no flote sobre el resto del sitio.
+  Código en `src/components/hero/HandsTouchHero.tsx` (sección) y `HeroScene.tsx` (capas de video).
+- **Calidad 4K UHD.** Los videos originales (1440 px y 1280 px, bajo bitrate) se veían pixelados en
+  pantallas retina. Se reescalaron con IA (ByteDance Video Upscale vía Higgsfield, ~2 créditos):
+  el color de las manos a 6468 × 2160 y el fondo a 3814 × 2160, y de ahí se generaron los archivos
+  finales con Lanczos + H.264 CRF 16. La máscara alfa de las manos se reescaló con Lanczos y un
+  ligero enfoque (el tercer trabajo de IA lo bloqueó el clasificador de permisos de la sesión).
+  Póster nuevo de 3840 × 1280 (webp con alfa) servido por `next/image` con calidad 90.
+- **Niveles por pantalla** (`HeroScene.tsx` elige el mínimo que cubre ancho CSS × densidad, tope 3×;
+  así retina y 4K nunca escalan hacia arriba y los teléfonos no bajan el archivo grande):
+  manos `hands-rgba-1920.mp4` (4.1 MB) / `-3072` (8.3 MB) / `-3840` (11.6 MB, H.264 nivel 6.0);
+  fondo `background-1920.mp4` (2.4 MB) / `-3840` (7.7 MB). Total en `public/media/`: 33 MB.
+  El compositor WebGL ahora admite densidad 3×, evita mezclar las dos mitades del video al filtrar y
+  no aplica conversiones de color del navegador. Se eliminaron `hands-rgba.mp4` y `background.mp4`.
+- `next.config.ts`: `images.qualities: [75, 90]` (Next 16 exige declarar las calidades usadas).
+- Verificado en local: lint, build, 1440 × 900 (nivel 3072 + fondo 4K, póster 3840) y 375 × 812
+  (niveles 1920) sin desbordamiento, fuentes Outfit/Inter activas, sin errores de consola.
+
 ## 2026-09-22 (hero con manos humana y robótica)
 - **Nuevo hero en la portada**, adaptado de [vikod3/handstouch](https://github.com/vikod3/handstouch)
   a petición de Max: video ambiental de fondo y, por encima del texto, una mano humana y una robótica
