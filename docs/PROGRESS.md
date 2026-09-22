@@ -23,8 +23,9 @@ partículas de Grupo MaSa (port fiel en `src/components/hero/macs-burst.ts`) est
 forma «MACS»; al disolverse entra la escena **Halion** (`src/components/halion/`: clon literal del
 original new-13-v2 con GSAP 3.13 + Locomotive/Lenis, mismos textos, medios de CloudFront, hoja y
 movimiento), y después «Un Mc para cada área» y el pie de MACS. Lenis es ahora el dueño del scroll de
-toda la portada. Bloque fijo del hero: 100 + 180 + 260 svh. Verificado en local; publicación y
-verificación en producción registradas al final de esta entrada del `CHANGELOG.md`.
+toda la portada. Bloque fijo del hero: 100 + 180 + 260 svh. **Publicado** con el commit `18ddd4e`
+([despliegue](https://vercel.com/imaxmx/macs/EZLBQ8ufFEoxCy8enjH1doQswjd6) `success`; explosión e intro
+de Halion comprobadas en https://macstech.mx sin errores de consola). Detalle en `CHANGELOG.md`.
 Pendientes: buzón de `contacto@macstech.mx` (sin MX), ficha de McMarketing con la identidad oscura, y
 en móvil los callouts de Halion quedan fuera de pantalla (anclajes del clip 16:9, como en el original).
 

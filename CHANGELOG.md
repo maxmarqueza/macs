@@ -41,6 +41,12 @@
   hairlines, chips 02 y 03, clip 1 hasta 8.04 s, clip 2 hasta 10.04 s, callouts con líneas y puntos, y
   regreso de la barra de MACS sobre fondo blanco. La captura del panel del navegador no incluye capas de
   video; el cuadro decodificado se comprobó volcándolo a un canvas.
+- **Publicado** con el commit `18ddd4e3ed3f6eaec42c1e2cab09833a8abbe963` en `main`.
+  [Despliegue Vercel](https://vercel.com/imaxmx/macs/EZLBQ8ufFEoxCy8enjH1doQswjd6): estado del commit en
+  GitHub `success`. En producción: portada 200 con la escena Halion (textos, los dos clips de CloudFront,
+  bootstrap-icons, Inter Tight), clase `js` y Lenis activos; comprobado en el navegador sobre
+  https://macstech.mx: explosión de partículas en el bloque fijo, intro de Halion con título, lead en tres
+  líneas y reloj de Zúrich, sin errores de consola.
 
 ## 2026-09-22 (auditoría a fondo de la portada y corrección integral)
 - Max: «vuelve a revisar a fondo, no quedó bien, déjalo perfecto, es la imagen de mi empresa». Se corrió una
