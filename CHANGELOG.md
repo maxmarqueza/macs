@@ -17,6 +17,10 @@
 - Verificado en local: lint, build (ruta estática), 1440/1024/375 px sin desbordamiento, modo oscuro
   (el hero se mantiene blanco), pérdida y restauración del contexto WebGL (vuelve al póster y se
   recupera), y ambos videos reproduciéndose.
+- **Publicado** con el commit `4e5d61d3f36702b085fbcb3dfec10eebeec915bd` en `main`.
+  [Despliegue Vercel](https://vercel.com/imaxmx/macs/3xRRHBkLiNvobLaXWLfWrwA2PCpn): estado del commit
+  en GitHub `success`, «Deployment has completed». En producción, la portada responde 200 e incluye el
+  hero nuevo, y los tres archivos de `/media/` responden 200 con su content-type correcto.
 
 ## 2026-09-10 (preferencias permanentes de trabajo)
 - Guardadas en `AGENTS.md` las preferencias de Max: respuestas breves, ejecución continua hasta

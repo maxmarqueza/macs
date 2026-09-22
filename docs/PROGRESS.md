@@ -23,7 +23,9 @@ Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. R
 ambiental y una mano humana y una robótica que se tocan por encima del texto. Código en
 `src/components/hero/` (WebGL puro, sin three.js ni dependencias nuevas), medios en `public/media/`.
 Verificado en local (lint, build, 1440/1024/375 px, modo oscuro, pérdida de contexto WebGL).
-Detalle en `CHANGELOG.md`. Pendiente confirmar con Max la licencia de esos videos.
+Publicado en producción con el commit `4e5d61d` ([despliegue](https://vercel.com/imaxmx/macs/3xRRHBkLiNvobLaXWLfWrwA2PCpn)
+`success`; portada y `/media/*` responden 200). Detalle en `CHANGELOG.md`. Pendiente confirmar con
+Max la licencia de esos videos.
 
 **Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
 frecuentes, diseño adaptable y metadata propia. La portada enlaza mediante `Agent.href` opcional
