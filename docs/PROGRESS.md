@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (vista previa de manos por scroll en /lab/scroll)
+**Última actualización:** 2026-09-22 (portada por scroll, variante B perfeccionada)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,12 +18,13 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22, tarde):** vista previa en **`/lab/scroll`** de tres variantes
-donde el scroll controla el acercamiento de las manos (A directo, B parallax con inercia, C ciclo con
-separación al entrar la segunda pantalla), con videos de scrub de cuadros clave en `public/media/lab/`
-(28 MB) y un modo `scrub` en `hand-renderer.ts`. La portada no cambió. Publicado con el commit `5b2577a`
-([despliegue](https://vercel.com/imaxmx/macs/625iBJ6Xj8r4MVRyGMDKacU6RSqj) `success`; página y videos 200). **Pendiente: que Max elija una
-variante**; entonces se lleva a la portada, se borran las demás y los videos de `media/lab`.
+**Último trabajo completado (2026-09-22, tarde):** la portada es la **variante B por scroll** que eligió
+Max, perfeccionada: el acercamiento de las manos lo controla el scroll (reposo → toque, con el toque
+sostenido al final), inercia de resorte crítico, parallax de capas, video de scroll interpolado a 48 fps
+con compensación de movimiento y codificado casi sin pérdida (CRF 12, todos los cuadros clave) en niveles
+1920 / 3072 / 3840 px (13 / 26 / 37 MB). Código en `src/components/hero/ScrollHero.tsx` (+ piezas en
+`HandsTouchHero.tsx`, compositor en `hand-renderer.ts`). `/lab/scroll` sigue como vista previa (A y B).
+Se eliminaron el hero de reproducción automática y sus videos. Detalle en `CHANGELOG.md`.
 
 **Último trabajo completado (2026-09-22):** la portada usa el diseño de
 [vikod3/handstouch](https://github.com/vikod3/handstouch) intacto (barra fija, hero, pie, sección «about»,

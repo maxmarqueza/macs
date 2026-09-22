@@ -113,12 +113,12 @@ export type HandRendererOptions = {
   /**
    * `scrub`: el video no se reproduce solo; cada cuadro se pide con `seek()`
    * (p. ej. desde el scroll). Requiere un archivo con todos los cuadros clave
-   * (`-g 1`), como los de `public/media/lab/`.
+   * (`-g 1`), como `public/media/hands-scroll-*.mp4`.
    */
   scrub?: boolean;
+  /** Cuadros por segundo del video (para pedir el centro exacto de cada cuadro). */
+  frameRate?: number;
 };
-
-const FRAME_RATE = 24;
 
 /**
  * Arranca el compositor y devuelve su controlador.
@@ -128,7 +128,7 @@ export function createHandRenderer(
   canvas: HTMLCanvasElement,
   video: HTMLVideoElement,
   onReady: (ready: boolean) => void,
-  { scrub = false }: HandRendererOptions = {},
+  { scrub = false, frameRate = 24 }: HandRendererOptions = {},
 ): HandRenderer {
   const gl = canvas.getContext("webgl", {
     alpha: true,
@@ -227,8 +227,8 @@ export function createHandRenderer(
   const seek = (time: number) => {
     if (!scrub) return;
     // Al centro del cuadro, para que el redondeo no caiga en el anterior.
-    const frame = Math.max(0, Math.round(time * FRAME_RATE));
-    pendingTime = (frame + 0.5) / FRAME_RATE;
+    const frame = Math.max(0, Math.round(time * frameRate));
+    pendingTime = (frame + 0.5) / frameRate;
     if (!seeking) issueSeek();
   };
   const onSeeked = () => {

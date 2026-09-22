@@ -1,17 +1,14 @@
 import { Inter, Outfit } from "next/font/google";
 import Link from "next/link";
 import { brand, site } from "@/data/site";
-import HeroScene from "./HeroScene";
 
 /**
- * Portada: la página de github.com/vikod3/handstouch (src/App.tsx) con su diseño
- * intacto (barra fija, hero, pie de etiquetas, sección «about», video de fondo,
- * degradado y manos fijas, Inter + Outfit, medidas y animaciones) y los textos
- * adaptados a MACS (aprobados por Max el 2026-09-22): la marca «M» en el logo,
- * «inteligencia hecha humana», «Un Mc para cada área», McMarketing y los Mc en
- * camino. Solo se afirma lo documentado en `src/data/agents.ts`. Diferencias de
- * implementación sin efecto visual: `motion` → animaciones CSS con los mismos
- * valores y el icono de `lucide-react` → su SVG.
+ * Piezas de la portada, copiadas del diseño de github.com/vikod3/handstouch
+ * (src/App.tsx) con los textos de MACS aprobados por Max el 2026-09-22: barra
+ * fija con la marca «M», hero «inteligencia hecha humana», pie de etiquetas y
+ * sección «Un Mc para cada área». Las usa `ScrollHero.tsx`, que añade el video
+ * de fondo y las manos controladas por el scroll. Solo se afirma lo documentado
+ * en `src/data/agents.ts`. El icono de `lucide-react` del original es su SVG.
  */
 
 export const inter = Inter({
@@ -282,28 +279,5 @@ export function About() {
         ))}
       </ul>
     </section>
-  );
-}
-
-export default function HandsTouchHero() {
-  return (
-    <div
-      className={`${inter.variable} ${outfit.variable} handstouch-page w-full bg-white font-hero-sans text-black antialiased selection:bg-black selection:text-white`}
-    >
-      <Navbar />
-      <div aria-hidden="true" className="bottom-gradient" />
-      <main>
-        <section
-          aria-labelledby="hero-title"
-          className="relative flex h-screen w-full flex-col justify-between overflow-hidden"
-        >
-          <HeroScene />
-          <Hero />
-          <Footer />
-        </section>
-
-        <About />
-      </main>
-    </div>
   );
 }

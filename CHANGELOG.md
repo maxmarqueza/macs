@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-09-22 (portada por scroll, variante B perfeccionada)
+- Max eligió la variante **B** («me gusta la B pero pierde muchísima calidad, perfecciónalo»). Ahora es la
+  portada (`src/components/hero/ScrollHero.tsx`), y `/lab/scroll` la conserva junto a A para comparar.
+- **Calidad de imagen.** El video de scroll pasa de CRF 20 a **CRF 12** (casi sin pérdida; cada cuadro se
+  ve quieto y la compresión se notaba), sigue con todos los cuadros clave y ahora tiene nivel **3840** para
+  monitores 4K además de 3072 (retina) y 1920 (móvil). Solo cubre el tramo que se usa (reposo → toque,
+  0–5.2 s). Pesos: `hands-scroll-1920.mp4` 13.3 MB · `-3072` 26.3 MB · `-3840` 37.4 MB. Las manos solo
+  se trasladan en el parallax, nunca se reescalan, para no perder nitidez.
+- **Calidad de movimiento.** El tramo se interpoló de 24 a **48 fps** con compensación de movimiento
+  (`minterpolate` mci/aobmc/bidir), verificado: los cuadros intermedios conservan la coincidencia entre
+  color y máscara (XOR ≈ 45 k px, igual que los originales) y sin artefactos visibles en dedos ni brazo.
+  Así cada paso del scroll mueve las manos ~2 px en pantalla en vez de ~4. La inercia es un **resorte
+  críticamente amortiguado** (sin rebote, arranque y frenado naturales, independiente de los fps), el
+  recorrido lleva un suavizado leve que respeta el ritmo del metraje y el toque **se sostiene** el 10 %
+  final del recorrido antes de soltar la pantalla. Parallax afinado: fondo −6 vh y escala 1.07, título −9 vh
+  con desvanecido cuadrático (legible hasta el final), pie desaparece en el primer 45 %, manos −4 vh.
+  Recorrido de 280 vh.
+- Limpieza: se eliminan el hero de reproducción automática (`HeroScene.tsx`), sus niveles
+  `hands-rgba-*.mp4` y los videos de `media/lab/` (28 MB); la variante C queda fuera porque necesitaba el
+  tramo de separación, que ya no se incluye. `public/media/` pesa 83 MB.
+
 ## 2026-09-22 (vista previa: manos controladas por el scroll)
 - Max pidió que el acercamiento de las manos lo controle el scroll (empieza en reposo, termina al tocarse
   los dedos, con parallax y 4K) y opciones con vista previa. Nueva página **`/lab/scroll`** (no indexada,

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import HandsTouchHero from "@/components/hero/HandsTouchHero";
+import ScrollHero from "@/components/hero/ScrollHero";
 import { openGraphBase, site } from "@/data/site";
 
-// Portada: diseño de vikod3/handstouch con textos de MACS (ver src/components/hero).
+// Portada: diseño de vikod3/handstouch con textos de MACS y las manos controladas
+// por el scroll, variante B (ver src/components/hero/ScrollHero.tsx).
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
@@ -14,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <HandsTouchHero />;
+  return <ScrollHero variant="b" />;
 }
