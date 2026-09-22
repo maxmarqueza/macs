@@ -1,6 +1,7 @@
 import { Inter, Outfit } from "next/font/google";
 import Link from "next/link";
 import { brand, site } from "@/data/site";
+import MenuButton from "./MenuButton";
 
 /**
  * Piezas de la portada, copiadas del diseño de github.com/vikod3/handstouch
@@ -49,26 +50,6 @@ function MacsMark() {
   );
 }
 
-/** Equivalente al icono `Plus` de lucide-react (size 13, strokeWidth 3). */
-function PlusIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      width={13}
-      height={13}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={3}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
-  );
-}
-
 function AdaptiveIcon() {
   return (
     <svg
@@ -104,20 +85,15 @@ export function Navbar() {
           </span>
         </Link>
 
-        <button
-          type="button"
-          aria-label="Abrir menú"
-          className="flex cursor-pointer items-center gap-2.5 rounded-full border border-black/[0.03] bg-black p-1 pr-5 text-[12px] font-medium text-white transition-all duration-200 hover:bg-zinc-800"
-        >
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black">
-            <PlusIcon />
-          </span>
-          <span className="pr-1 text-[11.5px]">Menú</span>
-        </button>
+        <MenuButton />
 
-        <div className="hidden h-11 items-center gap-5 rounded-full border border-black/[0.03] bg-[#F4F4F6] px-6 text-[11.5px] font-normal text-black/60 select-none md:flex">
-          <span>Agentes IA</span>
-          <span>Automatización</span>
+        <div className="hidden h-11 items-center gap-5 rounded-full border border-black/[0.03] bg-[#F4F4F6] px-6 text-[11.5px] font-normal text-black/60 md:flex">
+          <Link href="/#agentes" className="transition-colors hover:text-black">
+            Agentes IA
+          </Link>
+          <Link href="/#proximos" className="transition-colors hover:text-black">
+            Automatización
+          </Link>
         </div>
       </div>
 
@@ -142,21 +118,21 @@ export function Hero() {
   return (
     <div className="relative z-30 flex min-h-0 flex-1 flex-col items-center justify-center px-6 md:px-12">
       <div className="mt-24 w-full max-w-7xl translate-y-10 px-4 text-center md:mt-0 md:translate-y-14">
-        <div className="flex flex-col items-center justify-center select-none animate-hero-rise">
+        <div className="flex flex-col items-center justify-center animate-hero-rise">
           <h1
             id="hero-title"
-            className="font-hero-display text-[7.5vw] leading-[0.9] font-medium tracking-tight text-black md:text-[5.8vw] lg:text-[4.6vw]"
+            className="font-hero-display flex flex-col items-center text-[7.5vw] leading-[0.9] font-medium tracking-tight text-black md:text-[5.8vw] lg:text-[4.6vw]"
           >
-            MACS
+            <span className="block">MACS</span>
+            <span className="mt-1 block md:mt-1.5">
+              <span className="mr-1.5 font-light tracking-tight text-black/40 md:mr-2">
+                inteligencia
+              </span>
+              <span className="font-medium tracking-tight text-black">
+                hecha humana
+              </span>
+            </span>
           </h1>
-          <h2 className="mt-1 font-hero-display text-[7.5vw] leading-[0.9] font-medium tracking-tight md:mt-1.5 md:text-[5.8vw] lg:text-[4.6vw]">
-            <span className="mr-1.5 font-light tracking-tight text-black/25 md:mr-2">
-              inteligencia
-            </span>
-            <span className="font-medium tracking-tight text-black">
-              hecha humana
-            </span>
-          </h2>
         </div>
       </div>
     </div>
@@ -178,7 +154,7 @@ export function Footer() {
     <footer className="relative z-30 w-full shrink-0 px-8 py-10 md:px-16 md:py-14">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 animate-hero-footer md:flex-row md:items-end">
         <div className="max-w-[300px] md:max-w-[340px]">
-          <p className="mb-2 text-[11.5px] font-medium text-black/50">
+          <p className="mb-2 text-[11.5px] font-medium text-black/60">
             {site.tagline}
           </p>
           <p className="text-[19px] leading-[1.15] font-normal tracking-tight text-black md:text-[21px]">
@@ -209,7 +185,7 @@ export function Footer() {
 
 export function About() {
   return (
-    <section aria-labelledby="about-title" className="about-section">
+    <section id="agentes" aria-labelledby="about-title" className="about-section">
       <div className="about-grid">
         <div className="about-headline">
           <h2 id="about-title">
@@ -250,7 +226,7 @@ export function About() {
           </p>
         </div>
 
-        <div className="about-feature about-movement">
+        <div id="proximos" className="about-feature about-movement">
           <p className="about-overline">02 / Próximos Mc</p>
           <h3>
             Soporte.
@@ -279,5 +255,39 @@ export function About() {
         ))}
       </ul>
     </section>
+  );
+}
+
+/** Cierre del sitio: llamada a contacto y línea legal. */
+export function SiteFooter() {
+  return (
+    <footer id="contacto" className="relative z-10 w-full bg-white px-8 pt-16 pb-10 md:px-16 md:pt-24 md:pb-12">
+      <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+        <div className="max-w-[560px]">
+          <p className="mb-3 text-[11.5px] font-medium text-black/60">Contacto</p>
+          <h2 className="font-hero-display text-[34px] leading-[1.05] font-medium tracking-tight md:text-[46px]">
+            ¿Qué parte de tu negocio automatizamos primero?
+          </h2>
+          <p className="mt-4 max-w-[440px] text-[16px] leading-[1.5] text-[#6e6e73]">
+            Cuéntanos qué necesitas y te decimos qué Mc lo resuelve.
+          </p>
+        </div>
+        <a
+          href={`mailto:${site.email}`}
+          className="flex items-center gap-3.5 rounded-full border border-black/[0.03] bg-black p-1 pr-6 text-white transition-colors hover:bg-zinc-800"
+        >
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black">
+            <AdaptiveIcon />
+          </span>
+          <span className="text-[12px] font-medium">{site.email}</span>
+        </a>
+      </div>
+      <p className="mx-auto mt-14 flex max-w-7xl flex-wrap gap-x-6 gap-y-2 border-t border-black/10 pt-6 text-[12px] text-black/60">
+        <span>© {new Date().getFullYear()} MACS · macstech.mx</span>
+        <Link href="/agentes/mcmarketing" className="underline-offset-4 hover:underline">
+          McMarketing
+        </Link>
+      </p>
+    </footer>
   );
 }

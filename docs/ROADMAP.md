@@ -23,9 +23,12 @@ Avance del 22 de septiembre de 2026:
       reescalados a 4K UHD, sin contorno negro, servidos por niveles según la pantalla. Ver `CHANGELOG.md`.
 - [x] Textos de MACS sobre ese diseño (aprobados por Max el 22 de septiembre): «inteligencia hecha
       humana», «Un Mc para cada área», McMarketing y Mc en camino; Contacto y etiquetas enlazadas.
-- [x] Manos controladas por el scroll: Max eligió la variante B; publicada en la portada perfeccionada
-      (48 fps interpolados, CRF 12, niveles 1920/3072/3840, resorte e inercia, parallax afinado).
-      `/lab/scroll` conserva A y B para comparar.
+- [x] Manos controladas por el scroll (variante B elegida por Max) y auditoría a fondo con corrección
+      integral el 22 de septiembre: clip hasta el contacto real, material regenerado (BT.709, píxel
+      cuadrado, nivel 5.1, máscara ajustada), carga por Blob con precarga, movimiento afinado, menú real,
+      cierre de sitio, 404, imagen para compartir. Ver `CHANGELOG.md`.
+- [ ] Unificar la ficha de McMarketing con la identidad blanca de la portada (hoy sigue oscura, Geist).
+- [ ] Contacto real: el buzón `contacto@macstech.mx` no existe (sin MX); decidir proveedor o canal.
 - [ ] Decidir si el concepto, el roster completo y el contacto de MACS vuelven a la portada o viven en
       otra página: hoy la portada es el diseño de handstouch con los textos de MACS y solo sigue
       publicada `/agentes/mcmarketing`.

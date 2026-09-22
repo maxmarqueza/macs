@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (portada por scroll, variante B perfeccionada)
+**Última actualización:** 2026-09-22 (auditoría a fondo de la portada y corrección integral)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,15 +18,15 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22, tarde):** la portada es la **variante B por scroll** que eligió
-Max, perfeccionada: el acercamiento de las manos lo controla el scroll (reposo → toque, con el toque
-sostenido al final), inercia de resorte crítico, parallax de capas, video de scroll interpolado a 48 fps
-con compensación de movimiento y codificado casi sin pérdida (CRF 12, todos los cuadros clave) en niveles
-1920 / 3072 / 3840 px (13 / 26 / 37 MB). Código en `src/components/hero/ScrollHero.tsx` (+ piezas en
-`HandsTouchHero.tsx`, compositor en `hand-renderer.ts`). `/lab/scroll` sigue como vista previa (A y B).
-Se eliminaron el hero de reproducción automática y sus videos. Publicado con el commit `6f2b992`
-([despliegue](https://vercel.com/imaxmx/macs/2o2699iZCA3VmtJVC216ESNKgbn6) `success`; portada y videos 200).
-Detalle en `CHANGELOG.md`.
+**Último trabajo completado (2026-09-22, noche):** auditoría a fondo de la portada (siete revisores) y
+corrección integral: el clip ahora llega al contacto real de los dedos (cuadro 144), material regenerado
+(`hands-scroll-*.v2.mp4`: BT.709 etiquetado, píxel cuadrado, H.264 nivel 5.1 a 3744 px, máscara ajustada,
+nivel 1296 para móvil; fondo solo 1920), carga completa por `fetch`/Blob con precarga desde `<head>` y caché
+inmutable, movimiento afinado (curva compensatoria, resorte 900, hold 6 %, título que desaparece antes del
+toque, manos que se van con el hero), degradado dentro del hero, compositor robusto en Safari, `svh` en
+móvil, menú real, cierre de sitio con contacto (`#contacto`), anclas `#agentes`/`#proximos`, 404 con marca,
+imagen para compartir blanca con las manos, `/lab/scroll` eliminado. Detalle en `CHANGELOG.md`.
+Pendientes: buzón de `contacto@macstech.mx` (sin MX) y unificar la ficha de McMarketing con la portada.
 
 **Último trabajo completado (2026-09-22):** la portada usa el diseño de
 [vikod3/handstouch](https://github.com/vikod3/handstouch) intacto (barra fija, hero, pie, sección «about»,

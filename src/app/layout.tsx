@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
+import { preloadScript } from "@/data/media";
 import { brand, openGraphBase, site } from "@/data/site";
 import "./globals.css";
 
@@ -72,6 +74,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        {/* Precarga del video de la portada antes de que cargue el JS (solo en «/»). */}
+        <Script id="hands-preload" strategy="beforeInteractive">
+          {`if(location.pathname==="/"){${preloadScript}}`}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -1,44 +1,28 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { agents } from "@/data/agents";
 import { brand, site } from "@/data/site";
 
 // Imagen que muestran redes sociales y mensajería al compartir macstech.mx.
-// Se genera una sola vez en el build (no usa APIs de request). Composición
-// centrada para que sobreviva a los recortes cuadrados de WhatsApp/iMessage.
+// Misma escena que la portada: fondo blanco, «MACS / inteligencia hecha
+// humana» y las manos humana y robótica tocándose (cuadro final del video).
+// Se genera una sola vez en el build.
 
 export const alt = `${site.name} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Píldoras del roster: más de esto no cabe legible en 1200 px.
-const MAX_AGENTS = 6;
-
 const root = process.cwd();
-const [geistRegular, geistBold, mark] = await Promise.all([
+const [geistRegular, geistBold, mark, hands] = await Promise.all([
   readFile(join(root, "src/assets/fonts/Geist-Regular.ttf")),
   readFile(join(root, "src/assets/fonts/Geist-Bold.ttf")),
   readFile(join(root, "src/app/icon.svg"), "base64"),
+  readFile(join(root, "src/assets/og/hands-touch.png"), "base64"),
 ]);
 const markSrc = `data:image/svg+xml;base64,${mark}`;
-
-const pill = {
-  display: "flex",
-  fontSize: 24,
-  borderRadius: 999,
-  padding: "10px 24px",
-} as const;
-
-const pillStyles = {
-  activo: { ...pill, color: "#6ee7b7", border: "2px solid #047857" }, // emerald-300 / emerald-700
-  proximamente: { ...pill, color: "#a3a3a3", border: "2px solid #404040" }, // neutral-400 / neutral-700
-} as const;
+const handsSrc = `data:image/png;base64,${hands}`;
 
 export default function Image() {
-  const shown = agents.slice(0, MAX_AGENTS);
-  const hidden = agents.length - shown.length;
-
   return new ImageResponse(
     (
       <div
@@ -48,62 +32,80 @@ export default function Image() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          padding: "48px 72px",
-          backgroundColor: brand.background,
-          backgroundImage: `radial-gradient(circle at 50% 0%, rgba(${brand.accentRgb},0.28) 0%, rgba(${brand.accentRgb},0) 55%)`,
-          color: "#ffffff",
+          backgroundColor: "#ffffff",
+          backgroundImage:
+            "radial-gradient(circle at 50% 42%, rgba(56,189,248,0.10) 0%, rgba(255,255,255,0) 46%)",
+          color: "#000000",
           fontFamily: "Geist",
+          position: "relative",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <img src={markSrc} width={56} height={56} alt="" />
-          <span
-            style={{
-              fontSize: 26,
-              letterSpacing: 6,
-              textTransform: "uppercase",
-              color: brand.accent,
-            }}
-          >
-            macstech.mx
-          </span>
-        </div>
-
         <div
           style={{
-            fontSize: 176,
-            fontWeight: 700,
-            letterSpacing: -8,
-            lineHeight: 1,
-            marginTop: 28,
+            position: "absolute",
+            top: 40,
+            left: 56,
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
           }}
         >
-          {site.name}
+          <img src={markSrc} width={44} height={44} alt="" />
+          <span style={{ fontSize: 26, fontWeight: 700, letterSpacing: -1 }}>{site.name}</span>
         </div>
-        <div style={{ fontSize: 44, color: "#d4d4d4", marginTop: 12 }}>
+        <span style={{ position: "absolute", top: 50, right: 56, fontSize: 20, color: "#6e6e73" }}>
           {site.tagline}
-        </div>
+        </span>
 
         <div
           style={{
             display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: 14,
-            marginTop: 44,
-            maxWidth: 1000,
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: 118,
           }}
         >
-          {shown.map((agent) => (
-            <div key={agent.slug} style={pillStyles[agent.status]}>
-              {agent.name}
-            </div>
-          ))}
-          {hidden > 0 && (
-            <div style={pillStyles.proximamente}>+{hidden} más</div>
-          )}
+          <div style={{ fontSize: 132, fontWeight: 700, letterSpacing: -6, lineHeight: 1 }}>
+            {site.name}
+          </div>
+          <div style={{ display: "flex", fontSize: 54, letterSpacing: -2, lineHeight: 1.05, marginTop: 6 }}>
+            <span style={{ color: "rgba(0,0,0,0.42)", marginRight: 14 }}>inteligencia</span>
+            <span style={{ fontWeight: 700 }}>hecha humana</span>
+          </div>
         </div>
+
+        <img
+          src={handsSrc}
+          width={1200}
+          height={400}
+          alt=""
+          style={{ position: "absolute", left: 0, bottom: -30, width: 1200, height: 400 }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 90,
+            backgroundImage: "linear-gradient(to top, #ffffff 0%, rgba(255,255,255,0) 100%)",
+          }}
+        />
+        <span
+          style={{
+            position: "absolute",
+            bottom: 28,
+            left: 0,
+            right: 0,
+            display: "flex",
+            justifyContent: "center",
+            fontSize: 22,
+            letterSpacing: 4,
+            color: brand.accent,
+          }}
+        >
+          MACSTECH.MX
+        </span>
       </div>
     ),
     {

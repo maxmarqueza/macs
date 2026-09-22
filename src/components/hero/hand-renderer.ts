@@ -1,11 +1,13 @@
 /**
- * Compositor de las manos del hero (adaptado de github.com/vikod3/handstouch).
+ * Compositor de las manos (adaptado de github.com/vikod3/handstouch).
  *
- * `hands-rgba.mp4` va apilado: la mitad superior trae el color y la inferior la
- * máscara alfa (blanco = opaco). Un shader mínimo toma ambas mitades del mismo
- * cuadro y pinta las manos con transparencia real en un <canvas>, sin three.js
- * ni otras dependencias. Como las dos mitades salen del mismo decodificador, la
- * silueta nunca se desfasa del color.
+ * El video va apilado: la mitad superior trae el color y la inferior la máscara
+ * alfa (blanco = opaco). Un shader mínimo toma ambas mitades del mismo cuadro y
+ * pinta las manos con transparencia real en un <canvas>, sin dependencias.
+ *
+ * Funciona en modo «scrub»: el video nunca se reproduce solo; cada cuadro se pide
+ * con `seek(time)` (desde el scroll). Requiere un archivo con todos los cuadros
+ * clave (`-g 1`), como `public/media/hands-scroll-*.mp4`.
  */
 
 const VERTEX_SHADER = `
@@ -16,8 +18,14 @@ void main() {
   gl_Position = vec4(aPosition, 0.0, 1.0);
 }`;
 
+// highp cuando existe: con mediump (16 bits) la coordenada de la mitad inferior
+// pierde ~1 texel sobre 2500 filas y la silueta se desplaza del color.
 const FRAGMENT_SHADER = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
 precision mediump float;
+#endif
 uniform sampler2D uHands;
 varying vec2 vUv;
 void main() {
@@ -30,9 +38,6 @@ void main() {
   // El canvas se compone con alfa premultiplicado.
   gl_FragColor = vec4(color * alpha, alpha);
 }`;
-
-/** Instante (s) con las manos casi tocándose; se usa como cuadro fijo. */
-const STILL_FRAME_TIME = 4.8;
 
 function compileShader(gl: WebGLRenderingContext, type: number, source: string) {
   const shader = gl.createShader(type);
@@ -103,21 +108,16 @@ export type HandRenderer = {
   /** Desmonta el compositor y libera la GPU. */
   dispose(): void;
   /**
-   * Solo en modo `scrub`: pide el cuadro del instante `time` (s). Las peticiones
-   * se agrupan: si llega otra mientras el video busca, se atiende la última.
+   * Pide el cuadro del instante `time` (s). Las peticiones se agrupan: si llega
+   * otra mientras el video busca, se atiende la última. Vale llamar antes de que
+   * el video tenga datos: se atiende en cuanto los tenga.
    */
   seek(time: number): void;
 };
 
 export type HandRendererOptions = {
-  /**
-   * `scrub`: el video no se reproduce solo; cada cuadro se pide con `seek()`
-   * (p. ej. desde el scroll). Requiere un archivo con todos los cuadros clave
-   * (`-g 1`), como `public/media/hands-scroll-*.mp4`.
-   */
-  scrub?: boolean;
   /** Cuadros por segundo del video (para pedir el centro exacto de cada cuadro). */
-  frameRate?: number;
+  frameRate: number;
 };
 
 /**
@@ -128,7 +128,7 @@ export function createHandRenderer(
   canvas: HTMLCanvasElement,
   video: HTMLVideoElement,
   onReady: (ready: boolean) => void,
-  { scrub = false, frameRate = 24 }: HandRendererOptions = {},
+  { frameRate }: HandRendererOptions,
 ): HandRenderer {
   const gl = canvas.getContext("webgl", {
     alpha: true,
@@ -136,79 +136,53 @@ export function createHandRenderer(
     depth: false,
     stencil: false,
     premultipliedAlpha: true,
-    powerPreference: "low-power",
+    powerPreference: "high-performance",
   });
   if (!gl) throw new Error("WebGL no disponible");
 
   let resources = createResources(gl);
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let stopped = false;
   let contextLost = false;
-  let frameHandle: number | undefined;
-  let frameIsVideoCallback = false;
-  let lastTime = -1;
   let hasFrame = false;
 
+  const canDraw = () =>
+    !stopped &&
+    !contextLost &&
+    video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA &&
+    video.videoWidth > 0;
+
   const draw = () => {
-    if (
-      stopped ||
-      contextLost ||
-      video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA ||
-      video.videoWidth === 0
-    ) {
-      return;
-    }
+    if (!canDraw()) return false;
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     if (!hasFrame) {
       hasFrame = true;
       onReady(true);
     }
+    return true;
   };
 
-  const cancelFrame = () => {
-    if (frameHandle === undefined) return;
-    if (frameIsVideoCallback) video.cancelVideoFrameCallback(frameHandle);
-    else cancelAnimationFrame(frameHandle);
-    frameHandle = undefined;
-  };
-
-  const scheduleFrame = () => {
-    if (stopped || contextLost || document.hidden || video.paused) return;
-    if (typeof video.requestVideoFrameCallback === "function") {
-      frameIsVideoCallback = true;
-      frameHandle = video.requestVideoFrameCallback(() => {
-        frameHandle = undefined;
-        draw();
-        scheduleFrame();
-      });
-    } else {
-      frameIsVideoCallback = false;
-      frameHandle = requestAnimationFrame(() => {
-        frameHandle = undefined;
-        if (video.currentTime !== lastTime) {
-          draw();
-          lastTime = video.currentTime;
-        }
-        scheduleFrame();
-      });
-    }
-  };
-
-  const play = () => {
-    if (scrub) return;
-    if (!stopped && !contextLost && !document.hidden && !reducedMotion.matches) {
-      void video.play().catch(() => draw());
-    }
-  };
-
-  // Modo scrub: una búsqueda a la vez; la última petición gana. Las peticiones
-  // esperan a que el video tenga metadatos, y si una búsqueda no termina (p. ej.
-  // el navegador se traga el evento) se libera a los 400 ms.
+  // Una búsqueda a la vez; la última petición gana. Se dibuja cuando el cuadro
+  // buscado se presenta (requestVideoFrameCallback), con `seeked` + un cuadro de
+  // animación extra como respaldo (Safari a veces entrega el cuadro anterior en
+  // `seeked`). Si el navegador se traga los eventos, un vigilante libera la cola.
   let seeking = false;
   let pendingTime: number | null = null;
   let lastSeekTime = -1;
   let seekTimer: number | undefined;
+  let frameCallback: number | undefined;
+  let extraFrame: number | undefined;
+
+  const finishSeek = () => {
+    window.clearTimeout(seekTimer);
+    if (frameCallback !== undefined) {
+      video.cancelVideoFrameCallback(frameCallback);
+      frameCallback = undefined;
+    }
+    seeking = false;
+    issueSeek();
+  };
+
   const issueSeek = () => {
     if (pendingTime === null || stopped || contextLost) return;
     if (video.readyState < HTMLMediaElement.HAVE_METADATA) return;
@@ -217,53 +191,42 @@ export function createHandRenderer(
     if (time === lastSeekTime) return;
     lastSeekTime = time;
     seeking = true;
-    window.clearTimeout(seekTimer);
     seekTimer = window.setTimeout(() => {
-      seeking = false;
-      issueSeek();
+      lastSeekTime = -1;
+      finishSeek();
     }, 400);
+    if (typeof video.requestVideoFrameCallback === "function") {
+      frameCallback = video.requestVideoFrameCallback(() => {
+        frameCallback = undefined;
+        draw();
+      });
+    }
     video.currentTime = time;
   };
+
   const seek = (time: number) => {
-    if (!scrub) return;
     // Al centro del cuadro, para que el redondeo no caiga en el anterior.
     const frame = Math.max(0, Math.round(time * frameRate));
     pendingTime = (frame + 0.5) / frameRate;
     if (!seeking) issueSeek();
   };
+
   const onSeeked = () => {
-    window.clearTimeout(seekTimer);
-    draw();
-    seeking = false;
-    issueSeek();
+    if (!draw()) lastSeekTime = -1; // no se pudo pintar: permitir reintento
+    if (extraFrame !== undefined) cancelAnimationFrame(extraFrame);
+    extraFrame = requestAnimationFrame(() => {
+      extraFrame = undefined;
+      draw();
+    });
+    finishSeek();
   };
   const onLoadedMetadata = () => {
     if (!seeking) issueSeek();
   };
-  const onPlaying = () => {
-    cancelFrame();
-    scheduleFrame();
-  };
-  const syncPlayback = () => {
-    cancelFrame();
-    if (scrub) {
-      video.pause();
-      draw();
-      return;
-    }
-    if (document.hidden || reducedMotion.matches || contextLost) {
-      video.pause();
-      if (reducedMotion.matches && Number.isFinite(video.duration)) {
-        video.currentTime = Math.min(STILL_FRAME_TIME, video.duration);
-      }
-      draw();
-    } else {
-      play();
-    }
-  };
-  const onLoaded = () => {
-    draw();
-    syncPlayback();
+  const onLoadedData = () => {
+    // Si ya hay un cuadro pedido, no pintar el 0: se pinta el pedido.
+    if (pendingTime === null && !seeking) draw();
+    else if (!seeking) issueSeek();
   };
   const resize = () => {
     const ratio = Math.min(window.devicePixelRatio || 1, 3);
@@ -281,55 +244,58 @@ export function createHandRenderer(
     event.preventDefault();
     contextLost = true;
     hasFrame = false;
-    cancelFrame();
-    video.pause();
     onReady(false);
   };
   const onContextRestored = () => {
     contextLost = false;
     resources = createResources(gl);
     resize();
-    syncPlayback();
+    lastSeekTime = -1;
+    issueSeek();
   };
-  const onError = () => {
-    cancelFrame();
-    onReady(false);
+  const onError = () => onReady(false);
+
+  // Cambio de densidad (otro monitor): el ResizeObserver no se entera.
+  let densityQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+  const onDensity = () => {
+    densityQuery.removeEventListener("change", onDensity);
+    densityQuery = window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`);
+    densityQuery.addEventListener("change", onDensity);
+    resize();
   };
+  densityQuery.addEventListener("change", onDensity);
 
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
   canvas.addEventListener("webglcontextlost", onContextLost);
   canvas.addEventListener("webglcontextrestored", onContextRestored);
   video.addEventListener("loadedmetadata", onLoadedMetadata);
-  video.addEventListener("loadeddata", onLoaded);
-  video.addEventListener("playing", onPlaying);
+  video.addEventListener("loadeddata", onLoadedData);
   video.addEventListener("seeked", onSeeked);
   video.addEventListener("error", onError);
-  document.addEventListener("visibilitychange", syncPlayback);
-  window.addEventListener("pointerdown", play, { passive: true });
-  reducedMotion.addEventListener("change", syncPlayback);
   video.muted = true;
+  video.pause();
   resize();
-  if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) onLoaded();
-  else play();
+  if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) onLoadedData();
 
   const dispose = () => {
     stopped = true;
-    cancelFrame();
+    window.clearTimeout(seekTimer);
+    if (frameCallback !== undefined) video.cancelVideoFrameCallback(frameCallback);
+    if (extraFrame !== undefined) cancelAnimationFrame(extraFrame);
+    densityQuery.removeEventListener("change", onDensity);
     observer.disconnect();
     canvas.removeEventListener("webglcontextlost", onContextLost);
     canvas.removeEventListener("webglcontextrestored", onContextRestored);
-    window.clearTimeout(seekTimer);
     video.removeEventListener("loadedmetadata", onLoadedMetadata);
-    video.removeEventListener("loadeddata", onLoaded);
-    video.removeEventListener("playing", onPlaying);
+    video.removeEventListener("loadeddata", onLoadedData);
     video.removeEventListener("seeked", onSeeked);
     video.removeEventListener("error", onError);
-    document.removeEventListener("visibilitychange", syncPlayback);
-    window.removeEventListener("pointerdown", play);
-    reducedMotion.removeEventListener("change", syncPlayback);
     video.pause();
-    if (!contextLost) resources.dispose();
+    if (!contextLost) {
+      resources.dispose();
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+    }
   };
 
   return { dispose, seek };

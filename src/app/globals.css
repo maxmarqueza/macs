@@ -17,7 +17,7 @@
 }
 
 /* Entradas del hero: mismos valores que las animaciones de `motion` del original
-   (duración, retardo y curva 0.16, 1, 0.3, 1); corren siempre, como allí. */
+   (duración, retardo y curva 0.16, 1, 0.3, 1). */
 @theme {
   --ease-hero: cubic-bezier(0.16, 1, 0.3, 1);
   --animate-hero-nav: hero-nav 0.8s var(--ease-hero) both;
@@ -101,15 +101,19 @@ body:has(.handstouch-page) {
 
 .hands-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100lvh;
   z-index: 60;
   overflow: hidden;
   pointer-events: none;
   user-select: none;
 }
 
+/* Degradado inferior del hero: vive dentro de la sección fija, bajo su texto. */
 .bottom-gradient {
-  position: fixed;
+  position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
@@ -138,12 +142,34 @@ body:has(.handstouch-page) {
 }
 
 .hands-canvas,
+.hands-poster {
+  transition: opacity 200ms ease;
+}
+
+.hands-canvas,
 .hands-frame[data-ready="true"] .hands-poster {
   opacity: 0;
 }
 
 .hands-frame[data-ready="true"] .hands-canvas {
   opacity: 1;
+}
+
+/* Sin animaciones de entrada si la página abre ya desplazada o se pide reducir movimiento. */
+[data-entrance="skip"] .animate-hero-nav,
+[data-entrance="skip"] .animate-hero-backdrop,
+[data-entrance="skip"] .animate-hero-rise,
+[data-entrance="skip"] .animate-hero-footer {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-nav,
+  .animate-hero-backdrop,
+  .animate-hero-rise,
+  .animate-hero-footer {
+    animation: none;
+  }
 }
 
 .hands-source {
@@ -166,10 +192,9 @@ body:has(.handstouch-page) {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  min-height: 100svh;
   padding: 132px 48px 36px;
   gap: 28px;
-  overflow: hidden;
   background: transparent;
   color: black;
   letter-spacing: 0;

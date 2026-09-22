@@ -2,73 +2,60 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import {
+  BACKDROP_SRC,
+  HANDS_FPS,
+  HANDS_FRAMES,
+  POSTER_SRC,
+  neededWidth,
+  pickHandsTier,
+} from "@/data/media";
 import type { HandRenderer } from "./hand-renderer";
-import { About, Footer, Hero, Navbar, inter, outfit } from "./HandsTouchHero";
+import { About, Footer, Hero, Navbar, SiteFooter, inter, outfit } from "./HandsTouchHero";
 
 /**
- * Portada con el acercamiento de las manos controlado por el scroll, sobre el
- * diseño de handstouch: empieza con las manos en reposo y, conforme se baja,
- * se acercan hasta tocarse; el hero queda fijo mientras dura el recorrido y
- * después entra la segunda pantalla.
+ * Portada: el acercamiento de las manos lo controla el scroll, sobre el diseño
+ * de handstouch. Empieza con las manos en reposo y, conforme se baja, se acercan
+ * hasta tocarse (cuadro 144 del clip); el hero queda fijo mientras dura el
+ * recorrido, el toque se sostiene un momento y después entra la segunda
+ * pantalla, con la que las manos se van.
  *
- * Variantes (la portada usa «b», la elegida por Max; `/lab/scroll` permite
- * comparar con «a»):
- *  - a «Directo»: el scroll mueve las manos 1:1, sin más efectos.
- *  - b «Parallax»: inercia de resorte y capas a distinta velocidad (fondo,
- *    título, pie, manos); el toque se sostiene un momento antes de soltar.
+ * Movimiento: progreso de scroll → curva que compensa el frenado natural del
+ * metraje → resorte críticamente amortiguado (solo con puntero fino; en táctil
+ * el mapeo es directo) → cuadro del video. Parallax por capas: fondo, título,
+ * pie y manos. Todo se desactiva con `prefers-reduced-motion` salvo el scrub.
  *
- * El video de scroll (`public/media/hands-scroll-*.mp4`) cubre del reposo al
- * toque (0 → 5.2 s del original) interpolado a 48 fps con compensación de
- * movimiento (250 cuadros, pasos de ~2 px en pantalla), con todos los cuadros
- * clave y compresión casi sin pérdida, porque cada cuadro se ve quieto.
+ * Carga: el video del nivel elegido se descarga completo con `fetch` (barra de
+ * progreso discreta) y se asigna como Blob, así cada búsqueda es local y nunca
+ * espera a la red. Mientras llega, el póster (cuadro 0) queda quieto y las manos
+ * alcanzan la posición del scroll en cuanto hay datos.
  */
 
-export type Variant = "a" | "b";
-
-const SCROLL_FPS = 48;
-const SCROLL_FRAMES = 250;
-const TOUCH_TIME = (SCROLL_FRAMES - 1) / SCROLL_FPS; // último cuadro: dedos en contacto
-
-type Config = {
-  label: string;
-  summary: string;
-  pinVh: number; // alto del recorrido de scroll del hero
-  holdEnd: number; // fracción final del recorrido en que el toque se sostiene
-  spring: boolean; // inercia
-  parallax: boolean;
-};
-
-export const CONFIGS: Record<Variant, Config> = {
-  a: { label: "A · Directo", summary: "El scroll mueve las manos 1:1, sin efectos.", pinVh: 200, holdEnd: 0, spring: false, parallax: false },
-  b: { label: "B · Parallax", summary: "Inercia de resorte y capas a distinta velocidad.", pinVh: 280, holdEnd: 0.1, spring: true, parallax: true },
-};
+const TOUCH_TIME = (HANDS_FRAMES - 1) / HANDS_FPS; // último cuadro: dedos en contacto
+const PIN_VH = 280; // recorrido de scroll del hero
+const HOLD_END = 0.06; // fracción final del recorrido en que el toque se sostiene
+const STIFFNESS = 900; // resorte con puntero fino: asienta en ~0.15 s, sin rebote
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const smoothstep = (x: number) => {
   const t = clamp01(x);
   return t * t * (3 - 2 * t);
 };
-// Suavizado leve del recorrido: conserva el ritmo natural del metraje y solo
-// redondea arranque y llegada.
-const easeProgress = (p: number) => 0.5 * p + 0.5 * smoothstep(p);
-
-const HANDS_TIERS: readonly (readonly [number, string])[] = [
-  [1920, "/media/hands-scroll-1920.mp4"],
-  [3072, "/media/hands-scroll-3072.mp4"],
-  [Infinity, "/media/hands-scroll-3840.mp4"],
-];
-const BACKDROP_TIERS: readonly (readonly [number, string])[] = [
-  [1920, "/media/background-1920.mp4"],
-  [Infinity, "/media/background-3840.mp4"],
-];
-const pick = (needed: number, tiers: readonly (readonly [number, string])[]) =>
-  (tiers.find(([max]) => needed <= max) ?? tiers[tiers.length - 1])[1];
+/** El metraje ya frena solo al final; esta curva lo compensa para que el avance por scroll sea uniforme. */
+const easeProgress = (p: number) => 0.65 * p + 0.35 * p * p;
 
 /** Resorte críticamente amortiguado: llega sin rebote, con arranque y frenado naturales. */
 class Spring {
   pos = 0;
   vel = 0;
   constructor(private readonly stiffness: number) {}
+  init(pos: number) {
+    this.pos = pos;
+    this.vel = 0;
+  }
+  settled(target: number) {
+    return this.pos === target && this.vel === 0;
+  }
   step(target: number, dtSeconds: number) {
     const damping = 2 * Math.sqrt(this.stiffness);
     let remaining = Math.min(0.1, dtSeconds);
@@ -88,14 +75,40 @@ class Spring {
   }
 }
 
-type Props = {
-  variant?: Variant;
-  /** Si se pasa, muestra el selector de variantes (vista previa). */
-  onVariantChange?: (v: Variant) => void;
-};
+type NetworkInformation = { saveData?: boolean };
 
-export default function ScrollHero({ variant = "b", onVariantChange }: Props) {
+/** Descarga completa con progreso; devuelve una URL de Blob local. */
+async function fetchAsObjectUrl(
+  url: string,
+  signal: AbortSignal,
+  onProgress: (fraction: number) => void,
+) {
+  const response = await fetch(url, { signal, priority: "high" } as RequestInit);
+  if (!response.ok || !response.body) throw new Error(`HTTP ${response.status}`);
+  const total = Number(response.headers.get("content-length")) || 0;
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let received = 0;
+  let lastReported = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    received += value.length;
+    const fraction = total ? received / total : 0;
+    if (fraction - lastReported >= 0.02) {
+      lastReported = fraction;
+      onProgress(fraction);
+    }
+  }
+  onProgress(1);
+  return URL.createObjectURL(new Blob(chunks as BlobPart[], { type: "video/mp4" }));
+}
+
+export default function ScrollHero() {
   const [ready, setReady] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLVideoElement>(null);
   const backdropWrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -104,106 +117,211 @@ export default function ScrollHero({ variant = "b", onVariantChange }: Props) {
   const titleRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const rendererRef = useRef<HandRenderer | null>(null);
-  const variantRef = useRef<Variant>(variant);
-
-  useEffect(() => {
-    variantRef.current = variant;
-  }, [variant]);
+  const timeRef = useRef(0);
 
   // Videos + compositor (una sola vez).
   useEffect(() => {
+    const root = rootRef.current;
     const backdrop = backdropRef.current;
     const canvas = canvasRef.current;
     const source = sourceRef.current;
-    if (!backdrop || !canvas || !source) return;
+    if (!root || !backdrop || !canvas || !source) return;
     let cancelled = false;
-    const needed = Math.ceil(window.innerWidth * Math.min(window.devicePixelRatio || 1, 3));
-    backdrop.src = pick(needed, BACKDROP_TIERS);
-    source.src = pick(needed, HANDS_TIERS);
+    let objectUrl: string | undefined;
+    const controller = new AbortController();
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const showProgress = (fraction: number) => {
+      const bar = progressRef.current;
+      if (!bar) return;
+      bar.style.width = `${Math.round(fraction * 100)}%`;
+      bar.style.opacity = fraction >= 1 ? "0" : "1";
+    };
+
+    // Si la página abre ya desplazada (recarga, volver atrás), sin animaciones de entrada.
+    root.dataset.entrance = window.scrollY > 8 ? "skip" : "play";
+
+    // Fondo ambiental: pausado con «reducir movimiento» o pestaña oculta; si el
+    // navegador bloquea la reproducción automática, el primer gesto la reanuda.
+    backdrop.src = BACKDROP_SRC;
     backdrop.muted = true;
-    const playBackdrop = () => void backdrop.play().catch(() => {});
-    playBackdrop();
-    window.addEventListener("pointerdown", playBackdrop, { passive: true });
-    import("./hand-renderer")
-      .then(({ createHandRenderer }) => {
-        if (cancelled) return;
-        try {
-          rendererRef.current = createHandRenderer(canvas, source, setReady, {
-            scrub: true,
-            frameRate: SCROLL_FPS,
-          });
-        } catch {
-          setReady(false);
-        }
+    const syncBackdrop = () => {
+      if (reduced.matches || document.hidden) backdrop.pause();
+      else void backdrop.play().catch(() => {});
+    };
+    syncBackdrop();
+    document.addEventListener("visibilitychange", syncBackdrop);
+    reduced.addEventListener("change", syncBackdrop);
+    const gestures = ["touchend", "click", "keydown"] as const;
+    gestures.forEach((g) => window.addEventListener(g, syncBackdrop, { passive: true }));
+
+    // Manos: solo el póster si el usuario pidió ahorrar datos. (No se usa
+    // `effectiveType`: es una estimación que Chrome da mal con frecuencia.)
+    const connection = (navigator as Navigator & { connection?: NetworkInformation }).connection;
+    const lowData = connection?.saveData === true;
+    if (!lowData) {
+      const url = pickHandsTier(neededWidth(window.innerWidth, window.devicePixelRatio));
+      fetchAsObjectUrl(url, controller.signal, (f) => {
+        if (!cancelled) showProgress(f);
       })
-      .catch(() => setReady(false));
+        .then((blobUrl) => {
+          if (cancelled) {
+            URL.revokeObjectURL(blobUrl);
+            return;
+          }
+          objectUrl = blobUrl;
+          source.src = blobUrl;
+        })
+        .catch(() => {
+          // Sin Blob (fallo de red o de memoria): el navegador carga por rangos.
+          if (!cancelled) {
+            showProgress(1);
+            source.src = url;
+          }
+        });
+      import("./hand-renderer")
+        .then(({ createHandRenderer }) => {
+          if (cancelled) return;
+          try {
+            const renderer = createHandRenderer(canvas, source, setReady, { frameRate: HANDS_FPS });
+            rendererRef.current = renderer;
+            renderer.seek(timeRef.current); // lo que el scroll ya pidió antes de existir
+          } catch {
+            setReady(false);
+          }
+        })
+        .catch(() => setReady(false));
+    } else {
+      showProgress(1);
+    }
+
     return () => {
       cancelled = true;
+      controller.abort();
       rendererRef.current?.dispose();
       rendererRef.current = null;
-      window.removeEventListener("pointerdown", playBackdrop);
+      source.removeAttribute("src");
+      source.load();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      document.removeEventListener("visibilitychange", syncBackdrop);
+      reduced.removeEventListener("change", syncBackdrop);
+      gestures.forEach((g) => window.removeEventListener(g, syncBackdrop));
       backdrop.pause();
+      backdrop.removeAttribute("src");
+      backdrop.load();
     };
   }, []);
 
-  // Bucle de scroll: progreso → cuadro de las manos + parallax.
+  // Bucle de scroll: progreso → cuadro de las manos + parallax. Duerme cuando
+  // nada cambia y despierta con scroll o resize.
   useEffect(() => {
-    let raf = 0;
-    const approach = new Spring(170);
-    let lastFrame = -1;
-    let lastNow = performance.now();
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const direct = coarse || reduced; // táctil: 1:1 con el dedo; reducido: sin inercia
+    const spring = new Spring(STIFFNESS);
+    let initialized = false;
+    let raf = 0;
+    let idle = false;
+    let lastNow = performance.now();
+    let lastActivity = performance.now();
+    let lastFrame = -1;
+    let lastRaw = -1;
+    let lastPast = -1;
+
+    const wake = () => {
+      lastActivity = performance.now();
+      if (idle) {
+        idle = false;
+        lastNow = performance.now();
+        raf = requestAnimationFrame(tick);
+      }
+    };
+
     const tick = (now: number) => {
-      raf = requestAnimationFrame(tick);
       const dt = (now - lastNow) / 1000;
       lastNow = now;
-      const cfg = CONFIGS[variantRef.current];
       const pin = pinRef.current;
-      if (!pin) return;
-      const vh = window.innerHeight;
+      const section = sectionRef.current;
+      if (!pin || !section) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      const vh = section.offsetHeight; // estable en móvil (svh), a diferencia de innerHeight
       const rect = pin.getBoundingClientRect();
-      const range = Math.max(1, rect.height - vh);
-      // Recorrido útil: el tramo final (`holdEnd`) sostiene el toque antes de soltar.
-      const raw = clamp01(-rect.top / (range * (1 - cfg.holdEnd)));
-      const target = cfg.spring ? easeProgress(raw) : raw;
-      const p = cfg.spring && !reduced ? approach.step(target, dt) : target;
+      const range = Math.max(1, pin.offsetHeight - vh);
+      const raw = clamp01(-rect.top / (range * (1 - HOLD_END)));
+      const past = Math.max(0, -rect.top - range); // px recorridos tras soltar el hero
+      const target = easeProgress(raw);
+      if (!initialized) {
+        spring.init(target);
+        initialized = true;
+      }
+      const p = direct ? target : spring.step(target, dt);
 
       const time = p * TOUCH_TIME;
-      const frame = Math.round(time * SCROLL_FPS);
-      if (frame !== lastFrame) {
+      timeRef.current = time;
+      const frame = Math.round(time * HANDS_FPS);
+      if (frame !== lastFrame && rendererRef.current) {
         lastFrame = frame;
-        rendererRef.current?.seek(time);
+        rendererRef.current.seek(time);
       }
 
-      const q = cfg.parallax ? p : 0;
+      const q = reduced ? 0 : p;
       const bg = backdropWrapRef.current;
       const hands = handsRef.current;
       const title = titleRef.current;
       const footer = footerRef.current;
-      if (bg) bg.style.transform = `translate3d(0, ${(-6 * q).toFixed(3)}vh, 0) scale(${(1 + 0.07 * q).toFixed(4)})`;
-      if (hands) hands.style.transform = `translate3d(0, ${(-4 * q).toFixed(3)}vh, 0)`;
+      if (bg) bg.style.transform = `translate3d(0, ${(-0.06 * vh * q).toFixed(1)}px, 0) scale(${(1 + 0.07 * q).toFixed(4)})`;
+      // Las manos solo se trasladan (nunca se reescalan) y, pasado el hero, se van con él.
+      if (hands) hands.style.transform = `translate3d(0, ${(-0.04 * vh * q - past * 0.9).toFixed(1)}px, 0)`;
       if (title) {
-        title.style.transform = `translate3d(0, ${(-9 * q).toFixed(3)}vh, 0)`;
-        title.style.opacity = (1 - 0.85 * q * q).toFixed(3);
+        title.style.transform = `translate3d(0, ${(-0.1 * vh * q).toFixed(1)}px, 0)`;
+        title.style.opacity = (1 - smoothstep(q / 0.75)).toFixed(3); // se va del todo antes del toque
       }
       if (footer) {
-        footer.style.transform = `translate3d(0, ${(-3 * q).toFixed(3)}vh, 0)`;
-        footer.style.opacity = (1 - clamp01(q / 0.45)).toFixed(3);
+        const opacity = 1 - clamp01(q / 0.45);
+        footer.style.transform = `translate3d(0, ${(-0.03 * vh * q).toFixed(1)}px, 0)`;
+        footer.style.opacity = opacity.toFixed(3);
+        const hidden = opacity <= 0.02;
+        footer.style.visibility = hidden ? "hidden" : "";
+        footer.toggleAttribute("inert", hidden);
       }
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
 
-  const cfg = CONFIGS[variant];
+      const settled = direct ? true : spring.settled(target);
+      const quiet = raw === lastRaw && past === lastPast && settled && now - lastActivity > 250;
+      lastRaw = raw;
+      lastPast = past;
+      if (quiet) {
+        idle = true;
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("scroll", wake, { passive: true });
+    window.addEventListener("resize", wake);
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", wake);
+      window.removeEventListener("resize", wake);
+    };
+  }, []);
 
   return (
     <div
+      ref={rootRef}
       className={`${inter.variable} ${outfit.variable} handstouch-page w-full bg-white font-hero-sans text-black antialiased selection:bg-black selection:text-white`}
     >
+      {/* Progreso de descarga del video (discreto, arriba). */}
+      <div
+        ref={progressRef}
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 z-[80] h-[2px] w-0 bg-black/60 transition-[width,opacity] duration-300"
+      />
+
       <Navbar />
-      <div aria-hidden="true" className="bottom-gradient" />
 
       {/* Fondo fijo (z 0); el parallax va en el envoltorio, no en el elemento animado. */}
       <div ref={backdropWrapRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 will-change-transform">
@@ -222,12 +340,12 @@ export default function ScrollHero({ variant = "b", onVariantChange }: Props) {
         </div>
       </div>
 
-      {/* Manos fijas (z 60), controladas por el scroll. Solo se trasladan: nunca se reescalan. */}
+      {/* Manos fijas (z 60), controladas por el scroll. */}
       <div ref={handsRef} className="hands-overlay will-change-transform" aria-hidden="true">
         <div className="hands-frame" data-ready={ready}>
           <Image
             className="hands-poster"
-            src="/media/hands-poster.webp"
+            src={POSTER_SRC}
             width={3840}
             height={1280}
             sizes="100vw"
@@ -252,44 +370,25 @@ export default function ScrollHero({ variant = "b", onVariantChange }: Props) {
 
       <main>
         {/* Recorrido de scroll del hero: la pantalla queda fija mientras las manos se acercan. */}
-        <div ref={pinRef} style={{ height: `${cfg.pinVh}vh` }}>
+        <div ref={pinRef} style={{ height: `${PIN_VH}svh` }}>
           <section
+            ref={sectionRef}
             aria-labelledby="hero-title"
-            className="sticky top-0 flex h-screen w-full flex-col justify-between overflow-hidden"
+            className="sticky top-0 flex h-svh w-full flex-col justify-between overflow-hidden"
           >
-            <div ref={titleRef} className="flex min-h-0 flex-1 flex-col will-change-transform">
+            <div aria-hidden="true" className="bottom-gradient" />
+            <div ref={titleRef} className="relative z-30 flex min-h-0 flex-1 flex-col will-change-transform">
               <Hero />
             </div>
-            <div ref={footerRef} className="will-change-transform">
+            <div ref={footerRef} className="relative z-30 will-change-transform">
               <Footer />
             </div>
           </section>
         </div>
 
         <About />
+        <SiteFooter />
       </main>
-
-      {onVariantChange && (
-        <div className="pointer-events-auto fixed bottom-5 left-1/2 z-[70] flex -translate-x-1/2 flex-col items-center gap-2">
-          <div className="flex items-center gap-1 rounded-full border border-black/10 bg-white/90 p-1 shadow-lg backdrop-blur">
-            {(Object.keys(CONFIGS) as Variant[]).map((v) => (
-              <button
-                key={v}
-                type="button"
-                onClick={() => onVariantChange(v)}
-                className={`cursor-pointer rounded-full px-4 py-2 text-[12px] font-medium transition-colors ${
-                  v === variant ? "bg-black text-white" : "text-black/70 hover:bg-black/5"
-                }`}
-              >
-                {CONFIGS[v].label}
-              </button>
-            ))}
-          </div>
-          <p className="rounded-full bg-white/80 px-3 py-1 text-[11px] text-black/60 backdrop-blur">
-            Vista previa · {cfg.summary} Haz scroll.
-          </p>
-        </div>
-      )}
     </div>
   );
 }

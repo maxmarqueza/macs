@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import ScrollHero from "@/components/hero/ScrollHero";
 import { openGraphBase, site } from "@/data/site";
 
@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   },
 };
 
+// La portada es blanca en ambos esquemas: la barra del navegador debe serlo también.
+export const viewport: Viewport = { themeColor: "#ffffff" };
+
 export default function Home() {
-  return <ScrollHero variant="b" />;
+  return <ScrollHero />;
 }

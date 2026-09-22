@@ -1,5 +1,50 @@
 # Changelog
 
+## 2026-09-22 (auditoría a fondo de la portada y corrección integral)
+- Max: «vuelve a revisar a fondo, no quedó bien, déjalo perfecto, es la imagen de mi empresa». Se corrió una
+  auditoría con siete revisores independientes (código, carga, imagen, movimiento, marca, navegadores y una
+  inspección en vivo) y se corrigió todo lo confirmado, sin más agentes para no gastar créditos.
+- **El video terminaba antes del toque.** Medido con componentes conexas sobre la máscara: el contacto real
+  ocurre en los cuadros 140–148 del original (5.83–6.17 s) y el clip cortaba en el 125 con 48 px de
+  separación. Nuevo clip 0 → cuadro 144 (145 cuadros a 24 fps nativos; se abandona la interpolación a 48 fps
+  porque los cuadros intermedios eran un 20 % más blandos y hacían parpadear la nitidez).
+- **Material regenerado** desde el máster (`hands-scroll-*.v2.mp4`): máscara erosionada 2 px + suavizado 1 px
+  (quita el halo claro y la contaminación negra del borde), color convertido y **etiquetado BT.709/tv**
+  (antes sin etiquetas y con matriz 601: tono distinto entre navegadores y salto póster → canvas), **píxel
+  cuadrado** (los mp4 llevaban SAR 539:540 y el navegador reescalaba cada cuadro), nivel superior **3744 px**
+  (H.264 nivel 5.1, decodificable por hardware; 3840×2560 exigía nivel 6.0) y nuevo nivel **1296 px** para
+  teléfonos. CRF 12, todos los cuadros clave, `slices=4`. Pesos: 5.5 / 9.5 / 19.3 / 26.9 MB. Fondo: solo el
+  nivel 1920 (el 4K era un desenfoque idéntico). Póster nuevo con el alfa del shader (webp q95).
+- **Carga.** El video se descarga completo con `fetch` y se asigna como Blob: todas las búsquedas son locales
+  (antes, con `preload`, un scroll temprano buscaba en rangos sin descargar y las manos se congelaban o
+  saltaban). Barra de progreso de 2 px arriba. Precarga desde `<head>` con un script inline antes del JS
+  (`src/data/media.ts`, fuente única de niveles). `/media/*` con `Cache-Control: immutable` y nombres
+  versionados (`next.config.ts`). Sin video solo si el usuario activó ahorro de datos.
+- **Movimiento.** Curva `0.65p + 0.35p²` que compensa el frenado natural del metraje (antes doble ease-out:
+  arranque pegado y final lento); resorte más firme (900, asienta en ~0.15 s) y mapeo directo en táctil;
+  el toque se sostiene el 6 % final; el resorte arranca en la posición del scroll (recarga/volver atrás sin
+  animación espuria); el título se desvanece del todo antes del toque (ya no queda un «fantasma» al 15 %
+  entre los dedos); el pie se oculta de verdad (`visibility` + `inert`) al desaparecer; **tras el hero las
+  manos se van con él** (antes quedaban fijas tapando el párrafo de la segunda pantalla); bucle rAF que
+  duerme cuando nada cambia; `prefers-reduced-motion` desactiva parallax, fondo y entradas (el scrub por
+  scroll se conserva); sin animaciones de entrada si la página abre ya desplazada.
+- **Capas.** El degradado blanco vive dentro de la sección fija del hero, bajo su texto: el pie del hero
+  (lema, copy, etiquetas) ya no se ve lavado y la segunda pantalla ya no queda bajo el degradado.
+- **Compositor.** Dibujo tras `requestVideoFrameCallback` (Safari entregaba el cuadro anterior en
+  `seeked`), respaldo con `seeked` + un cuadro extra, `highp` en el shader, `WEBGL_lose_context` y limpieza
+  de `src` al desmontar, cambio de densidad de pantalla, sin código de reproducción automática.
+- **Móvil.** Unidades `svh`/`lvh` y recorrido calculado con las alturas reales de la sección (antes
+  `100vh` + `innerHeight` saltaban al plegarse la barra del navegador).
+- **Página terminada.** El botón «Menú» abre un menú real (Inicio, Un Mc para cada área, McMarketing,
+  Próximos Mc, Contacto; Escape/clic fuera cierran); las pastillas «Agentes IA · Automatización» enlazan;
+  cierre de sitio con CTA de contacto y línea legal (`SiteFooter`, `#contacto`); anclas `#agentes` y
+  `#proximos` (los CTAs de la ficha de McMarketing volvían a anclas inexistentes); página 404 con marca;
+  **imagen para compartir** rehecha en blanco con las manos tocándose; `theme-color` blanco en la portada;
+  un solo `h1` («MACS / inteligencia hecha humana»); contraste del subtítulo y del lema del pie subido;
+  `lastModified` fijo en el sitemap; eliminada la vista previa `/lab/scroll` y la variante A.
+- Pendiente que no depende del código: `contacto@macstech.mx` sigue sin buzón (sin MX); todos los contactos
+  del sitio apuntan ahí. Y la ficha de McMarketing conserva la identidad oscura anterior.
+
 ## 2026-09-22 (portada por scroll, variante B perfeccionada)
 - Max eligió la variante **B** («me gusta la B pero pierde muchísima calidad, perfecciónalo»). Ahora es la
   portada (`src/components/hero/ScrollHero.tsx`), y `/lab/scroll` la conserva junto a A para comparar.
