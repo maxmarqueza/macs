@@ -26,7 +26,9 @@ capas pegajosas que se van con la segunda pantalla, así no flotan sobre las sec
 se reescalaron con IA a 4K UHD y se sirven por niveles según la pantalla (1920 / 3072 / 3840 px las
 manos; 1920 / 3840 px el fondo), 33 MB en `public/media/`. Código en `src/components/hero/` (WebGL puro,
 sin dependencias nuevas). Verificado en local lado a lado con el build original (scroll 0 / 450 / 900 px
-idéntico a 1440 × 900; 375 × 812 sin desbordamiento; lint y build). Detalle en `CHANGELOG.md`.
+idéntico a 1440 × 900; 375 × 812 sin desbordamiento; lint y build) y **publicado** con el commit
+`acb53e3` ([despliegue](https://vercel.com/imaxmx/macs/HpTz5D6c2rsCy9ZWc7vqWWtzda7F) `success`; la portada
+responde 200 con las dos pantallas). Detalle en `CHANGELOG.md`.
 Pendientes: decidir el texto y la barra definitivos del hero, y confirmar la licencia de los videos.
 
 **Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas

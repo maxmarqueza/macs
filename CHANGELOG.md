@@ -16,6 +16,10 @@
 - Verificado en local contra el build original servido lado a lado: 1440 × 900 en scroll 0 / 450 / 900 px
   idéntico; a 1350 y 1800 px las capas ya se fueron y siguen las secciones de MACS; 375 × 812 sin
   desbordamiento. Lint y build en verde.
+- **Publicado** con el commit `acb53e34b6f2217bb235492e7a1a60319cef825e` en `main`.
+  [Despliegue Vercel](https://vercel.com/imaxmx/macs/HpTz5D6c2rsCy9ZWc7vqWWtzda7F): estado del commit en
+  GitHub `success`, «Deployment has completed». La portada en producción responde 200 e incluye las capas
+  pegajosas y la sección «Built to move with you».
 
 ## 2026-09-22 (hero tal cual el original, en 4K UHD)
 - **Hero copiado tal cual de [vikod3/handstouch](https://github.com/vikod3/handstouch)**, por
