@@ -25,7 +25,9 @@ nivel 1296 para móvil; fondo solo 1920), carga completa por `fetch`/Blob con pr
 inmutable, movimiento afinado (curva compensatoria, resorte 900, hold 6 %, título que desaparece antes del
 toque, manos que se van con el hero), degradado dentro del hero, compositor robusto en Safari, `svh` en
 móvil, menú real, cierre de sitio con contacto (`#contacto`), anclas `#agentes`/`#proximos`, 404 con marca,
-imagen para compartir blanca con las manos, `/lab/scroll` eliminado. Detalle en `CHANGELOG.md`.
+imagen para compartir blanca con las manos, `/lab/scroll` eliminado. Publicado con el commit `88f1f32`
+([despliegue](https://vercel.com/imaxmx/macs/3XaFuq5jzPhDSeTj1X2QepANEpJG) `success`; portada, medios,
+imagen de compartir y 404 verificados en producción). Detalle en `CHANGELOG.md`.
 Pendientes: buzón de `contacto@macstech.mx` (sin MX) y unificar la ficha de McMarketing con la portada.
 
 **Último trabajo completado (2026-09-22):** la portada usa el diseño de

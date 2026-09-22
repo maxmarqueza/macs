@@ -44,6 +44,13 @@
   `lastModified` fijo en el sitemap; eliminada la vista previa `/lab/scroll` y la variante A.
 - Pendiente que no depende del código: `contacto@macstech.mx` sigue sin buzón (sin MX); todos los contactos
   del sitio apuntan ahí. Y la ficha de McMarketing conserva la identidad oscura anterior.
+- Verificado en local (lint, build, 1440 × 900 y 375 × 812: Blob cargado, toque en el último cuadro, pie
+  nítido, manos que se van con el hero, menú, 404, sin recursos fallidos) y **publicado** con el commit
+  `88f1f3285355ebd16c28d2cd34534dbeb486d476` en `main`.
+  [Despliegue Vercel](https://vercel.com/imaxmx/macs/3XaFuq5jzPhDSeTj1X2QepANEpJG): estado del commit en
+  GitHub `success`. En producción: portada 200 con los cuatro niveles `.v2`, anclas y `theme-color` blanco;
+  `/media/*` con `Cache-Control: immutable`; `/opengraph-image` PNG 1200 × 630; `/no-existe` y
+  `/lab/scroll` responden 404 con la página propia.
 
 ## 2026-09-22 (portada por scroll, variante B perfeccionada)
 - Max eligió la variante **B** («me gusta la B pero pierde muchísima calidad, perfecciónalo»). Ahora es la
