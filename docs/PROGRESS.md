@@ -26,7 +26,9 @@ negocio», «Un Mc para cada área», «01 / McMarketing: Publica. Responde. Con
 «El lado humano de la automatización», «02 / Próximos Mc: Soporte. Ventas. Datos.», áreas Marketing ·
 Soporte · Ventas · Datos · Contenido · Automatización; Contacto y etiquetas Soporte/Ventas enlazan a
 `contacto@macstech.mx`, Marketing a la ficha. Título y descripción de MACS. Código en
-`src/components/hero/`. Detalle en `CHANGELOG.md`. Pendientes: dónde vuelven el concepto, el roster
+`src/components/hero/`. **Publicado** con el commit `57ae37a`
+([despliegue](https://vercel.com/imaxmx/macs/2KaGbD4rMq1rmpT86RsLqgeMpkTi) `success`; portada 200 con los
+textos nuevos). Detalle en `CHANGELOG.md`. Pendientes: dónde vuelven el concepto, el roster
 completo y el contacto de MACS; y la licencia de los videos.
 
 **Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas

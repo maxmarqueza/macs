@@ -12,6 +12,11 @@
   Datos · Contenido · Automatización. Título y descripción vuelven a los de MACS.
 - Diseño, medidas, tipografías, capas fijas, animaciones y videos 4K: sin cambios. Solo se afirma lo que
   documenta `src/data/agents.ts` (los Mc en camino se presentan como «vienen en camino»).
+- Verificado en local (1440 × 900 y 375 × 812: textos completos sin desbordamiento, enlaces correctos,
+  consola limpia, lint y build) y **publicado** con el commit `57ae37a6db41ca19c03b61e3b18b0a3290f42eff`
+  en `main`. [Despliegue Vercel](https://vercel.com/imaxmx/macs/2KaGbD4rMq1rmpT86RsLqgeMpkTi): estado del
+  commit en GitHub `success`, «Deployment has completed». En producción la portada responde 200 con el
+  título de MACS, los textos nuevos y los enlaces a la ficha y al correo.
 
 ## 2026-09-22 (portada = página original completa; manos sin contorno negro)
 - **La portada es ahora la página de [vikod3/handstouch](https://github.com/vikod3/handstouch)
