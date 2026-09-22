@@ -20,6 +20,10 @@
   cuadro; compuestos sobre blanco sin franja negra en mano, robot y yemas; en el navegador la portada
   carga con título «NeuralKinetics», capas `fixed`, nivel 3072 px en 1440 × 900 @2x, sin errores; lint y
   build en verde.
+- **Publicado** con el commit `c4dbe267187aa52cd1e4d618f9462ef005f88cf2` en `main`.
+  [Despliegue Vercel](https://vercel.com/imaxmx/macs/BQef5EGDWfzJ4Lysg8ezSvwjAk5B): estado del commit en
+  GitHub `success`, «Deployment has completed». En producción la portada responde 200 con título
+  «NeuralKinetics», sin secciones de MACS, y los tres niveles nuevos de las manos responden 200.
 
 ## 2026-09-22 (hero 100 % original: capas fijas y segunda pantalla)
 - Max señaló que el hero no era idéntico al original. Diferencias corregidas: en

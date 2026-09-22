@@ -26,7 +26,9 @@ título y descripción del original, fondo blanco en ambos modos. Las secciones 
 portada (sigue `/agentes/mcmarketing`). Los videos van reescalados a 4K UHD por niveles (1920 / 3072 /
 3840 px las manos; 1920 / 3840 px el fondo) y se corrigió el contorno negro de las manos (ffmpeg
 desincronizaba color y máscara al apilarlos por bases de tiempo distintas; ahora se normalizan las marcas
-de tiempo y se verifica cuadro por cuadro). Código en `src/components/hero/` (WebGL puro, sin dependencias nuevas). Detalle en `CHANGELOG.md`.
+de tiempo y se verifica cuadro por cuadro). Código en `src/components/hero/` (WebGL puro, sin dependencias nuevas). **Publicado** con el commit `c4dbe26`
+([despliegue](https://vercel.com/imaxmx/macs/BQef5EGDWfzJ4Lysg8ezSvwjAk5B) `success`; portada y niveles de
+las manos responden 200 en producción). Detalle en `CHANGELOG.md`.
 Pendientes: qué hacer con el contenido de MACS que salió de la portada, y la licencia de los videos.
 
 **Trabajo anterior (2026-09-10):** publicada `/agentes/mcmarketing` con funciones ya documentadas, preguntas
