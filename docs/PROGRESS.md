@@ -24,7 +24,9 @@ sostenido al final), inercia de resorte crítico, parallax de capas, video de sc
 con compensación de movimiento y codificado casi sin pérdida (CRF 12, todos los cuadros clave) en niveles
 1920 / 3072 / 3840 px (13 / 26 / 37 MB). Código en `src/components/hero/ScrollHero.tsx` (+ piezas en
 `HandsTouchHero.tsx`, compositor en `hand-renderer.ts`). `/lab/scroll` sigue como vista previa (A y B).
-Se eliminaron el hero de reproducción automática y sus videos. Detalle en `CHANGELOG.md`.
+Se eliminaron el hero de reproducción automática y sus videos. Publicado con el commit `6f2b992`
+([despliegue](https://vercel.com/imaxmx/macs/2o2699iZCA3VmtJVC216ESNKgbn6) `success`; portada y videos 200).
+Detalle en `CHANGELOG.md`.
 
 **Último trabajo completado (2026-09-22):** la portada usa el diseño de
 [vikod3/handstouch](https://github.com/vikod3/handstouch) intacto (barra fija, hero, pie, sección «about»,

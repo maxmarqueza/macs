@@ -20,6 +20,12 @@
 - Limpieza: se eliminan el hero de reproducción automática (`HeroScene.tsx`), sus niveles
   `hands-rgba-*.mp4` y los videos de `media/lab/` (28 MB); la variante C queda fuera porque necesitaba el
   tramo de separación, que ya no se incluye. `public/media/` pesa 83 MB.
+- Verificado: resorte sin rebote que asienta en 0.5 s a 30/60/120 fps; el mapeo scroll → cuadro termina
+  en el cuadro 249 (toque) al 90 % del recorrido; en local carga el nivel 3072 en retina y 1920 en móvil
+  sin errores de red; lint y build. (El panel de Claude pausa la animación en segundo plano, así que la
+  fluidez se juzga en Chrome.) **Publicado** con el commit `6f2b9927ab10521461f37dd017668f9cd51500b8` en
+  `main`. [Despliegue Vercel](https://vercel.com/imaxmx/macs/2o2699iZCA3VmtJVC216ESNKgbn6): estado del
+  commit en GitHub `success`; portada, los tres niveles de scroll y `/lab/scroll` responden 200.
 
 ## 2026-09-22 (vista previa: manos controladas por el scroll)
 - Max pidió que el acercamiento de las manos lo controle el scroll (empieza en reposo, termina al tocarse
