@@ -2,15 +2,12 @@ import { Inter, Outfit } from "next/font/google";
 import HeroScene from "./HeroScene";
 
 /**
- * Página de github.com/vikod3/handstouch (src/App.tsx) copiada tal cual: barra
- * superior, hero con título y pie de etiquetas, sección «about», video ambiental
- * de fondo y las manos humana y robótica por encima. Textos, tipografías
- * (Inter + Outfit), medidas y animaciones son las del original. Diferencias solo
- * de implementación, sin efecto visual: `motion` → animaciones CSS con los mismos
- * valores, el icono de `lucide-react` → su SVG, y las capas `fixed` del original
- * (barra, video, degradado, manos) → capas `.hero-layer` pegajosas con el mismo
- * z-index, que se comportan como `fixed` durante las dos pantallas del original
- * y se van con ellas.
+ * Página completa de github.com/vikod3/handstouch (src/App.tsx) copiada tal
+ * cual: barra superior fija, hero con título y pie de etiquetas, sección «about»,
+ * video ambiental de fondo fijo y las manos humana y robótica fijas por encima.
+ * Textos, tipografías (Inter + Outfit), medidas, capas y animaciones son las del
+ * original. Diferencias solo de implementación, sin efecto visual: `motion` →
+ * animaciones CSS con los mismos valores y el icono de `lucide-react` → su SVG.
  */
 
 const inter = Inter({
@@ -101,7 +98,7 @@ function AdaptiveIcon() {
 
 function Navbar() {
   return (
-    <nav className="pointer-events-none absolute top-0 left-0 z-50 flex w-full flex-col items-center justify-between gap-4 p-6 animate-hero-nav sm:flex-row md:p-8">
+    <nav className="pointer-events-none fixed top-0 left-0 z-50 flex w-full flex-col items-center justify-between gap-4 p-6 animate-hero-nav sm:flex-row md:p-8">
       <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-3 sm:justify-start">
         <div className="flex items-center gap-1">
           <NeuralMark />
@@ -272,28 +269,22 @@ function About() {
 export default function HandsTouchHero() {
   return (
     <div
-      className={`${inter.variable} ${outfit.variable} hero-root relative w-full bg-white font-hero-sans text-black antialiased selection:bg-black selection:text-white`}
+      className={`${inter.variable} ${outfit.variable} handstouch-page w-full bg-white font-hero-sans text-black antialiased selection:bg-black selection:text-white`}
     >
-      {/* Capas «fixed» del original: video z-0 y manos z-60 (HeroScene), degradado z-20, barra z-50. */}
-      <HeroScene />
-      <div className="hero-layer z-20">
-        <div aria-hidden="true" className="bottom-gradient" />
-      </div>
-      <div className="hero-layer z-50">
-        <Navbar />
-      </div>
-
-      <div className="hero-content">
+      <Navbar />
+      <div aria-hidden="true" className="bottom-gradient" />
+      <main>
         <section
           aria-labelledby="hero-title"
           className="relative flex h-screen w-full flex-col justify-between overflow-hidden"
         >
+          <HeroScene />
           <Hero />
           <Footer />
         </section>
 
         <About />
-      </div>
+      </main>
     </div>
   );
 }

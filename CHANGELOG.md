@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-09-22 (portada = página original completa; manos sin contorno negro)
+- **La portada es ahora la página de [vikod3/handstouch](https://github.com/vikod3/handstouch)
+  completa y tal cual**, por indicación de Max («exactamente como la página original, no importa si no
+  queda nada de MACS»): barra fija, hero, pie con etiquetas, sección «Built to move with you», video de
+  fondo, degradado y manos con `position: fixed` como en el original, título y descripción del original
+  («NeuralKinetics»), fondo blanco también en modo oscuro. Se quitaron de la portada las secciones de
+  MACS (concepto, roster, contacto y pie). `/agentes/mcmarketing`, el sitemap y el resto del sitio siguen.
+- **Contorno negro de las manos, corregido.** Al comparar el compuesto sobre blanco del 4K con el del
+  original apareció una franja negra en el lado del movimiento de los dedos. Causa real, comprobada
+  cuadro por cuadro: al apilar el color reescalado (mp4, base de tiempo 1/12288) con la máscara
+  (mkv, base 1/1000), la sincronización de ffmpeg emparejaba cuadros distintos y la máscara quedaba uno o
+  dos cuadros atrás del color, así que cubría zonas donde el color ya era negro. Los cuadros de la IA y
+  de la máscara sí coinciden por índice con el original (bordes a ±2 px). Arreglo: normalizar las marcas
+  de tiempo de ambas entradas (`settb` + `setpts=N/24/TB`) antes de `vstack` y verificar por índice que
+  color, máscara y original coinciden. Niveles y póster regenerados desde ese máster.
+- Verificado: en los mp4 finales, bordes de color y de máscara coinciden con el original en los cuadros
+  12, 13, 14, 100 y 200 (±2 px, como en el original) y la máscara difiere del original en < 450 px por
+  cuadro; compuestos sobre blanco sin franja negra en mano, robot y yemas; en el navegador la portada
+  carga con título «NeuralKinetics», capas `fixed`, nivel 3072 px en 1440 × 900 @2x, sin errores; lint y
+  build en verde.
+
 ## 2026-09-22 (hero 100 % original: capas fijas y segunda pantalla)
 - Max señaló que el hero no era idéntico al original. Diferencias corregidas: en
   [vikod3/handstouch](https://github.com/vikod3/handstouch) la barra, el video de fondo, el degradado

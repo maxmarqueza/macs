@@ -18,11 +18,11 @@ Publicado en producción el 9 de septiembre de 2026:
 - [x] CI en GitHub Actions (ver Mantenimiento)
 
 Avance del 22 de septiembre de 2026:
-- [x] Hero nuevo en la portada: las dos pantallas de vikod3/handstouch copiadas tal cual (barra, hero,
-      sección «about», capas fijas, textos y tipografías, por indicación de Max) con los videos
-      reescalados a 4K UHD y servidos por niveles según la pantalla. Ver `CHANGELOG.md`.
-- [ ] Decidir el texto definitivo del hero (hoy dice «NeuralKinetics / cybernetics made organic»,
-      como el original) y si se conservan la barra y el pie del original.
+- [x] Portada = la página de vikod3/handstouch completa y tal cual (barra, hero, sección «about», capas
+      fijas, textos, título y tipografías; sin secciones de MACS, por indicación de Max) con los videos
+      reescalados a 4K UHD, sin contorno negro, servidos por niveles según la pantalla. Ver `CHANGELOG.md`.
+- [ ] Decidir qué pasa con el contenido de MACS que salió de la portada (concepto, roster, contacto):
+      hoy solo sigue publicado `/agentes/mcmarketing`.
 - [ ] Confirmar con Max la licencia de los videos de las manos (el repo original no la declara).
 
 Avance del 10 de septiembre de 2026:

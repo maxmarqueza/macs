@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Capas de video del hero (HandsOverlay.tsx y el video de fondo de
- * vikod3/handstouch): video ambiental al fondo (z 0) y, por encima de todo (z 60),
- * las manos humana y robótica compuestas en WebGL con `hand-renderer.ts`. Hasta
- * que llega el primer cuadro (o si WebGL falla) se ve el póster estático.
+ * Capas de video de vikod3/handstouch (HandsOverlay.tsx y el video de fondo de
+ * App.tsx), fijas como en el original: video ambiental al fondo (z 0) y, por
+ * encima de todo (z 60), las manos humana y robótica compuestas en WebGL con
+ * `hand-renderer.ts`. Hasta que llega el primer cuadro (o si WebGL falla) se ve
+ * el póster estático.
  *
  * Los videos existen en varias resoluciones (máximo 4K UHD, 3840 px de ancho).
  * Se elige la mínima que cubre los píxeles reales de la pantalla (ancho CSS ×
@@ -93,53 +94,49 @@ export default function HeroScene() {
 
   return (
     <>
-      <div className="hero-layer z-0">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 select-none animate-hero-backdrop"
-        >
-          <video
-            ref={backdropRef}
-            className="absolute inset-0 h-full w-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            disablePictureInPicture
-            disableRemotePlayback
-          />
-        </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 select-none animate-hero-backdrop"
+      >
+        <video
+          ref={backdropRef}
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
+        />
       </div>
 
-      <div className="hero-layer z-60">
-        <div className="hands-overlay" aria-hidden="true">
-          <div className="hands-frame" data-ready={ready}>
-            <Image
-              className="hands-poster"
-              src="/media/hands-poster.webp"
-              width={3840}
-              height={1280}
-              sizes="100vw"
-              quality={90}
-              alt=""
-              priority
-              draggable={false}
-            />
-            <canvas ref={canvasRef} className="hands-canvas" />
-          </div>
-          <video
-            ref={sourceRef}
-            className="hands-source"
-            preload="auto"
-            muted
-            playsInline
-            loop
-            tabIndex={-1}
-            disablePictureInPicture
-            disableRemotePlayback
+      <div className="hands-overlay" aria-hidden="true">
+        <div className="hands-frame" data-ready={ready}>
+          <Image
+            className="hands-poster"
+            src="/media/hands-poster.webp"
+            width={3840}
+            height={1280}
+            sizes="100vw"
+            quality={90}
+            alt=""
+            priority
+            draggable={false}
           />
+          <canvas ref={canvasRef} className="hands-canvas" />
         </div>
+        <video
+          ref={sourceRef}
+          className="hands-source"
+          preload="auto"
+          muted
+          playsInline
+          loop
+          tabIndex={-1}
+          disablePictureInPicture
+          disableRemotePlayback
+        />
       </div>
     </>
   );

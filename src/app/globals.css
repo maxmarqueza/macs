@@ -91,34 +91,16 @@ section[id] {
   scroll-margin-top: 2rem;
 }
 
-/* Hero «hands touch», copiado de vikod3/handstouch (src/index.css), valores
-   intactos. En el original la barra, el video de fondo, el degradado y las manos
-   son `position: fixed` (z 50, 0, 20 y 60) y la página termina tras la sección
-   «about». Aquí `.hero-root` es una rejilla de una sola celda: las cuatro capas
-   son `.hero-layer` pegajosas (sticky) que se comportan exactamente como `fixed`
-   durante las dos pantallas del original y se van con ellas, para no flotar
-   sobre el resto del sitio. Cada capa conserva su z-index original, así que el
-   texto del hero (z 30) y la sección «about» (z 10) se intercalan igual. */
-.hero-root {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.hero-root > * {
-  grid-area: 1 / 1;
-  min-width: 0;
-}
-
-.hero-layer {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  align-self: start;
-  pointer-events: none;
+/* Página de vikod3/handstouch copiada tal cual (su src/index.css, valores
+   intactos): la barra, el video de fondo, el degradado y las manos son
+   `position: fixed`, y la página termina tras la sección «about». */
+body:has(.handstouch-page) {
+  background: #ffffff;
+  color: #000000;
 }
 
 .hands-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 60;
   overflow: hidden;
@@ -127,7 +109,7 @@ section[id] {
 }
 
 .bottom-gradient {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
