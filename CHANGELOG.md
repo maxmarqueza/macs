@@ -12,6 +12,9 @@
 - Verificado con capturas reales (Chrome local) a 1440 × 900 y 390 × 844 en cada tramo: intro de Halion
   al cargar, about, product y callouts, relevo de cabeceras, entrada del hero, toque de los dedos,
   salida y pie de MACS; sin errores de consola.
+- **Publicado** con el commit `cccc6950ba0caee9ab5c2d7ce89cf400673669b9` en `main`
+  ([despliegue](https://vercel.com/imaxmx/macs/39hg9Bp8wYhDE6UVX398zVdnJ3SS) `success`); en producción
+  `theme-color` negro y capturas reales de Halion al cargar, relevo a MACS y toque de los dedos.
 
 ## 2026-09-22 (sin escena de partículas: manos y Halion por separado)
 - Max: «quítame esta sección de transición, quiero las 2 secciones por separado sin modificar, a la
