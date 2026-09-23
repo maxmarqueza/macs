@@ -18,6 +18,10 @@
 - Verificado en local a 1440 × 900 y 390 × 844 en cada tramo: toque, nacimiento en las yemas, explosión,
   palabra completa, salida de la sección, Halion (hero, about, product, callouts) y relevo de cabeceras
   hasta el pie de MACS; sin errores de consola.
+- **Publicado** con el commit `89480c828d2f3aafa98505eb403ac663221b8fb5` en `main`
+  ([despliegue](https://vercel.com/imaxmx/macs/CQEQDfmLoUiACzTHVTp66oKeVSuf) `success`). Comprobado en
+  https://macstech.mx con capturas reales: nacimiento en las yemas, «MACS» formado, salida de la sección
+  y Halion aparte con su cabecera; sin errores de consola.
 
 ## 2026-09-22 (explosión «MACS» al tocarse las manos + escena Halion)
 - Max: al tocarse las manos, el efecto de partículas del sitio de Grupo MaSa «tal cual, misma calidad,
