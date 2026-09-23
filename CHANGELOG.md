@@ -22,6 +22,10 @@
 - **Datos estructurados** `Service` en cada ficha de Mc; sitemap con todas las páginas.
 - Build: 67 páginas e imágenes estáticas. Verificado con capturas reales (Chrome local) a 1440 × 900 y
   390 × 844, sin desborde horizontal ni errores de consola; formulario precargado desde los botones.
+- **Publicado** con el commit `1729b809068c79017882bcf970629594411af80d` en `main`
+  ([despliegue](https://vercel.com/imaxmx/macs/5SKGk7ScpvPkXYjznsbq17sfa7sN) `success`). En producción
+  responden 200 las páginas nuevas y las imágenes para compartir (cada ficha apunta a la suya en og:image),
+  un giro inexistente da 404, las fichas llevan su `Service` y el sitemap tiene 31 URL.
 
 ## 2026-09-23 (catálogo completo y diseño del sitio)
 - Max: «vamos empezando con todos los productos, agentes IA y robots, que venderá MACS, para que lo
