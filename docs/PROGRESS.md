@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (explosión «MACS» al tocarse las manos + escena Halion)
+**Última actualización:** 2026-09-22 (partículas y Halion como dos secciones independientes)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,7 +18,13 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22, tercera entrega):** al tocarse las manos, la escena de
+**Último trabajo completado (2026-09-22, cuarta entrega):** a pedido de Max se quitó la transición:
+la sección de manos + partículas termina con «MACS» formado y sale; Halion es una sección aparte con su
+propio arranque. Corregidos el origen de la explosión (ahora entre las yemas), la palabra en móvil y el
+relevo de cabeceras. Las capturas de verificación se toman con Chrome local sin cabeza (puppeteer-core en
+el scratchpad) porque el panel de navegador no captura WebGL ni video de forma fiable. Ver `CHANGELOG.md`.
+
+**Trabajo anterior (2026-09-22, tercera entrega):** al tocarse las manos, la escena de
 partículas de Grupo MaSa (port fiel en `src/components/hero/macs-burst.ts`) estalla desde las yemas y
 forma «MACS»; al disolverse entra la escena **Halion** (`src/components/halion/`: clon literal del
 original new-13-v2 con GSAP 3.13 + Locomotive/Lenis, mismos textos, medios de CloudFront, hoja y

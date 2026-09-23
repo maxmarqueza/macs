@@ -30,8 +30,10 @@ import { About, Footer, Hero, Navbar, SiteFooter, inter, outfit } from "./HandsT
  * por capas: fondo, título, pie y manos. Todo se desactiva con
  * `prefers-reduced-motion` salvo el scrub.
  *
- * Secuencia de la portada: manos → explosión de partículas que forma «MACS» →
- * escena Halion (clon literal) → «Un Mc para cada área» y pie de MACS.
+ * Secciones de la portada, independientes entre sí y sin transición: (1) este
+ * bloque, manos → explosión de partículas que termina en la palabra «MACS», que
+ * se queda formada y sale con la sección; (2) Halion, clon literal con su propio
+ * arranque; (3) «Un Mc para cada área» y pie de MACS.
  *
  * Carga: el video del nivel elegido se descarga completo con `fetch` (barra de
  * progreso discreta) y se asigna como Blob, así cada búsqueda es local y nunca
@@ -41,8 +43,9 @@ import { About, Footer, Hero, Navbar, SiteFooter, inter, outfit } from "./HandsT
 
 const TOUCH_TIME = (HANDS_FRAMES - 1) / HANDS_FPS; // último cuadro: dedos en contacto
 const HERO_VH = 180; // recorrido de scroll del acercamiento (además de la pantalla fija)
-const BURST_VH = 260; // recorrido de la explosión de partículas que forma «MACS»
+const BURST_VH = 240; // recorrido de la explosión de partículas que forma «MACS» (y su pausa final)
 const PIN_VH = 100 + HERO_VH + BURST_VH; // alto total del bloque fijo
+const HEADER_SWAP_PX = 72; // la barra de MACS vuelve cuando la sección final llega a su altura
 const HOLD_END = 0.06; // fracción final del acercamiento en que el toque se sostiene
 const STIFFNESS = 900; // resorte con puntero fino: asienta en ~0.15 s, sin rebote
 
@@ -243,6 +246,7 @@ export default function ScrollHero() {
     let burstWanted = false;
     let lastCovered = false;
     let lastBurstActive = true;
+    let contactAtTouch = false;
 
     // Explosión de partículas (escena de MaSa): se crea en cuanto el acercamiento
     // va por la mitad, para que esté lista al tocarse los dedos.
@@ -350,12 +354,20 @@ export default function ScrollHero() {
       }
       // Escena de la explosión: oscurece la pantalla, estalla desde las yemas y forma «MACS».
       const darken = smoothstep(p2 / 0.12);
-      const explode = smoothstep((p2 - 0.12) / 0.43);
-      const dissolve = smoothstep((p2 - 0.8) / 0.2);
+      // la palabra termina de formarse al 62 % y se sostiene hasta que la sección sale
+      const explode = smoothstep((p2 - 0.12) / 0.5);
+      const dissolve = 0;
       const burstCanvas = burstCanvasRef.current;
       if (burstCanvas) {
         burstCanvas.style.opacity = darken.toFixed(3);
         burstCanvas.style.visibility = darken <= 0.001 ? "hidden" : "";
+      }
+      // el origen se fija con las manos en su posición final, justo al tocarse
+      if (p2 > 0 && !contactAtTouch && burstRef.current) {
+        contactAtTouch = true;
+        placeContact();
+      } else if (p2 <= 0) {
+        contactAtTouch = false;
       }
       burstRef.current?.update({ explode, dissolve, pointer: reduced ? { x: -1e3, y: -1e3, inside: false } : pointerRef.current });
       // La escena solo se dibuja mientras está en pantalla (la Halion la cubre después).
@@ -366,7 +378,8 @@ export default function ScrollHero() {
       }
       // La barra de MACS se apaga en la escena oscura y vuelve con las secciones claras del final.
       const after = afterRef.current;
-      const afterIn = after ? after.getBoundingClientRect().top < vh * 0.6 : false;
+      // relevo de cabeceras en el borde entre Halion y esta sección (alto de la barra)
+      const afterIn = after ? after.getBoundingClientRect().top <= HEADER_SWAP_PX : false;
       const navOpacity = afterIn ? 1 : 1 - smoothstep((p2 - 0.02) / 0.1);
       const navWrap = navWrapRef.current;
       if (navWrap) {

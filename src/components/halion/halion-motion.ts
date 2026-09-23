@@ -10,6 +10,7 @@ import { acquireScroll, releaseScroll } from "./scroll";
  * de arranque del original: gsap → scroll → split → clock → header → hero-video →
  * stage → parallax/cursor → statement → title → callouts → hero (intro).
  *
+ * Es una sección independiente de la portada (sin transición con la anterior).
  * Diferencia única respecto al original, porque aquí la escena no abre la página:
  * la intro (H1) no arranca al cargar sino cuando el hero de Halion llega al 15 %
  * superior del viewport, y la cabecera fija solo existe mientras la escena está
@@ -455,11 +456,12 @@ export function bootHalion(root: HTMLElement): () => void {
       onEnter: () => setCompact(true),
       onLeaveBack: () => setCompact(false),
     });
+    // la cabecera de Halion solo existe cuando su sección ocupa la pantalla completa
     ScrollTrigger.create({
       trigger: hero,
-      start: "top 15%",
+      start: "top 1px",
       endTrigger: root,
-      end: "bottom 60%",
+      end: "bottom 72px", // mismo punto en que vuelve la barra de MACS
       onToggle: (st) => header.classList.toggle("is-away", !st.isActive),
     });
     ScrollTrigger.create({

@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-09-22 (partículas y Halion como dos secciones independientes)
+- Max: «no quiero transición, no quedó nada bien; sepáralas en 2 secciones independientes y déjalo
+  perfecto». Se quitó el relevo coordinado entre la palabra y Halion.
+- **Sección 1 (manos → partículas).** La palabra «MACS» ya no se disuelve: termina de formarse al 62 %
+  del recorrido, se sostiene y sale con su sección como cualquier otra. Recorrido de la explosión
+  240 svh (antes 260).
+- **Sección 2 (Halion).** Arranca sola cuando llega: su cabecera aparece solo cuando la sección ocupa la
+  pantalla completa (antes asomaba sobre el final de las partículas) y se retira en el mismo píxel en
+  que vuelve la barra de MACS (antes la barra de MACS reaparecía con media pantalla todavía en Halion).
+- **Correcciones encontradas al revisar con capturas reales** (Chrome local sin cabeza):
+  - La bola de partículas nacía muy por debajo de las yemas: la cámara no tenía la matriz actualizada
+    al calcular el punto de contacto. Ahora nace exactamente entre los dedos, y el punto se fija en el
+    instante del toque (con las manos ya en su posición final).
+  - En móvil la palabra se salía por los lados: en pantallas angostas se reduce para caber con margen
+    (en escritorio no cambia).
+- Verificado en local a 1440 × 900 y 390 × 844 en cada tramo: toque, nacimiento en las yemas, explosión,
+  palabra completa, salida de la sección, Halion (hero, about, product, callouts) y relevo de cabeceras
+  hasta el pie de MACS; sin errores de consola.
+
 ## 2026-09-22 (explosión «MACS» al tocarse las manos + escena Halion)
 - Max: al tocarse las manos, el efecto de partículas del sitio de Grupo MaSa «tal cual, misma calidad,
   mismo diseño, misma operación», formando la palabra **MACS**, y enseguida la siguiente escena con una

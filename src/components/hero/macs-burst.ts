@@ -233,6 +233,8 @@ export function createMacsBurst(canvas: HTMLCanvasElement, fontFamily: string): 
   // ---- contacto: de píxeles del viewport al plano z=0 del grupo (en reposo, grupo en y=-.38)
   const contact = new THREE.Vector3(0, 4, 0);
   const setContact = (x: number, y: number) => {
+    // cámara en su pose de reposo y con la matriz al día (antes del primer cuadro seguía en el origen)
+    camera.position.set(0, 3.1, 17); camera.lookAt(0, 3.2, 0); camera.updateMatrixWorld();
     const ndc = new THREE.Vector3((x / innerWidth) * 2 - 1, -(y / innerHeight) * 2 + 1, 0.5).unproject(camera);
     const dir = ndc.sub(camera.position).normalize();
     const t = -camera.position.z / dir.z; // plano z = 0
@@ -246,6 +248,14 @@ export function createMacsBurst(canvas: HTMLCanvasElement, fontFamily: string): 
     }
     pos.needsUpdate = true;
   };
+
+  // En pantallas angostas (retrato) la palabra se reduce para caber con margen a los lados;
+  // en escritorio vale 1 y la escena es la de MaSa sin cambios.
+  const wordFit = () => {
+    const halfW = 17 * Math.tan(THREE.MathUtils.degToRad(21)) * (innerWidth / innerHeight);
+    return Math.min(1, (0.84 * 2 * halfW) / (WORD_WIDTH * 0.85));
+  };
+  let fit = wordFit();
 
   const clock = new THREE.Clock();
   let last = 0, parX = 0, parY = 0;
@@ -264,7 +274,7 @@ export function createMacsBurst(canvas: HTMLCanvasElement, fontFamily: string): 
     U.uOpacity.value = 1 - smooth(0, 0.85, dis);
     // como en MaSa: el conjunto sube y encoge un poco durante la explosión; al disolverse sigue subiendo
     group.position.y = -0.38 + e * 3.9 + dis * 2.6;
-    group.scale.setScalar(1 - e * 0.15);
+    group.scale.setScalar((1 - e * 0.15) * (1 + (fit - 1) * e));
     // una vuelta completa durante la explosión; la palabra queda de frente, con un vaivén leve
     const settle = smooth(0.9, 1, e);
     const yTarget = pointerX * 0.12 * (1 - e) + e * Math.PI * 2 + Math.sin(t * 0.5) * 0.12 * settle;
@@ -294,7 +304,7 @@ export function createMacsBurst(canvas: HTMLCanvasElement, fontFamily: string): 
       else cancelAnimationFrame(raf);
     },
     resize() {
-      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); fit = wordFit();
       renderer.setSize(innerWidth, innerHeight, false); makeTarget();
       chroma.uniforms.uResolution.value.set(innerWidth, innerHeight);
       U.uPixelRatio.value = renderer.getPixelRatio(); U.uResolution.value.set(innerWidth, innerHeight);
