@@ -30,6 +30,10 @@
   secciones nuevas de la portada, sin desborde horizontal ni errores de consola.
 - **Bloqueo que ahora pesa más:** todos los botones «Escríbenos» abren un correo a
   `contacto@macstech.mx`, que sigue sin buzón (sin registros MX, comprobado hoy).
+- **Publicado** con el commit `244a2850570eee0f49f91bee4576f68a39006dd3` en `main`
+  ([despliegue](https://vercel.com/imaxmx/macs/5pP6gYmLscMjmRMFZhcRheiDhsv8) `success`). En producción
+  responden 200 la portada, `/agentes`, `/robots`, `/como-trabajamos` y las fichas; una ficha inexistente
+  da 404; el sitemap tiene 20 URL. Capturas reales de fichas en producción sin errores de consola.
 
 ## 2026-09-22 (secciones invertidas: Halion primero, manos después)
 - Max: «quiero invertir las secciones; Halion la primera y la del brazo humano tocando el brazo robot la
