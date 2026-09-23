@@ -10,11 +10,11 @@ import { acquireScroll, releaseScroll } from "./scroll";
  * de arranque del original: gsap → scroll → split → clock → header → hero-video →
  * stage → parallax/cursor → statement → title → callouts → hero (intro).
  *
- * Es una sección independiente de la portada, sin transición con la anterior.
- * Diferencia única respecto al original, porque aquí la escena no abre la página:
- * la intro (H1) no arranca al cargar sino cuando el hero de Halion llega al 15 %
- * superior del viewport, y la cabecera fija solo existe mientras la escena está
- * en pantalla. Todo lo demás (beats, curvas, duraciones, disparadores) es idéntico.
+ * Es la primera sección de la portada de MACS y abre la página, como el original:
+ * la intro (H1) arranca al cargar (su disparador «top 15%» ya está cumplido). La
+ * cabecera fija solo existe mientras la sección ocupa la línea superior; después
+ * sigue el hero de las manos con su propia barra. Beats, curvas, duraciones y
+ * disparadores son los del original.
  */
 
 let registered = false;

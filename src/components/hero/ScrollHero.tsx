@@ -29,9 +29,11 @@ import { About, Footer, Hero, Navbar, SiteFooter, inter, outfit } from "./HandsT
  * por capas: fondo, título, pie y manos. Todo se desactiva con
  * `prefers-reduced-motion` salvo el scrub.
  *
- * Secciones de la portada, una tras otra y sin transición entre ellas: (1) este
- * hero de las manos; (2) Halion, clon literal con su propio arranque; (3) «Un Mc
- * para cada área» y pie de MACS. Cada sección muestra solo su propia cabecera.
+ * Secciones de la portada, una tras otra y sin transición entre ellas: (1) Halion,
+ * clon literal que abre la página; (2) este hero de las manos; (3) «Un Mc para cada
+ * área» y pie de MACS. Cada sección muestra solo su propia cabecera. Las capas fijas
+ * del hero (fondo y manos) se desplazan con su sección mientras esta entra desde abajo,
+ * así nunca aparecen sobre Halion.
  *
  * Carga: el video del nivel elegido se descarga completo con `fetch` (barra de
  * progreso discreta) y se asigna como Blob, así cada búsqueda es local y nunca
@@ -131,7 +133,6 @@ export default function ScrollHero() {
   const timeRef = useRef(0);
   const navWrapRef = useRef<HTMLDivElement>(null);
   const halionRef = useRef<HTMLDivElement>(null);
-  const afterRef = useRef<HTMLDivElement>(null);
   const backdropCoveredRef = useRef(false);
   const syncBackdropRef = useRef<() => void>(() => {});
 
@@ -290,21 +291,24 @@ export default function ScrollHero() {
       const hands = handsRef.current;
       const title = titleRef.current;
       const footer = footerRef.current;
-      if (bg) bg.style.transform = `translate3d(0, ${(-0.06 * vh * q).toFixed(1)}px, 0) scale(${(1 + 0.07 * q).toFixed(4)})`;
+      // mientras el hero entra desde abajo, sus capas fijas bajan con él
+      const enter = Math.max(0, rect.top);
+      if (bg) bg.style.transform = `translate3d(0, ${(enter - 0.06 * vh * q).toFixed(1)}px, 0) scale(${(1 + 0.07 * q).toFixed(4)})`;
       // Las manos solo se trasladan (nunca se reescalan) y, pasado el hero, se van
       // exactamente con su sección (sin invadir la siguiente).
-      if (hands) hands.style.transform = `translate3d(0, ${(-0.04 * vh * q - past).toFixed(1)}px, 0)`;
+      if (hands) hands.style.transform = `translate3d(0, ${(enter - 0.04 * vh * q - past).toFixed(1)}px, 0)`;
       // Cada sección con su cabecera: la de MACS se retira mientras Halion ocupa la línea superior.
-      const halionTop = halionRef.current?.getBoundingClientRect().top ?? Infinity;
-      const afterTop = afterRef.current?.getBoundingClientRect().top ?? Infinity;
-      const inHalion = halionTop <= HEADER_SWAP_PX && afterTop > HEADER_SWAP_PX;
+      const halionRect = halionRef.current?.getBoundingClientRect();
+      const halionTop = halionRect?.top ?? Infinity;
+      const halionBottom = halionRect?.bottom ?? -Infinity;
+      const inHalion = halionTop <= HEADER_SWAP_PX && halionBottom > HEADER_SWAP_PX;
       const navWrap = navWrapRef.current;
       if (navWrap) {
         navWrap.style.visibility = inHalion ? "hidden" : "";
         navWrap.toggleAttribute("inert", inHalion);
       }
       // El video de fondo se pausa mientras Halion lo tapa por completo.
-      const covered = halionTop <= 0 && afterTop >= vh;
+      const covered = halionTop <= 0 && halionBottom >= vh;
       if (covered !== lastCovered) {
         lastCovered = covered;
         backdropCoveredRef.current = covered;
@@ -408,7 +412,12 @@ export default function ScrollHero() {
       </div>
 
       <main>
-        {/* Recorrido de scroll del hero: la pantalla queda fija mientras las manos se acercan. */}
+        {/* Sección 1: Halion, clon literal que abre la página (ver components/halion). */}
+        <div ref={halionRef}>
+          <Halion />
+        </div>
+
+        {/* Sección 2 · recorrido de scroll del hero: la pantalla queda fija mientras las manos se acercan. */}
         <div ref={pinRef} style={{ height: `${PIN_VH}svh` }}>
           <section
             ref={sectionRef}
@@ -425,15 +434,8 @@ export default function ScrollHero() {
           </section>
         </div>
 
-        {/* Sección 2: Halion, clon literal (ver components/halion). */}
-        <div ref={halionRef}>
-          <Halion />
-        </div>
-
-        <div ref={afterRef}>
-          <About />
-          <SiteFooter />
-        </div>
+        <About />
+        <SiteFooter />
       </main>
     </div>
   );

@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-09-22 (secciones invertidas: Halion primero, manos después)
+- Max: «quiero invertir las secciones; Halion la primera y la del brazo humano tocando el brazo robot la
+  segunda». Orden nuevo: Halion (abre la página, con su intro al cargar como el original) → hero de las
+  manos → «Un Mc para cada área» y pie de MACS.
+- El fondo y las manos del hero son capas fijas: mientras su sección entra desde abajo se desplazan con
+  ella, así no aparecen sobre Halion (el scrub de las manos empieza cuando la sección llega arriba, igual
+  que antes). La barra de MACS se muestra en cuanto Halion deja la línea superior (72 px), el mismo punto
+  en que se retira la cabecera de Halion. `theme-color` de la portada ahora negro (el del original de
+  Halion, que es lo primero que se ve).
+- Verificado con capturas reales (Chrome local) a 1440 × 900 y 390 × 844 en cada tramo: intro de Halion
+  al cargar, about, product y callouts, relevo de cabeceras, entrada del hero, toque de los dedos,
+  salida y pie de MACS; sin errores de consola.
+
 ## 2026-09-22 (sin escena de partículas: manos y Halion por separado)
 - Max: «quítame esta sección de transición, quiero las 2 secciones por separado sin modificar, a la
   perfección». Se eliminó por completo la explosión de partículas (`macs-burst.ts` y la dependencia

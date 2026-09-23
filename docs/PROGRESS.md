@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (sin partículas: manos y Halion por separado)
+**Última actualización:** 2026-09-22 (secciones invertidas: Halion primero)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,7 +18,12 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22, quinta entrega):** Max pidió quitar la escena de partículas
+**Último trabajo completado (2026-09-22, sexta entrega):** a pedido de Max se invirtió el orden: la
+portada abre con Halion (intro al cargar, cabecera propia) y sigue el hero de las manos (fondo y manos
+bajan con su sección al entrar), luego «Un Mc para cada área» y el pie. `theme-color` negro. Ver
+`CHANGELOG.md`.
+
+**Trabajo anterior (2026-09-22, quinta entrega):** Max pidió quitar la escena de partículas
 («sección de transición»). La portada queda: hero de las manos (el de `88f1f32`, sin cambios salvo que
 las manos salen exactamente con su sección) → Halion (clon literal) → «Un Mc para cada área» y pie.
 Eliminados `macs-burst.ts` y `three`. Ver `CHANGELOG.md`.

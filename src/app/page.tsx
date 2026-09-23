@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import ScrollHero from "@/components/hero/ScrollHero";
 import { openGraphBase, site } from "@/data/site";
 
-// Portada: diseño de vikod3/handstouch con textos de MACS y las manos controladas
-// por el scroll, variante B (ver src/components/hero/ScrollHero.tsx).
+// Portada: Halion (clon literal) y después el diseño de vikod3/handstouch con textos
+// de MACS y las manos controladas por el scroll (ver src/components/hero/ScrollHero.tsx).
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   },
 };
 
-// La portada es blanca en ambos esquemas: la barra del navegador debe serlo también.
-export const viewport: Viewport = { themeColor: "#ffffff" };
+// La portada abre con Halion (negro): la barra del navegador también (theme-color del original).
+export const viewport: Viewport = { themeColor: "#000000" };
 
 export default function Home() {
   return <ScrollHero />;

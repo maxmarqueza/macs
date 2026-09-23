@@ -30,7 +30,8 @@ Avance del 22 de septiembre de 2026:
 - [x] Explosión de partículas que forma «MACS» al tocarse las manos (escena de Grupo MaSa portada
       fielmente) y escena **Halion** recreada exactamente a continuación, con transición coordinada y
       scroll suave (Lenis) en toda la portada. Después, por indicación de Max, se quitó la escena
-      de partículas: quedan el hero de las manos y Halion por separado. Ver `CHANGELOG.md`.
+      de partículas, y después se invirtió el orden: Halion abre la portada y sigue el hero de las
+      manos. Ver `CHANGELOG.md`.
 - [ ] Unificar la ficha de McMarketing con la identidad blanca de la portada (hoy sigue oscura, Geist).
 - [ ] Contacto real: el buzón `contacto@macstech.mx` no existe (sin MX); decidir proveedor o canal.
 - [ ] Decidir si el concepto, el roster completo y el contacto de MACS vuelven a la portada o viven en
