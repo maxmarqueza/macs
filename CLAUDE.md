@@ -21,7 +21,9 @@ Reglas de trabajo:
   que `npm run build` pase antes de hacer push.
 - Al terminar una sesión de trabajo: actualizar `CHANGELOG.md`, `docs/ROADMAP.md` y
   `docs/PROGRESS.md` (estado + siguientes pasos), y hacer push.
-- Nuevo agente Mc = entrada en `src/data/agents.ts` + ficha en `docs/AGENTES/<Nombre>.md`.
+- Nuevo Mc (agente IA o robot con IA) = entrada en `src/data/agents.ts` + ficha en
+  `docs/AGENTES/<Nombre>.md`. Las páginas `/agentes`, `/robots`, las fichas, la portada y el sitemap
+  salen solas de ese archivo; cambiar un `status` actualiza todo el sitio.
 - El dominio canónico es `macstech.mx` (sin www). No cambiar DNS ni dominios en Vercel.
 - **Criptomoneda: descartada.** Max decidió no crear el token $MACS. Existe una rama vieja
   en GitHub (`claude/crear-criptomoneda-propia-8a300q`) que **no** se fusiona a `main`.

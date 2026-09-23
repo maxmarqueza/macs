@@ -32,7 +32,15 @@ Avance del 22 de septiembre de 2026:
       scroll suave (Lenis) en toda la portada. Después, por indicación de Max, se quitó la escena
       de partículas, y después se invirtió el orden: Halion abre la portada y sigue el hero de las
       manos. Ver `CHANGELOG.md`.
-- [ ] Unificar la ficha de McMarketing con la identidad blanca de la portada (hoy sigue oscura, Geist).
+- [x] Unificar la ficha de McMarketing con la identidad blanca de la portada (23 de septiembre, con la
+      plantilla de fichas).
+
+Avance del 23 de septiembre de 2026:
+- [x] **Catálogo completo** de lo que venderá MACS: 10 agentes IA y 6 robots con IA
+      (`src/data/agents.ts`, una ficha por Mc en `docs/AGENTES/`).
+- [x] **Diseño completo del sitio** sobre ese catálogo: `/agentes`, `/robots`, 16 fichas,
+      `/como-trabajamos` y portada con la familia de Mc, giros, aprendizaje continuo y proceso.
+- [ ] 🔴 **Contacto que funcione**: todos los botones del sitio abren un correo a un buzón que no existe.
 - [ ] Contacto real: el buzón `contacto@macstech.mx` no existe (sin MX); decidir proveedor o canal.
 - [ ] Decidir si el concepto, el roster completo y el contacto de MACS vuelven a la portada o viven en
       otra página: hoy la portada es el diseño de handstouch con los textos de MACS y solo sigue
@@ -51,7 +59,14 @@ Bloqueado a la espera de una decisión de Max:
 - [ ] Caso de éxito de McMarketing (flujo n8n) 🔴 faltan resultados, redes, herramientas y capturas;
       estos datos no bloquean la ficha funcional básica
 
-## Fase 3 — Crecimiento
+## Fase 3 — Construir el catálogo (siguiente, en función del sitio)
+- [ ] McVentas por WhatsApp como primera plantilla (n8n + modelo de IA + base de conocimiento) y piloto real
+- [ ] McSoporte, McAgenda y McCobranza sobre la misma base
+- [ ] McFactura (proveedor de timbrado) y McCompras (a partir del análisis de resurtido de Rebimo)
+- [ ] Casos de éxito con números y precios validados; cambiar cada `status` a `disponible` al venderlo
+- [ ] Robots: elegir fabricantes, acuerdo de distribución o integración, unidad de demostración y piloto
+
+## Fase 4 — Crecimiento
 - [ ] Blog / novedades
 - [ ] Demo interactiva de agentes
 - [ ] Más agentes al roster (McWeb, McHardware…)

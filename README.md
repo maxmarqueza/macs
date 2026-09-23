@@ -1,6 +1,7 @@
 # MACS — macstech.mx
 
-Sitio web de **MACS**: una familia de agentes de IA especializados (cada "Mc" automatiza una parte de un negocio — marketing, soporte, ventas, datos…).
+Sitio web de **MACS**: una familia de agentes de IA y robots con IA. Cada "Mc" automatiza una parte de un
+negocio: ventas, atención, marketing, administración y operación.
 
 🔗 **En producción:** https://macstech.mx
 
@@ -29,25 +30,27 @@ npm run lint
 - `src/app/` — páginas y layout (`layout.tsx` tiene la metadata/SEO y el JSON-LD), más los
   archivos especiales de Next: `sitemap.ts`, `robots.ts`, `icon.svg`, `favicon.ico`, `apple-icon.tsx`
   y `opengraph-image.tsx` (estos dos últimos se generan en el build)
-- `src/components/hero/` — la portada entera: diseño de vikod3/handstouch con los textos de MACS.
-  `ScrollHero.tsx` (fondo fijo + manos compuestas en WebGL cuyo acercamiento controla el scroll, con
-  parallax, carga por Blob y niveles de resolución según la pantalla; la portada abre con Halion y
-  después viene este hero),
-  `HandsTouchHero.tsx`
+- `src/components/hero/` — la portada: abre con Halion y sigue el diseño de vikod3/handstouch con los
+  textos de MACS. `ScrollHero.tsx` (fondo fijo + manos compuestas en WebGL cuyo acercamiento controla el
+  scroll, con parallax, carga por Blob y niveles de resolución según la pantalla), `HandsTouchHero.tsx`
   (piezas: barra, hero, pie, sección «about», cierre de sitio, Inter + Outfit, marca «M»), `MenuButton.tsx`
-- `src/components/halion/` — escena Halion (clon literal): `Halion.tsx`, `halion.css`, `halion-motion.ts`
-  (GSAP) y `scroll.ts` (Locomotive Scroll + Lenis, dueño del scroll suave de toda la portada).
   (menú) y `hand-renderer.ts` (compositor WebGL en modo scrub). `src/data/media.ts` define los videos
   (nombres versionados; `/media/*` se cachea un año). Medios en `public/media/` (61 MB).
-- `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo): fuente única
-- `src/data/agents.ts` — roster de agentes; `href` opcional enlaza solamente fichas existentes
-- `src/app/agentes/mcmarketing/page.tsx` — ficha funcional de McMarketing con preguntas frecuentes
+- `src/components/halion/` — escena Halion (clon literal): `Halion.tsx`, `halion.css`, `halion-motion.ts`
+  (GSAP) y `scroll.ts` (Locomotive Scroll + Lenis, dueño del scroll suave de la portada).
+- `src/components/site/` — páginas interiores: `SiteShell.tsx` (barra + cierre), `parts.tsx` (anillo,
+  estados, lista del catálogo, filas de ficha, preguntas, ciclo de aprendizaje), `McDetail.tsx` (ficha de
+  cada Mc), `HomeCatalog.tsx` (secciones del catálogo en la portada) y `NavLinks.tsx`.
+- `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo) y `pageMetadata()`: fuente única
+- `src/data/agents.ts` — **catálogo completo**: 10 agentes IA y 6 robots con IA, sus áreas, estados,
+  giros recomendados y el proceso de trabajo. De aquí salen todas las páginas.
+- Rutas: `/` · `/agentes` y `/agentes/[slug]` · `/robots` y `/robots/[slug]` · `/como-trabajamos`
 - `src/assets/fonts/` — Geist en TrueType para la og:image (licencia OFL)
 - `scripts/brand-assets.mjs` — regenera `favicon.ico` y `public/logo.png` a partir de `icon.svg`
 - `docs/PROGRESS.md` — **empieza por aquí**: estado actual, infraestructura y siguientes pasos
 - `docs/VISION.md` — concepto y visión de la marca
 - `docs/ROADMAP.md` — plan por fases
-- `docs/AGENTES/` — un `.md` por agente
+- `docs/AGENTES/` — un `.md` por Mc (agentes y robots)
 - `CHANGELOG.md` — bitácora de cambios por sesión
 - `CLAUDE.md` / `AGENTS.md` — instrucciones para sesiones de Claude Code
 

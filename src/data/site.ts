@@ -8,9 +8,9 @@ export const site = {
   title: "MACS — Agentes IA para tu negocio",
   tagline: "Agentes IA para tu negocio",
   description:
-    "MACS es una familia de agentes de inteligencia artificial especializados. Cada Mc automatiza una parte de tu negocio: marketing, soporte, ventas y más.",
+    "MACS es una familia de agentes de inteligencia artificial y robots con IA. Cada Mc automatiza una parte de tu negocio: ventas, atención, administración y operación.",
   ogDescription:
-    "Cada Mc es un agente de IA especializado que automatiza una parte de tu negocio.",
+    "Agentes de IA y robots con IA. Cada Mc automatiza una parte de tu negocio y aprende de tu operación.",
   email: "contacto@macstech.mx",
   locale: "es_MX",
   language: "es-MX",
@@ -40,3 +40,21 @@ export const openGraphBase = {
   locale: site.locale,
   type: "website",
 } as const;
+
+/** Metadata de una página interior: título, descripción, canonical, Open Graph y Twitter. */
+export function pageMetadata({ title, description, path }: { title: string; description: string; path: string }) {
+  const full = `${title} | ${site.name}`;
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      ...openGraphBase,
+      title: full,
+      description,
+      url: path,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: site.title }],
+    },
+    twitter: { card: "summary_large_image" as const, images: ["/opengraph-image"], title: full, description },
+  };
+}

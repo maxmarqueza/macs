@@ -31,10 +31,10 @@ export default function NotFound() {
             Ir al inicio
           </Link>
           <Link
-            href="/agentes/mcmarketing"
+            href="/agentes"
             className="rounded-full border border-black/15 bg-white px-6 py-3.5 text-[11.5px] font-normal text-black transition-all duration-300 hover:border-black hover:bg-black hover:text-white"
           >
-            Conocer a McMarketing
+            Ver los agentes IA
           </Link>
         </div>
       </main>

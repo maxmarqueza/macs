@@ -1,6 +1,7 @@
 import { Inter, Outfit } from "next/font/google";
 import Link from "next/link";
 import { brand, site } from "@/data/site";
+import NavLinks from "@/components/site/NavLinks";
 import MenuButton from "./MenuButton";
 
 /**
@@ -50,7 +51,7 @@ function MacsMark() {
   );
 }
 
-function AdaptiveIcon() {
+export function AdaptiveIcon() {
   return (
     <svg
       aria-hidden="true"
@@ -87,15 +88,7 @@ export function Navbar() {
 
         <MenuButton />
 
-        <div className="hidden h-11 items-center gap-5 rounded-full border border-black/[0.03] bg-[#F4F4F6] px-6 text-[11.5px] font-normal text-black/60 md:flex">
-          {/* Anclas de la misma página: <a> normal para que Lenis las desplace con suavidad. */}
-          <a href="#agentes" className="transition-colors hover:text-black">
-            Agentes IA
-          </a>
-          <a href="#proximos" className="transition-colors hover:text-black">
-            Automatización
-          </a>
-        </div>
+        <NavLinks />
       </div>
 
       <div className="pointer-events-auto flex items-center">
@@ -140,11 +133,11 @@ export function Hero() {
   );
 }
 
-/** Etiquetas del pie: McMarketing enlaza a su ficha; los Mc en camino, al correo. */
+/** Etiquetas del pie del hero: cada una lleva a la ficha de su Mc. */
 const footerTags = [
   { label: "Marketing", href: "/agentes/mcmarketing" },
-  { label: "Soporte", href: `mailto:${site.email}?subject=McSoporte` },
-  { label: "Ventas", href: `mailto:${site.email}?subject=McVentas` },
+  { label: "Soporte", href: "/agentes/mcsoporte" },
+  { label: "Ventas", href: "/agentes/mcventas" },
 ] as const;
 
 const tagClass =
@@ -245,12 +238,12 @@ export function About() {
 
       <ul className="about-disciplines" aria-label="Nuestras áreas">
         {[
-          "Marketing",
-          "Soporte",
           "Ventas",
+          "Atención",
+          "Marketing",
+          "Administración",
           "Datos",
-          "Contenido",
-          "Automatización",
+          "Robots",
         ].map((discipline) => (
           <li key={discipline}>{discipline}</li>
         ))}
@@ -283,12 +276,21 @@ export function SiteFooter() {
           <span className="text-[12px] font-medium">{site.email}</span>
         </a>
       </div>
-      <p className="mx-auto mt-14 flex max-w-7xl flex-wrap gap-x-6 gap-y-2 border-t border-black/10 pt-6 text-[12px] text-black/60">
-        <span>© {new Date().getFullYear()} MACS · macstech.mx</span>
-        <Link href="/agentes/mcmarketing" className="underline-offset-4 hover:underline">
-          McMarketing
+      <nav
+        aria-label="Pie de página"
+        className="mx-auto mt-14 flex max-w-7xl flex-wrap gap-x-6 gap-y-2 border-t border-black/10 pt-6 text-[12px] text-black/60"
+      >
+        <span>© {new Date().getFullYear()} MACS, macstech.mx</span>
+        <Link href="/agentes" className="underline-offset-4 hover:text-black hover:underline">
+          Agentes IA
         </Link>
-      </p>
+        <Link href="/robots" className="underline-offset-4 hover:text-black hover:underline">
+          Robots con IA
+        </Link>
+        <Link href="/como-trabajamos" className="underline-offset-4 hover:text-black hover:underline">
+          Cómo trabajamos
+        </Link>
+      </nav>
     </footer>
   );
 }

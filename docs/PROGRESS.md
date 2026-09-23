@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-22 (secciones invertidas: Halion primero)
+**Última actualización:** 2026-09-23 (catálogo completo y diseño del sitio)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,7 +18,15 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-22, sexta entrega):** a pedido de Max se invirtió el orden: la
+**Último trabajo completado (2026-09-23):** catálogo completo de MACS y diseño del sitio sobre él. El
+catálogo vive en `src/data/agents.ts` (10 agentes IA y 6 robots con IA, estados honestos: solo McMarketing
+disponible) y genera `/agentes`, `/robots`, 16 fichas, `/como-trabajamos`, las secciones nuevas de la
+portada, el menú y el sitemap. Identidad blanca con el anillo de colores del video como elemento propio.
+Ver `CHANGELOG.md`. **Siguiente:** construir los Mc en el orden de la Fase 3 del `ROADMAP.md`, empezando
+por McVentas por WhatsApp. **Bloqueo principal:** el correo de contacto no tiene buzón, y todos los
+botones del sitio llevan ahí.
+
+**Trabajo anterior (2026-09-22, sexta entrega):** a pedido de Max se invirtió el orden: la
 portada abre con Halion (intro al cargar, cabecera propia) y sigue el hero de las manos (fondo y manos
 bajan con su sección al entrar), luego «Un Mc para cada área» y el pie. `theme-color` negro. Ver
 `CHANGELOG.md`.

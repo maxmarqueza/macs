@@ -7,10 +7,10 @@ import { createPortal } from "react-dom";
 /** Menú de la barra: panel blanco a pantalla completa con la navegación del sitio. */
 const ITEMS = [
   { label: "Inicio", href: "/" },
-  { label: "Un Mc para cada área", href: "/#agentes" },
-  { label: "McMarketing", href: "/agentes/mcmarketing" },
-  { label: "Próximos Mc", href: "/#proximos" },
-  { label: "Contacto", href: "/#contacto" },
+  { label: "Agentes IA", href: "/agentes" },
+  { label: "Robots con IA", href: "/robots" },
+  { label: "Cómo trabajamos", href: "/como-trabajamos" },
+  { label: "Contacto", href: "#contacto" },
 ] as const;
 
 function PlusIcon() {
@@ -91,8 +91,9 @@ export default function MenuButton() {
               {ITEMS.map((item) => {
                 const className =
                   "font-hero-display rounded-lg py-2 text-[9vw] leading-[1.05] font-medium tracking-tight underline-offset-8 hover:underline focus-visible:underline sm:text-[5.5vw] lg:text-[3.6vw]";
-                // Anclas de la misma página: <a> normal para que Lenis las desplace con suavidad.
-                return item.href.startsWith("/#") ? (
+                // Ancla al pie de la página actual (todas lo tienen): <a> normal, así en la
+                // portada Lenis la desplaza con suavidad.
+                return item.href.startsWith("#") ? (
                   <a key={item.href} href={item.href} onClick={() => setOpen(false)} className={className}>
                     {item.label}
                   </a>

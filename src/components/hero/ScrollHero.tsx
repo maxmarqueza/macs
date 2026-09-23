@@ -12,6 +12,7 @@ import {
 } from "@/data/media";
 import Halion from "@/components/halion/Halion";
 import { acquireScroll, releaseScroll } from "@/components/halion/scroll";
+import { HomeCatalog } from "@/components/site/HomeCatalog";
 import type { HandRenderer } from "./hand-renderer";
 import { About, Footer, Hero, Navbar, SiteFooter, inter, outfit } from "./HandsTouchHero";
 
@@ -435,6 +436,8 @@ export default function ScrollHero() {
         </div>
 
         <About />
+        {/* Catálogo: la familia de Mc, giros, aprendizaje continuo y proceso. */}
+        <HomeCatalog />
         <SiteFooter />
       </main>
     </div>

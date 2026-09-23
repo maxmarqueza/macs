@@ -5,25 +5,37 @@
 
 ## Concepto
 
-**MACS** = muchos **Mc** ("Mac" abreviado). Cada **Mc** es un agente de IA especializado — software, o hardware con software — que resuelve un tipo de problema tecnológico para empresas y personas.
+**MACS** = muchos **Mc** ("Mac" abreviado). Cada **Mc** es un agente de IA especializado — software, o un robot con IA — que resuelve un tipo de problema tecnológico para empresas y personas.
 
 La marca funciona como una **familia de agentes**: cada servicio de la empresa se personifica como un Mc con nombre propio, personalidad y especialidad.
 
-## Agentes (roster inicial)
+## Catálogo (definido el 23 de septiembre de 2026)
 
-| Agente | Especialidad | Estado |
-|---|---|---|
-| **McMarketing** | Automatización de redes sociales: publica diario, responde comentarios y DMs (flujo en n8n) | ✅ Funcionando |
+Fuente única: `src/data/agents.ts`. Tres líneas de negocio, en este orden de ejecución: **agentes IA**
+(ya), **robots con IA** (como integrador y distribuidor, no fabricante) y **aprendizaje continuo** como
+ventaja de ambos (cada corrección humana mejora al Mc).
 
-> Agregar aquí cada nuevo Mc conforme se defina.
+| Mc | Tipo | Área | Estado |
+|---|---|---|---|
+| **McVentas** | Agente IA | Ventas y clientes | En desarrollo |
+| **McSoporte** | Agente IA | Ventas y clientes | En desarrollo |
+| **McAgenda** | Agente IA | Ventas y clientes | En desarrollo |
+| **McCobranza** | Agente IA | Ventas y clientes | En desarrollo |
+| **McMarketing** | Agente IA | Marketing y reputación | ✅ Disponible (flujo en n8n) |
+| **McReseñas** | Agente IA | Marketing y reputación | En desarrollo |
+| **McFactura** | Agente IA | Operación y administración | En desarrollo |
+| **McCompras** | Agente IA | Operación y administración | En desarrollo |
+| **McDatos** | Agente IA | Operación y administración | En desarrollo |
+| **McTalento** | Agente IA | Operación y administración | En desarrollo |
+| **McMesero** | Robot con IA | Atención y servicio | Próximamente |
+| **McAnfitrión** | Robot con IA | Atención y servicio | Próximamente |
+| **McLimpieza** | Robot con IA | Atención y servicio | Próximamente |
+| **McBrazo** | Robot con IA | Industria y almacén | Próximamente |
+| **McVisión** | Robot con IA | Industria y almacén | Próximamente |
+| **McCarga** | Robot con IA | Industria y almacén | Próximamente |
 
-## Ideas de futuros Mc (por validar)
-
-- McSoporte — soporte técnico / helpdesk IA
-- McVentas — seguimiento de leads y cotizaciones
-- McDatos — reportes y análisis automatizados
-- McWeb — sitios web / landing pages
-- McHardware — soluciones IoT / hardware con software
+Cada Mc tiene su ficha en `docs/AGENTES/`. Orquestación de los agentes: **n8n** (Make solo si el cliente
+ya lo usa). Cobro: implementación + mensualidad por Mc; robots en venta o renta mensual.
 
 ## Identidad visual (de facto)
 

@@ -1,5 +1,36 @@
 # Changelog
 
+## 2026-09-23 (catálogo completo y diseño del sitio)
+- Max: «vamos empezando con todos los productos, agentes IA y robots, que venderá MACS, para que lo
+  primero sea el diseño completo del sitio web y después trabajar en función de ello».
+- **Catálogo** (`src/data/agents.ts`, fuente única de todo el sitio): **10 agentes IA** en tres áreas,
+  Ventas y clientes (McVentas, McSoporte, McAgenda, McCobranza), Marketing y reputación (McMarketing,
+  McReseñas) y Operación y administración (McFactura, McCompras, McDatos, McTalento); y **6 robots con
+  IA**, Atención y servicio (McMesero, McAnfitrión, McLimpieza) e Industria y almacén (McBrazo,
+  McVisión, McCarga). Cada Mc tiene promesa, qué hace, conexiones, giros ideales, métricas, cómo mejora
+  con el tiempo y preguntas frecuentes. Estados honestos: solo McMarketing está **disponible**; los
+  agentes están **en desarrollo** y los robots **próximamente**. Sin marcas de fabricantes, precios ni
+  resultados inventados.
+- **Páginas nuevas:** `/agentes` y `/robots` (catálogo como lista por área, cómo funciona un Mc, cómo
+  se ofrecen los robots, preguntas), una **ficha por Mc** en `/agentes/[slug]` y `/robots/[slug]` (16,
+  generadas en el build) y `/como-trabajamos` (diagnóstico, piloto, operación, mejora continua, cómo
+  cobramos, lo que cuidamos). La ficha de McMarketing pasa a la plantilla blanca con sus mismos textos.
+- **Portada:** tras «Un Mc para cada área» se suman «Muchos Mc. Una sola familia.» (todos los Mc con su
+  estado), «¿Por dónde empieza tu negocio?» (seis giros con sus Mc recomendados), el ciclo de
+  aprendizaje continuo y «Cómo trabajamos». Halion y el hero de las manos no cambian.
+- **Diseño:** misma identidad blanca (Outfit + Inter, pastillas negras y grises). El elemento propio es el
+  **anillo de colores** del video de la portada, reproducido en CSS con los colores medidos del video:
+  cada Mc aparece dentro de él, y también dibuja el ciclo de aprendizaje. El catálogo es una lista
+  tipográfica de nombres, no una rejilla de tarjetas.
+- **Navegación:** la barra lleva a Agentes IA, Robots y Cómo trabajamos (marca la sección actual); el
+  menú, el pie del hero, el cierre del sitio, el sitemap (20 URL) y la página 404 enlazan al catálogo.
+- `docs/AGENTES/` tiene ahora una ficha por Mc (16) con lo pendiente antes de venderlo; `docs/VISION.md`
+  lleva la tabla del catálogo.
+- Verificado con capturas reales (Chrome local) a 1440 × 900 y 390 × 844: catálogos, fichas, proceso y
+  secciones nuevas de la portada, sin desborde horizontal ni errores de consola.
+- **Bloqueo que ahora pesa más:** todos los botones «Escríbenos» abren un correo a
+  `contacto@macstech.mx`, que sigue sin buzón (sin registros MX, comprobado hoy).
+
 ## 2026-09-22 (secciones invertidas: Halion primero, manos después)
 - Max: «quiero invertir las secciones; Halion la primera y la del brazo humano tocando el brazo robot la
   segunda». Orden nuevo: Halion (abre la página, con su intro al cargar como el original) → hero de las

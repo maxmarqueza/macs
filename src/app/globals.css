@@ -434,3 +434,51 @@ body:has(.handstouch-page) {
     font-size: 12px;
   }
 }
+
+/* ── Páginas interiores ───────────────────────────────────────────────
+   Anillo MACS: el halo del video de la portada (durazno arriba, azul a la
+   derecha, verde abajo) hecho con CSS. Cada Mc aparece dentro de él. */
+.mc-ring {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: conic-gradient(
+    from 0deg,
+    #f3a57d 0deg,
+    #f5c3a6 45deg,
+    #8bb6ee 100deg,
+    #aacdf2 145deg,
+    #92d2b6 195deg,
+    #c3e5d5 235deg,
+    #e8edf2 290deg,
+    #f3a57d 360deg
+  );
+  -webkit-mask: radial-gradient(closest-side, transparent 80%, #000 86%, #000 91%, transparent 98%);
+  mask: radial-gradient(closest-side, transparent 80%, #000 86%, #000 91%, transparent 98%);
+  filter: blur(12px);
+  opacity: 0.85;
+  animation: mc-ring-turn 90s linear infinite;
+}
+
+@keyframes mc-ring-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* Viñeta: un anillo pequeño con los mismos colores. */
+.mc-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: conic-gradient(#f3a57d, #8bb6ee, #92d2b6, #f3a57d);
+  -webkit-mask: radial-gradient(closest-side, transparent 45%, #000 50%);
+  mask: radial-gradient(closest-side, transparent 45%, #000 50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-ring {
+    animation: none;
+  }
+}

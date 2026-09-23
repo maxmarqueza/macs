@@ -12,9 +12,11 @@
 - **n8n** (flujo de automatización)
 
 ## Cómo aparece en el sitio
-- Ficha en el roster de la landing, definida en `src/data/agents.ts` (slug `mcmarketing`).
-- Página propia publicada: [McMarketing](https://macstech.mx/agentes/mcmarketing),
-  enlazada mediante el `href` del roster e incluida en el sitemap.
+- Entrada en el catálogo `src/data/agents.ts` (slug `mcmarketing`, estado `disponible`: es el único Mc
+  que se vende hoy).
+- Desde el 2026-09-23 su página [McMarketing](https://macstech.mx/agentes/mcmarketing) usa la misma
+  plantilla blanca que el resto de las fichas (`src/components/site/McDetail.tsx`), con los mismos
+  textos y preguntas frecuentes de antes.
 - La ficha presenta publicación diaria, respuestas a comentarios y DMs, uso de n8n y preguntas
   frecuentes. Incluye diseño adaptable y metadata propia; no afirma redes, herramientas de IA,
   clientes ni resultados todavía no documentados.
