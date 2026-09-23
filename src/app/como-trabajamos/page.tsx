@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FaqList, LearningLoop, MailButton, PageHero, Row } from "@/components/site/parts";
+import { ContactButton, FaqList, LearningLoop, PageHero, Row } from "@/components/site/parts";
 import { SiteShell } from "@/components/site/SiteShell";
 import { workSteps } from "@/data/agents";
 import { pageMetadata } from "@/data/site";
@@ -9,6 +9,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Diagnóstico, piloto, operación y mejora continua: así ponemos a trabajar un Mc en tu negocio, cómo cobramos y qué nos comprometemos a cuidar.",
   path: "/como-trabajamos",
+  ownImage: true,
 });
 
 const pricing = [
@@ -60,7 +61,7 @@ export default function ComoTrabajamosPage() {
   return (
     <SiteShell>
       <PageHero title="Cómo trabajamos" subtitle="Primero entendemos tu negocio. Después lo automatizamos.">
-        <MailButton subject="Diagnóstico">Agenda un diagnóstico</MailButton>
+        <ContactButton interest="Diagnóstico">Pide un diagnóstico</ContactButton>
       </PageHero>
 
       <div className="mx-auto max-w-6xl px-6 md:px-12">

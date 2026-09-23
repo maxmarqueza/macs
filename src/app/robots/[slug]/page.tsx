@@ -16,7 +16,7 @@ export async function generateMetadata(props: PageProps<"/robots/[slug]">): Prom
   const { slug } = await props.params;
   const mc = getMc("robot", slug);
   if (!mc) return {};
-  return pageMetadata({ title: `${mc.name}: ${mc.promise.replace(/\.$/, "")}`, description: mc.summary, path: mcHref(mc) });
+  return pageMetadata({ title: `${mc.name}: ${mc.promise.replace(/\.$/, "")}`, description: mc.summary, path: mcHref(mc), ownImage: true });
 }
 
 export default async function Page(props: PageProps<"/robots/[slug]">) {

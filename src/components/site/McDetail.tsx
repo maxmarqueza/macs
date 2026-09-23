@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { type Mc, kindPath, mcs } from "@/data/agents";
-import { FaqList, MailButton, PageHero, RingList, Roster, Row, Status, Tags } from "./parts";
+import { type Mc, kindPath, mcHref, mcs } from "@/data/agents";
+import { site } from "@/data/site";
+import { ContactButton, FaqList, PageHero, RingList, Roster, Row, Status, Tags } from "./parts";
 
 const kindLabel = { agente: "Agentes IA", robot: "Robots con IA" } as const;
 
@@ -9,8 +10,20 @@ export function McDetail({ mc }: { mc: Mc }) {
   const siblings = mcs.filter((other) => other.kind === mc.kind && other.area === mc.area && other.slug !== mc.slug);
   const cta = mc.status === "proximamente" ? "Quiero saber cuándo llega" : `Escríbenos sobre ${mc.name}`;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: mc.name,
+    serviceType: mc.kind === "robot" ? "Robot con inteligencia artificial" : "Agente de inteligencia artificial",
+    description: mc.summary,
+    areaServed: "MX",
+    url: `${site.url}${mcHref(mc)}`,
+    provider: { "@id": `${site.url}/#organization` },
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <PageHero
         large
         eyebrow={
@@ -30,7 +43,7 @@ export function McDetail({ mc }: { mc: Mc }) {
         <span className="inline-flex items-center rounded-full bg-[#F4F4F6] px-5 py-3">
           <Status status={mc.status} />
         </span>
-        <MailButton subject={mc.name}>{cta}</MailButton>
+        <ContactButton interest={mc.name}>{cta}</ContactButton>
       </PageHero>
 
       <div className="mx-auto max-w-6xl px-6 pb-6 md:px-12">

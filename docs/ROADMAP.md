@@ -40,7 +40,11 @@ Avance del 23 de septiembre de 2026:
       (`src/data/agents.ts`, una ficha por Mc en `docs/AGENTES/`).
 - [x] **Diseño completo del sitio** sobre ese catálogo: `/agentes`, `/robots`, 16 fichas,
       `/como-trabajamos` y portada con la familia de Mc, giros, aprendizaje continuo y proceso.
-- [ ] 🔴 **Contacto que funcione**: todos los botones del sitio abren un correo a un buzón que no existe.
+- [x] **Frente completo del sitio** (23 de septiembre): soluciones por giro, nosotros, contacto con
+      formulario, aviso de privacidad y términos, pie con mapa del sitio, imágenes para compartir por página.
+- [ ] 🔴 **Contacto que funcione**: el formulario y todos los botones terminan en un correo a un buzón que
+      no existe. Falta el proveedor de correo o el número de WhatsApp (`site.whatsapp`).
+- [ ] Completar el aviso de privacidad con razón social y domicilio del responsable.
 - [ ] Contacto real: el buzón `contacto@macstech.mx` no existe (sin MX); decidir proveedor o canal.
 - [ ] Decidir si el concepto, el roster completo y el contacto de MACS vuelven a la portada o viven en
       otra página: hoy la portada es el diseño de handstouch con los textos de MACS y solo sigue

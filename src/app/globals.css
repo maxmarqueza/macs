@@ -482,3 +482,39 @@ body:has(.handstouch-page) {
     animation: none;
   }
 }
+
+/* Texto legal (aviso de privacidad, términos). */
+.legal h2 {
+  margin-top: 44px;
+  font-family: var(--font-hero-outfit), ui-sans-serif, system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.legal p,
+.legal li {
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: #3a3a3c;
+}
+
+.legal ul {
+  padding-left: 1.2em;
+  list-style: disc;
+}
+
+.legal li {
+  margin-top: 6px;
+}
+
+/* Flecha de los selectores del formulario de contacto. */
+.mc-select {
+  appearance: none;
+  padding-right: 3rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.25rem center;
+}

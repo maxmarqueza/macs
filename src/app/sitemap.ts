@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { mcHref, mcs } from "@/data/agents";
 import { site } from "@/data/site";
+import { solutions } from "@/data/solutions";
 
-// Portada, catálogos, proceso y la ficha de cada Mc (agente o robot).
+// Todas las páginas: portada, catálogos, fichas, soluciones, empresa y avisos legales.
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
@@ -11,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
-    ...["/agentes", "/robots", "/como-trabajamos"].map((path) => ({
+    ...["/agentes", "/robots", "/soluciones", "/como-trabajamos", "/nosotros", "/contacto"].map((path) => ({
       url: `${site.url}${path}`,
       lastModified: "2026-09-23",
       changeFrequency: "monthly" as const,
@@ -22,6 +23,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: "2026-09-23",
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...solutions.map((solution) => ({
+      url: `${site.url}/soluciones/${solution.slug}`,
+      lastModified: "2026-09-23",
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+    ...["/privacidad", "/terminos"].map((path) => ({
+      url: `${site.url}${path}`,
+      lastModified: "2026-09-23",
+      changeFrequency: "yearly" as const,
+      priority: 0.2,
     })),
   ];
 }

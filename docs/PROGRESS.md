@@ -4,7 +4,7 @@
 > retomar el trabajo exactamente donde quedó. **Leerlo antes de trabajar** y actualizarlo
 > al final de cada sesión.
 
-**Última actualización:** 2026-09-23 (catálogo completo y diseño del sitio)
+**Última actualización:** 2026-09-23 (frente completo del sitio)
 **Estado general:** ✅ Fase 1 completa · 🟡 Fase 2 en curso: marca, SEO, integración de analítica y CI
 en producción en https://macstech.mx. La ficha de McMarketing está publicada y validada;
 siguen pendientes el contacto, confirmar eventos de Analytics y el caso de éxito.
@@ -18,7 +18,14 @@ evitar narración rutinaria; consultar solo cambios de rumbo no planeados o deci
 Al cerrar, sugerir únicamente un próximo paso que Max aún no haya indicado. Reglas completas en
 `AGENTS.md`, referenciadas también en `CLAUDE.md`.
 
-**Último trabajo completado (2026-09-23):** catálogo completo de MACS y diseño del sitio sobre él. El
+**Último trabajo completado (2026-09-23, segunda entrega):** el frente completo del sitio. Además del
+catálogo: `/soluciones` y seis giros (`src/data/solutions.ts`), `/nosotros`, `/contacto` con formulario (abre el
+correo del visitante; todos los botones llegan ahí con el interés elegido), `/privacidad`, `/terminos`, pie
+con mapa del sitio, barra y menú completos, imágenes para compartir por página y datos estructurados por
+Mc. Ver `CHANGELOG.md`. **Pendientes de Max:** canal de contacto real (correo con buzón o WhatsApp en
+`site.whatsapp`) y razón social y domicilio para el aviso de privacidad.
+
+**Trabajo anterior (2026-09-23):** catálogo completo de MACS y diseño del sitio sobre él. El
 catálogo vive en `src/data/agents.ts` (10 agentes IA y 6 robots con IA, estados honestos: solo McMarketing
 disponible) y genera `/agentes`, `/robots`, 16 fichas, `/como-trabajamos`, las secciones nuevas de la
 portada, el menú y el sitemap. Identidad blanca con el anillo de colores del video como elemento propio.

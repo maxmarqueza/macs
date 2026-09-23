@@ -2,7 +2,7 @@
  * Catálogo de MACS (fuente única). Cada Mc es un agente de IA: software que trabaja
  * en los sistemas del negocio, o un robot con IA que trabaja en su espacio.
  * De aquí salen `/agentes`, `/robots`, las fichas de cada Mc, la portada, el menú y
- * el sitemap. Nuevo Mc = entrada aquí + ficha en `docs/AGENTES/<Nombre>.md`.
+ * el sitemap (los giros están en `solutions.ts`). Nuevo Mc = entrada aquí + ficha en `docs/AGENTES/<Nombre>.md`.
  *
  * Estados: `disponible` (se vende hoy), `en-desarrollo` (se construye y se puede
  * pedir como piloto), `proximamente` (línea en preparación). Las fichas describen
@@ -580,16 +580,6 @@ export function byArea(list: Mc[]) {
   }
   return groups;
 }
-
-/** Por dónde empezar en cada giro de negocio (agentes y robots). */
-export const industries: { name: string; mcs: string[] }[] = [
-  { name: "Restaurantes y hoteles", mcs: ["mcresenas", "mcagenda", "mcmesero", "mclimpieza"] },
-  { name: "Consultorios y clínicas", mcs: ["mcagenda", "mcsoporte", "mccobranza", "mcanfitrion"] },
-  { name: "Comercios y tiendas en línea", mcs: ["mcventas", "mcsoporte", "mcmarketing", "mcfactura"] },
-  { name: "Distribuidoras e importadores", mcs: ["mcventas", "mccompras", "mccobranza", "mcdatos"] },
-  { name: "Manufactura y almacenes", mcs: ["mcvision", "mcbrazo", "mccarga", "mccompras"] },
-  { name: "Servicios profesionales", mcs: ["mcagenda", "mcfactura", "mccobranza", "mctalento"] },
-];
 
 /** Cómo trabajamos: la secuencia real de un proyecto. */
 export const workSteps = [

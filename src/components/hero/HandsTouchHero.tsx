@@ -1,6 +1,8 @@
 import { Inter, Outfit } from "next/font/google";
 import Link from "next/link";
+import { agents, mcHref, robots } from "@/data/agents";
 import { brand, site } from "@/data/site";
+import { solutions } from "@/data/solutions";
 import NavLinks from "@/components/site/NavLinks";
 import MenuButton from "./MenuButton";
 
@@ -92,8 +94,8 @@ export function Navbar() {
       </div>
 
       <div className="pointer-events-auto flex items-center">
-        <a
-          href={`mailto:${site.email}`}
+        <Link
+          href="/contacto"
           className="flex items-center gap-3.5 rounded-full border border-black/[0.03] bg-[#F4F4F6] p-1 pr-6 transition-colors hover:bg-[#EAEAEF]"
         >
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white">
@@ -102,7 +104,7 @@ export function Navbar() {
           <span className="text-[11px] font-medium text-black/70 select-none">
             Contacto
           </span>
-        </a>
+        </Link>
       </div>
     </nav>
   );
@@ -252,10 +254,26 @@ export function About() {
   );
 }
 
-/** Cierre del sitio: llamada a contacto y línea legal. */
-export function SiteFooter() {
+/** Cierre del sitio: llamada a contacto, mapa del sitio y línea legal. */
+export function SiteFooter({ cta = true }: { cta?: boolean }) {
+  const columns = [
+    { title: "Agentes IA", links: agents.map((mc) => ({ label: mc.name, href: mcHref(mc) })) },
+    { title: "Robots con IA", links: robots.map((mc) => ({ label: mc.name, href: mcHref(mc) })) },
+    { title: "Soluciones por giro", links: solutions.map((s) => ({ label: s.name, href: `/soluciones/${s.slug}` })) },
+    {
+      title: "MACS",
+      links: [
+        { label: "Cómo trabajamos", href: "/como-trabajamos" },
+        { label: "Nosotros", href: "/nosotros" },
+        { label: "Contacto", href: "/contacto" },
+        { label: "Aviso de privacidad", href: "/privacidad" },
+        { label: "Términos de uso", href: "/terminos" },
+      ],
+    },
+  ];
   return (
-    <footer id="contacto" className="relative z-10 w-full bg-white px-8 pt-16 pb-10 md:px-16 md:pt-24 md:pb-12">
+    <footer id="contacto" className="relative z-10 w-full bg-white px-6 pt-16 pb-10 md:px-16 md:pt-24 md:pb-12">
+      {cta ? (
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-end">
         <div className="max-w-[560px]">
           <p className="mb-3 text-[11.5px] font-medium text-black/60">Contacto</p>
@@ -266,31 +284,42 @@ export function SiteFooter() {
             Cuéntanos qué necesitas y te decimos qué Mc lo resuelve.
           </p>
         </div>
-        <a
-          href={`mailto:${site.email}`}
+        <Link
+          href="/contacto"
           className="flex items-center gap-3.5 rounded-full border border-black/[0.03] bg-black p-1 pr-6 text-white transition-colors hover:bg-zinc-800"
         >
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black">
             <AdaptiveIcon />
           </span>
-          <span className="text-[12px] font-medium">{site.email}</span>
-        </a>
+          <span className="text-[13px] font-medium">Escríbenos</span>
+        </Link>
       </div>
+      ) : null}
+
       <nav
-        aria-label="Pie de página"
-        className="mx-auto mt-14 flex max-w-7xl flex-wrap gap-x-6 gap-y-2 border-t border-black/10 pt-6 text-[12px] text-black/60"
+        aria-label="Mapa del sitio"
+        className={`mx-auto grid ${cta ? "mt-16" : ""} max-w-7xl grid-cols-2 gap-x-8 gap-y-10 border-t border-black/10 pt-12 lg:grid-cols-4`}
       >
-        <span>© {new Date().getFullYear()} MACS, macstech.mx</span>
-        <Link href="/agentes" className="underline-offset-4 hover:text-black hover:underline">
-          Agentes IA
-        </Link>
-        <Link href="/robots" className="underline-offset-4 hover:text-black hover:underline">
-          Robots con IA
-        </Link>
-        <Link href="/como-trabajamos" className="underline-offset-4 hover:text-black hover:underline">
-          Cómo trabajamos
-        </Link>
+        {columns.map((column) => (
+          <div key={column.title}>
+            <h2 className="text-[13px] font-medium text-black/50">{column.title}</h2>
+            <ul className="mt-4 space-y-2.5">
+              {column.links.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-[15px] text-black/80 underline-offset-4 hover:text-black hover:underline">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </nav>
+
+      <div className="mx-auto mt-14 flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-black/10 pt-6 text-[12px] text-black/60">
+        <span>© {new Date().getFullYear()} MACS, macstech.mx</span>
+        <span>Inteligencia hecha humana</span>
+      </div>
     </footer>
   );
 }

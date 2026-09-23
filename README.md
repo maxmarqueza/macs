@@ -38,13 +38,19 @@ npm run lint
   (nombres versionados; `/media/*` se cachea un año). Medios en `public/media/` (61 MB).
 - `src/components/halion/` — escena Halion (clon literal): `Halion.tsx`, `halion.css`, `halion-motion.ts`
   (GSAP) y `scroll.ts` (Locomotive Scroll + Lenis, dueño del scroll suave de la portada).
-- `src/components/site/` — páginas interiores: `SiteShell.tsx` (barra + cierre), `parts.tsx` (anillo,
-  estados, lista del catálogo, filas de ficha, preguntas, ciclo de aprendizaje), `McDetail.tsx` (ficha de
-  cada Mc), `HomeCatalog.tsx` (secciones del catálogo en la portada) y `NavLinks.tsx`.
-- `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo) y `pageMetadata()`: fuente única
+- `src/components/site/` — páginas interiores: `SiteShell.tsx` (barra, franja, salto al contenido y pie),
+  `parts.tsx` (anillo, estados, lista del catálogo, filas de ficha, preguntas, ciclo de aprendizaje, botón de
+  contacto), `McDetail.tsx` (ficha de cada Mc), `SolutionDetail.tsx` (página de cada giro),
+  `ContactForm.tsx` (formulario que abre el correo), `LegalPage.tsx`, `HomeCatalog.tsx` (secciones del
+  catálogo en la portada) y `NavLinks.tsx`.
+- `src/lib/og.tsx` — imágenes para compartir de cada página (anillo + título), con `src/assets/og/ring.png`.
+- `src/data/site.ts` — datos del sitio (nombre, URL, descripción, correo, WhatsApp) y `pageMetadata()`:
+  fuente única
 - `src/data/agents.ts` — **catálogo completo**: 10 agentes IA y 6 robots con IA, sus áreas, estados,
   giros recomendados y el proceso de trabajo. De aquí salen todas las páginas.
-- Rutas: `/` · `/agentes` y `/agentes/[slug]` · `/robots` y `/robots/[slug]` · `/como-trabajamos`
+- `src/data/solutions.ts` — los seis giros: qué se repite, equipo de Mc, un día de ejemplo y preguntas.
+- Rutas: `/` · `/agentes` y `/agentes/[slug]` · `/robots` y `/robots/[slug]` · `/soluciones` y
+  `/soluciones/[slug]` · `/como-trabajamos` · `/nosotros` · `/contacto` · `/privacidad` · `/terminos`
 - `src/assets/fonts/` — Geist en TrueType para la og:image (licencia OFL)
 - `scripts/brand-assets.mjs` — regenera `favicon.ico` y `public/logo.png` a partir de `icon.svg`
 - `docs/PROGRESS.md` — **empieza por aquí**: estado actual, infraestructura y siguientes pasos

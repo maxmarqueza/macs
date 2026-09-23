@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FaqList, MailButton, PageHero, Roster, Row } from "@/components/site/parts";
+import { ContactButton, FaqList, PageHero, Roster, Row } from "@/components/site/parts";
 import { SiteShell } from "@/components/site/SiteShell";
 import { byArea, robots } from "@/data/agents";
 import { pageMetadata } from "@/data/site";
@@ -9,6 +9,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Robots de servicio e industriales con la inteligencia de MACS: meseros, anfitriones, limpieza, brazos colaborativos, inspección con visión y carga autónoma.",
   path: "/robots",
+  ownImage: true,
 });
 
 const offer = [
@@ -37,7 +38,7 @@ export default function RobotsPage() {
   return (
     <SiteShell>
       <PageHero title="Robots con IA" subtitle="Trabajan en tu espacio y aprenden de tu operación.">
-        <MailButton subject="Robots con IA">Quiero saber cuándo llegan</MailButton>
+        <ContactButton interest="Robots con IA">Quiero saber cuándo llegan</ContactButton>
       </PageHero>
 
       <div className="mx-auto max-w-6xl px-6 md:px-12">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FaqList, LearningLoop, MailButton, PageHero, Roster, Row } from "@/components/site/parts";
+import { ContactButton, FaqList, LearningLoop, PageHero, Roster, Row } from "@/components/site/parts";
 import { SiteShell } from "@/components/site/SiteShell";
 import { agents, byArea } from "@/data/agents";
 import { pageMetadata } from "@/data/site";
@@ -9,6 +9,7 @@ export const metadata: Metadata = pageMetadata({
   description:
     "Agentes de IA que atienden, venden, cobran, facturan y reportan por tu negocio, conectados a WhatsApp y a tus sistemas. Conoce qué hace cada Mc.",
   path: "/agentes",
+  ownImage: true,
 });
 
 const anatomy = [
@@ -42,7 +43,7 @@ export default function AgentesPage() {
   return (
     <SiteShell>
       <PageHero title="Agentes IA" subtitle="Un Mc para cada tarea que se repite.">
-        <MailButton subject="Agentes IA">Cuéntanos qué quieres automatizar</MailButton>
+        <ContactButton>Cuéntanos qué quieres automatizar</ContactButton>
       </PageHero>
 
       <div className="mx-auto max-w-6xl px-6 md:px-12">

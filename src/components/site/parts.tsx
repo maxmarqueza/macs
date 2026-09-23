@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { AdaptiveIcon } from "@/components/hero/HandsTouchHero";
 import { type Faq, type Mc, type McStatus, mcHref, statusLabel } from "@/data/agents";
-import { site } from "@/data/site";
 
 /**
  * Piezas comunes de las páginas interiores. El elemento distintivo es el anillo
@@ -29,18 +28,25 @@ export function Status({ status, className = "" }: { status: McStatus; className
   );
 }
 
-/** Botón principal: abre el correo con el asunto indicado. */
-export function MailButton({ subject, children }: { subject: string; children: ReactNode }) {
+/**
+ * Botón principal: lleva a /contacto con el interés (y el giro) ya elegidos. Todos los
+ * contactos del sitio pasan por esa página, así un canal nuevo se agrega en un solo lugar.
+ */
+export function ContactButton({ interest, giro, children }: { interest?: string; giro?: string; children: ReactNode }) {
+  const params = new URLSearchParams();
+  if (interest) params.set("interes", interest);
+  if (giro) params.set("giro", giro);
+  const query = params.toString();
   return (
-    <a
-      href={`mailto:${site.email}?subject=${encodeURIComponent(subject)}`}
+    <Link
+      href={`/contacto${query ? `?${query}` : ""}`}
       className="inline-flex items-center gap-3.5 rounded-full bg-black p-1 pr-6 text-white transition-colors hover:bg-zinc-800"
     >
       <span className="flex size-9 items-center justify-center rounded-full bg-white text-black">
         <AdaptiveIcon />
       </span>
       <span className="text-[13px] font-medium">{children}</span>
-    </a>
+    </Link>
   );
 }
 
@@ -162,27 +168,34 @@ export function PageHero({
   subtitle,
   children,
   large = false,
+  compact = false,
 }: {
   eyebrow?: ReactNode;
   title: string;
   subtitle: string;
   children?: ReactNode;
   large?: boolean;
+  /** Encabezado bajo para páginas de trabajo (formularios). */
+  compact?: boolean;
 }) {
+  const height = large ? "min-h-[88svh]" : compact ? "min-h-[56svh]" : "min-h-[72svh]";
+  // títulos largos (giros) en dos líneas equilibradas y un poco más chicos
+  const long = !large && title.length > 20;
+  const ring = large ? "w-[min(94vw,72svh,820px)]" : compact ? "w-[min(94vw,42svh,520px)]" : "w-[min(94vw,58svh,680px)]";
   return (
     <section
-      className={`relative isolate flex flex-col items-center justify-center overflow-hidden px-6 pt-40 pb-20 text-center ${large ? "min-h-[88svh]" : "min-h-[72svh]"}`}
+      className={`relative isolate flex flex-col items-center justify-center overflow-hidden px-6 pt-40 pb-20 text-center ${height}`}
     >
       {/* centrado en el contenido (pt-40 / pb-20 lo bajan 40 px) y siempre dentro de la sección */}
-      <Ring
-        className={`top-[calc(50%+40px)] left-1/2 -translate-x-1/2 -translate-y-1/2 ${
-          large ? "w-[min(94vw,72svh,820px)]" : "w-[min(94vw,58svh,680px)]"
-        }`}
-      />
+      <Ring className={`top-[calc(50%+40px)] left-1/2 -translate-x-1/2 -translate-y-1/2 ${ring}`} />
       {eyebrow ? <div className="relative text-[13px] text-black/60">{eyebrow}</div> : null}
       <h1
         className={`relative font-hero-display font-medium tracking-[-0.035em] ${
-          large ? "mt-5 text-[clamp(52px,12vw,164px)] leading-[0.88]" : "mt-4 text-[clamp(46px,8.5vw,112px)] leading-[0.92]"
+          large
+            ? "mt-5 text-[clamp(52px,12vw,164px)] leading-[0.88]"
+            : long
+              ? "mt-4 max-w-[15ch] text-[clamp(40px,6.4vw,92px)] leading-[0.95] text-balance"
+              : "mt-4 text-[clamp(46px,8.5vw,112px)] leading-[0.92]"
         }`}
       >
         {title}

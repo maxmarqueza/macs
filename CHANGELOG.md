@@ -1,5 +1,28 @@
 # Changelog
 
+## 2026-09-23 (frente completo del sitio)
+- Max: «más allá de los Mc específicos, vamos dándole ya todo el front end al sitio web, todo el diseño».
+- **Soluciones por giro:** `/soluciones` y seis páginas (`/soluciones/[slug]`: restaurantes y hoteles,
+  consultorios y clínicas, comercios y tiendas en línea, distribuidoras e importadores, manufactura y
+  almacenes, servicios profesionales), cada una con lo que se repite en ese giro, su equipo de Mc con el
+  papel de cada uno, «Un día con MACS» (ejemplo marcado como tal) y preguntas. Fuente: `src/data/solutions.ts`.
+- **Nosotros** (`/nosotros`): qué significa MACS, lo que hacemos, en qué creemos y hecho para México.
+- **Contacto** (`/contacto`): formulario con nombre, empresa, giro, teléfono, interés y mensaje; como el
+  sitio no tiene servidor, al enviar abre el correo del visitante con el mensaje armado. Todos los botones
+  del sitio llegan ahí con el Mc y el giro ya elegidos. El canal de WhatsApp aparece solo cuando se llene
+  `site.whatsapp`.
+- **Avisos legales:** `/privacidad` (aviso de privacidad) y `/terminos` (términos de uso). Falta agregar
+  razón social y domicilio del responsable, que la ley pide y no están en el proyecto.
+- **Marco del sitio:** barra con Agentes IA, Robots, Soluciones, Cómo trabajamos y Nosotros (marca la
+  sección actual) y Contacto; menú con todas las páginas; pie de página con mapa completo del sitio;
+  enlace «Saltar al contenido»; franja blanca bajo la barra fija en páginas interiores para que el texto no
+  se lea a través de ella.
+- **Imágenes para compartir** por página (WhatsApp y redes): anillo de colores, título y promesa de cada
+  Mc, giro y sección, generadas en el build (`src/lib/og.tsx`, `src/assets/og/ring.png`).
+- **Datos estructurados** `Service` en cada ficha de Mc; sitemap con todas las páginas.
+- Build: 67 páginas e imágenes estáticas. Verificado con capturas reales (Chrome local) a 1440 × 900 y
+  390 × 844, sin desborde horizontal ni errores de consola; formulario precargado desde los botones.
+
 ## 2026-09-23 (catálogo completo y diseño del sitio)
 - Max: «vamos empezando con todos los productos, agentes IA y robots, que venderá MACS, para que lo
   primero sea el diseño completo del sitio web y después trabajar en función de ello».

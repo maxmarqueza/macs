@@ -412,7 +412,7 @@ export default function ScrollHero() {
         />
       </div>
 
-      <main>
+      <main id="contenido">
         {/* Sección 1: Halion, clon literal que abre la página (ver components/halion). */}
         <div ref={halionRef}>
           <Halion />

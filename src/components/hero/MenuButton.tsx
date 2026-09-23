@@ -9,8 +9,10 @@ const ITEMS = [
   { label: "Inicio", href: "/" },
   { label: "Agentes IA", href: "/agentes" },
   { label: "Robots con IA", href: "/robots" },
+  { label: "Soluciones por giro", href: "/soluciones" },
   { label: "Cómo trabajamos", href: "/como-trabajamos" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Nosotros", href: "/nosotros" },
+  { label: "Contacto", href: "/contacto" },
 ] as const;
 
 function PlusIcon() {

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { type Mc, type McStatus, agents, getMc, industries, mcHref, robots, statusLabel, workSteps } from "@/data/agents";
+import { type Mc, type McStatus, agents, getMc, mcHref, robots, statusLabel, workSteps } from "@/data/agents";
+import { solutions } from "@/data/solutions";
 import { LearningLoop, PillLink, Status, statusDot } from "./parts";
 
 /**
@@ -74,11 +75,15 @@ export function HomeCatalog() {
             Cada giro tiene tareas distintas. Estos son los Mc que recomendamos para empezar.
           </p>
           <div className="mt-12 grid border-t border-black/10 sm:grid-cols-2 sm:gap-x-10 lg:grid-cols-3">
-            {industries.map((industry) => (
-              <div key={industry.name} className="border-b border-black/10 py-8">
-                <h3 className="font-hero-display text-[24px] leading-tight font-medium tracking-tight">{industry.name}</h3>
+            {solutions.map((solution) => (
+              <div key={solution.slug} className="border-b border-black/10 py-8">
+                <h3 className="font-hero-display text-[24px] leading-tight font-medium tracking-tight">
+                  <Link href={`/soluciones/${solution.slug}`} className="underline-offset-[5px] hover:underline">
+                    {solution.name}
+                  </Link>
+                </h3>
                 <ul className="mt-4 flex flex-wrap gap-2">
-                  {industry.mcs.map((slug) => {
+                  {solution.team.map(({ mc: slug }) => {
                     const mc = getMc("agente", slug) ?? getMc("robot", slug);
                     if (!mc) return null;
                     return (
@@ -95,6 +100,9 @@ export function HomeCatalog() {
                 </ul>
               </div>
             ))}
+          </div>
+          <div className="mt-10">
+            <PillLink href="/soluciones">Ver las soluciones por giro</PillLink>
           </div>
         </div>
       </section>
