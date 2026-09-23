@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-09-22 (sin escena de partículas: manos y Halion por separado)
+- Max: «quítame esta sección de transición, quiero las 2 secciones por separado sin modificar, a la
+  perfección». Se eliminó por completo la explosión de partículas (`macs-burst.ts` y la dependencia
+  `three`).
+- **Sección 1, hero de las manos:** exactamente el publicado en `88f1f32` (recorrido 280 svh, toque en el
+  último cuadro, pie y título igual), con una sola diferencia: al soltarse, las manos se van exactamente
+  con su sección (antes al 90 %, lo que las haría invadir Halion).
+- **Sección 2, Halion:** el clon literal, a continuación y sin relevo coordinado. Cada sección muestra
+  solo su cabecera: la barra de MACS se retira y la de Halion aparece en la misma línea (72 px), y a la
+  inversa al llegar a «Un Mc para cada área». El video de fondo del hero se pausa mientras Halion lo
+  cubre por completo.
+- Verificado con capturas reales (Chrome local) a 1440 × 900 y 390 × 844: hero, toque, salida de la
+  sección, Halion (hero, about, product, callouts), relevo de cabeceras y pie de MACS; sin errores.
+
 ## 2026-09-22 (partículas y Halion como dos secciones independientes)
 - Max: «no quiero transición, no quedó nada bien; sepáralas en 2 secciones independientes y déjalo
   perfecto». Se quitó el relevo coordinado entre la palabra y Halion.

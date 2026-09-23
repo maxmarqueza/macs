@@ -13,7 +13,6 @@ import {
 import Halion from "@/components/halion/Halion";
 import { acquireScroll, releaseScroll } from "@/components/halion/scroll";
 import type { HandRenderer } from "./hand-renderer";
-import type { MacsBurst } from "./macs-burst";
 import { About, Footer, Hero, Navbar, SiteFooter, inter, outfit } from "./HandsTouchHero";
 
 /**
@@ -30,10 +29,9 @@ import { About, Footer, Hero, Navbar, SiteFooter, inter, outfit } from "./HandsT
  * por capas: fondo, título, pie y manos. Todo se desactiva con
  * `prefers-reduced-motion` salvo el scrub.
  *
- * Secciones de la portada, independientes entre sí y sin transición: (1) este
- * bloque, manos → explosión de partículas que termina en la palabra «MACS», que
- * se queda formada y sale con la sección; (2) Halion, clon literal con su propio
- * arranque; (3) «Un Mc para cada área» y pie de MACS.
+ * Secciones de la portada, una tras otra y sin transición entre ellas: (1) este
+ * hero de las manos; (2) Halion, clon literal con su propio arranque; (3) «Un Mc
+ * para cada área» y pie de MACS. Cada sección muestra solo su propia cabecera.
  *
  * Carga: el video del nivel elegido se descarga completo con `fetch` (barra de
  * progreso discreta) y se asigna como Blob, así cada búsqueda es local y nunca
@@ -42,11 +40,9 @@ import { About, Footer, Hero, Navbar, SiteFooter, inter, outfit } from "./HandsT
  */
 
 const TOUCH_TIME = (HANDS_FRAMES - 1) / HANDS_FPS; // último cuadro: dedos en contacto
-const HERO_VH = 180; // recorrido de scroll del acercamiento (además de la pantalla fija)
-const BURST_VH = 240; // recorrido de la explosión de partículas que forma «MACS» (y su pausa final)
-const PIN_VH = 100 + HERO_VH + BURST_VH; // alto total del bloque fijo
-const HEADER_SWAP_PX = 72; // la barra de MACS vuelve cuando la sección final llega a su altura
-const HOLD_END = 0.06; // fracción final del acercamiento en que el toque se sostiene
+const PIN_VH = 280; // recorrido de scroll del hero
+const HEADER_SWAP_PX = 72; // relevo de cabeceras: línea (alto de la barra) donde cambia la sección
+const HOLD_END = 0.06; // fracción final del recorrido en que el toque se sostiene
 const STIFFNESS = 900; // resorte con puntero fino: asienta en ~0.15 s, sin rebote
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
@@ -133,11 +129,9 @@ export default function ScrollHero() {
   const sectionRef = useRef<HTMLElement>(null);
   const rendererRef = useRef<HandRenderer | null>(null);
   const timeRef = useRef(0);
-  const burstCanvasRef = useRef<HTMLCanvasElement>(null);
-  const burstRef = useRef<MacsBurst | null>(null);
   const navWrapRef = useRef<HTMLDivElement>(null);
+  const halionRef = useRef<HTMLDivElement>(null);
   const afterRef = useRef<HTMLDivElement>(null);
-  const pointerRef = useRef({ x: -1e3, y: -1e3, inside: false });
   const backdropCoveredRef = useRef(false);
   const syncBackdropRef = useRef<() => void>(() => {});
 
@@ -239,55 +233,11 @@ export default function ScrollHero() {
   useEffect(() => {
     const coarse = window.matchMedia("(pointer: coarse)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const scrollOwner = acquireScroll(); // Lenis (el mismo de la escena Halion)
+    const scrollOwner = acquireScroll(); // Lenis (el mismo de la sección Halion)
     // táctil: 1:1 con el dedo; reducido: sin inercia; con Lenis ya hay suavizado
     const direct = coarse || reduced || scrollOwner.smooth;
-    const spring = new Spring(STIFFNESS);
-    let burstWanted = false;
     let lastCovered = false;
-    let lastBurstActive = true;
-    let contactAtTouch = false;
-
-    // Explosión de partículas (escena de MaSa): se crea en cuanto el acercamiento
-    // va por la mitad, para que esté lista al tocarse los dedos.
-    const placeContact = () => {
-      const frame = document.querySelector<HTMLElement>(".hands-frame");
-      if (!frame || !burstRef.current) return;
-      const r = frame.getBoundingClientRect();
-      // yemas en contacto: centro horizontal, 28 % desde arriba del marco (medido en el último cuadro)
-      burstRef.current.setContact(r.left + r.width * 0.5, r.top + r.height * 0.28);
-    };
-    const ensureBurst = () => {
-      if (burstWanted) return;
-      burstWanted = true;
-      const canvas = burstCanvasRef.current;
-      if (!canvas || reduced) return;
-      const family = getComputedStyle(document.getElementById("hero-title") ?? document.body).fontFamily;
-      const fontReady = document.fonts?.load(`500 200px ${family.split(",")[0]}`).catch(() => undefined) ?? Promise.resolve();
-      Promise.all([import("./macs-burst"), fontReady]).then(([{ createMacsBurst }]) => {
-        if (burstRef.current || !burstCanvasRef.current || burstWanted === false) return;
-        try {
-          const burst = createMacsBurst(burstCanvasRef.current, family);
-          burstRef.current = burst;
-          placeContact();
-        } catch {
-          burstRef.current = null;
-        }
-      });
-    };
-    const onMove = (e: PointerEvent) => {
-      pointerRef.current = { x: e.clientX, y: e.clientY, inside: true };
-    };
-    const onLeave = () => {
-      pointerRef.current = { ...pointerRef.current, inside: false };
-    };
-    const onResize = () => {
-      burstRef.current?.resize();
-      placeContact();
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    document.documentElement.addEventListener("pointerleave", onLeave);
-    window.addEventListener("resize", onResize);
+    const spring = new Spring(STIFFNESS);
     let initialized = false;
     let raf = 0;
     let idle = false;
@@ -296,7 +246,6 @@ export default function ScrollHero() {
     let lastFrame = -1;
     let lastRaw = -1;
     let lastPast = -1;
-    let lastP2 = -1;
 
     const wake = () => {
       lastActivity = performance.now();
@@ -318,13 +267,10 @@ export default function ScrollHero() {
       }
       const vh = section.offsetHeight; // estable en móvil (svh), a diferencia de innerHeight
       const rect = pin.getBoundingClientRect();
-      const heroRange = Math.max(1, (HERO_VH / 100) * vh);
-      const burstRange = Math.max(1, pin.offsetHeight - vh - heroRange);
-      const raw = clamp01(-rect.top / (heroRange * (1 - HOLD_END)));
-      const p2 = clamp01((-rect.top - heroRange) / burstRange); // explosión → palabra → disolución
-      const past = Math.max(0, -rect.top - heroRange - burstRange); // px recorridos tras soltar el bloque
+      const range = Math.max(1, pin.offsetHeight - vh);
+      const raw = clamp01(-rect.top / (range * (1 - HOLD_END)));
+      const past = Math.max(0, -rect.top - range); // px recorridos tras soltar el hero
       const target = easeProgress(raw);
-      if (raw > 0.5) ensureBurst();
       if (!initialized) {
         spring.init(target);
         initialized = true;
@@ -345,49 +291,20 @@ export default function ScrollHero() {
       const title = titleRef.current;
       const footer = footerRef.current;
       if (bg) bg.style.transform = `translate3d(0, ${(-0.06 * vh * q).toFixed(1)}px, 0) scale(${(1 + 0.07 * q).toFixed(4)})`;
-      // Las manos solo se trasladan (nunca se reescalan); al empezar la explosión se apagan.
-      const handsOpacity = 1 - smoothstep((p2 - 0.12) / 0.18);
-      if (hands) {
-        hands.style.transform = `translate3d(0, ${(-0.04 * vh * q).toFixed(1)}px, 0)`;
-        hands.style.opacity = handsOpacity.toFixed(3);
-        hands.style.visibility = handsOpacity <= 0.01 ? "hidden" : "";
-      }
-      // Escena de la explosión: oscurece la pantalla, estalla desde las yemas y forma «MACS».
-      const darken = smoothstep(p2 / 0.12);
-      // la palabra termina de formarse al 62 % y se sostiene hasta que la sección sale
-      const explode = smoothstep((p2 - 0.12) / 0.5);
-      const dissolve = 0;
-      const burstCanvas = burstCanvasRef.current;
-      if (burstCanvas) {
-        burstCanvas.style.opacity = darken.toFixed(3);
-        burstCanvas.style.visibility = darken <= 0.001 ? "hidden" : "";
-      }
-      // el origen se fija con las manos en su posición final, justo al tocarse
-      if (p2 > 0 && !contactAtTouch && burstRef.current) {
-        contactAtTouch = true;
-        placeContact();
-      } else if (p2 <= 0) {
-        contactAtTouch = false;
-      }
-      burstRef.current?.update({ explode, dissolve, pointer: reduced ? { x: -1e3, y: -1e3, inside: false } : pointerRef.current });
-      // La escena solo se dibuja mientras está en pantalla (la Halion la cubre después).
-      const burstActive = darken > 0.001 && rect.bottom > 0;
-      if (burstActive !== lastBurstActive) {
-        lastBurstActive = burstActive;
-        burstRef.current?.setActive(burstActive);
-      }
-      // La barra de MACS se apaga en la escena oscura y vuelve con las secciones claras del final.
-      const after = afterRef.current;
-      // relevo de cabeceras en el borde entre Halion y esta sección (alto de la barra)
-      const afterIn = after ? after.getBoundingClientRect().top <= HEADER_SWAP_PX : false;
-      const navOpacity = afterIn ? 1 : 1 - smoothstep((p2 - 0.02) / 0.1);
+      // Las manos solo se trasladan (nunca se reescalan) y, pasado el hero, se van
+      // exactamente con su sección (sin invadir la siguiente).
+      if (hands) hands.style.transform = `translate3d(0, ${(-0.04 * vh * q - past).toFixed(1)}px, 0)`;
+      // Cada sección con su cabecera: la de MACS se retira mientras Halion ocupa la línea superior.
+      const halionTop = halionRef.current?.getBoundingClientRect().top ?? Infinity;
+      const afterTop = afterRef.current?.getBoundingClientRect().top ?? Infinity;
+      const inHalion = halionTop <= HEADER_SWAP_PX && afterTop > HEADER_SWAP_PX;
       const navWrap = navWrapRef.current;
       if (navWrap) {
-        navWrap.style.opacity = navOpacity.toFixed(3);
-        navWrap.style.visibility = navOpacity <= 0.01 ? "hidden" : "";
+        navWrap.style.visibility = inHalion ? "hidden" : "";
+        navWrap.toggleAttribute("inert", inHalion);
       }
-      // El video de fondo se pausa mientras las escenas oscuras lo tapan por completo.
-      const covered = darken >= 0.999 && !afterIn;
+      // El video de fondo se pausa mientras Halion lo tapa por completo.
+      const covered = halionTop <= 0 && afterTop >= vh;
       if (covered !== lastCovered) {
         lastCovered = covered;
         backdropCoveredRef.current = covered;
@@ -407,10 +324,9 @@ export default function ScrollHero() {
       }
 
       const settled = direct ? true : spring.settled(target);
-      const quiet = raw === lastRaw && past === lastPast && p2 === lastP2 && settled && now - lastActivity > 250;
+      const quiet = raw === lastRaw && past === lastPast && settled && now - lastActivity > 250;
       lastRaw = raw;
       lastPast = past;
-      lastP2 = p2;
       if (quiet) {
         idle = true;
         return;
@@ -425,12 +341,6 @@ export default function ScrollHero() {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", wake);
       window.removeEventListener("resize", wake);
-      window.removeEventListener("pointermove", onMove);
-      document.documentElement.removeEventListener("pointerleave", onLeave);
-      window.removeEventListener("resize", onResize);
-      burstWanted = false;
-      burstRef.current?.dispose();
-      burstRef.current = null;
       backdropCoveredRef.current = false;
       releaseScroll();
     };
@@ -512,17 +422,13 @@ export default function ScrollHero() {
             <div ref={footerRef} className="relative z-30 will-change-transform">
               <Footer />
             </div>
-            {/* Explosión de partículas (escena de MaSa) que forma «MACS» tras el toque. */}
-            <canvas
-              ref={burstCanvasRef}
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 z-40 h-full w-full opacity-0"
-            />
           </section>
         </div>
 
-        {/* Escena siguiente: Halion, clon literal (ver components/halion). */}
-        <Halion />
+        {/* Sección 2: Halion, clon literal (ver components/halion). */}
+        <div ref={halionRef}>
+          <Halion />
+        </div>
 
         <div ref={afterRef}>
           <About />
