@@ -13,6 +13,9 @@
   cubre por completo.
 - Verificado con capturas reales (Chrome local) a 1440 × 900 y 390 × 844: hero, toque, salida de la
   sección, Halion (hero, about, product, callouts), relevo de cabeceras y pie de MACS; sin errores.
+- **Publicado** con el commit `c3276562070b3394d1e8922e97d3bc14fc87e392` en `main`
+  ([despliegue](https://vercel.com/imaxmx/macs/2vVwi2B9jiRsFSVCKaE6BayiXBA6) `success`); comprobado en
+  https://macstech.mx con capturas reales, sin rastro de la escena de partículas.
 
 ## 2026-09-22 (partículas y Halion como dos secciones independientes)
 - Max: «no quiero transición, no quedó nada bien; sepáralas en 2 secciones independientes y déjalo
